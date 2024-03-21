@@ -34,8 +34,8 @@ async def monitor_power_and_notify(device, threshold_high=50, threshold_low=10, 
     low_power_start_time = None
 
     while True:
-        current_power = await device.get_current_power()
-        print(f"Current power: {current_power['power']}W")  # For debugging
+        current_power = (await device.get_current_power()).to_dict()
+        print(f"Current power: {current_power['current_power']}W")  # For debugging
 
         if current_power['power'] > threshold_high:
             power_exceeded = True
@@ -62,11 +62,9 @@ async def main():
 
     client = ApiClient(tapo_username, tapo_password)
     device_wasching_machine = await client.p110(wasching_machine_ip_address)
-
-    cur_power_wasching_machine = await device_wasching_machine.get_current_power()
-
-
+    # current_power = (await device_wasching_machine.get_current_power()).to_dict()
+    await monitor_power_and_notify(device_wasching_machine)
+    # send_pushover_notification(f"Current power: {current_power['current_power']}W")
 
 if __name__ == "__main__":
     asyncio.run(main())
-    asyncio.run(check_power_and_notify(device_wasching_machine))
