@@ -18,12 +18,13 @@ async def check_power_and_notify(device):
 
 def send_pushover_notification(message):
     load_dotenv()
-    pushover_user_key = os.getenv("PUSHOVER_USER_KEY")
+    # pushover_user_key = os.getenv("PUSHOVER_USER_KEY")
     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
+    pushover_user_group = os.getenv("PUSHOVER_USER_GROUP_WOERIS")
 
     response = httpx.post("https://api.pushover.net/1/messages.json", data={
         "token": pushover_api_token,
-        "user": pushover_user_key,
+        "user": pushover_user_group,
         "message": message,
     })
     print(response.text)
