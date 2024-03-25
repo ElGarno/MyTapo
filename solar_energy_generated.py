@@ -13,7 +13,11 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
     solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
     max_solar_energy = df_energy_consumption['Value'].max()
     message = f"The energy consumed today has been {solar_energy_generated_today / 1000:.4g} kWh which is {solar_energy_generated_today / max_solar_energy:.1%} of the maximum energy generated this year."
-    send_pushover_notification(user=user, message=message)
+    # send notification every day at 11pm
+    print(message)
+    if (datetime.now().hour == 23) and (datetime.now().minute == 0):
+        send_pushover_notification(user, message)
+
 
 
 async def main():
