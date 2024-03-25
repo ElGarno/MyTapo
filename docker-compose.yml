@@ -1,0 +1,31 @@
+version: '3'
+services:
+  solar_energy_monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.solar
+    environment:
+      - TAPO_USERNAME=${TAPO_USERNAME}
+      - TAPO_PASSWORD=${TAPO_PASSWORD}
+      - PUSHOVER_USER_KEY=${PUSHOVER_USER_KEY}
+      - SOLAR_IP_ADDRESS=${SOLAR_IP_ADDRESS}
+
+  washing_machine_alert:
+    build:
+      context: .
+      dockerfile: Dockerfile.washing
+    environment:
+      - TAPO_USERNAME=${TAPO_USERNAME}
+      - TAPO_PASSWORD=${TAPO_PASSWORD}
+      - PUSHOVER_USER_GROUP=${PUSHOVER_USER_GROUP}
+      - WASCHING_MACHINE_IP_ADDRESS=${WASCHING_MACHINE_IP_ADDRESS}
+
+  washing_dryer_alert:
+    build:
+      context: .
+      dockerfile: Dockerfile.dryer
+    environment:
+      - TAPO_USERNAME=${TAPO_USERNAME}
+      - TAPO_PASSWORD=${TAPO_PASSWORD}
+      - PUSHOVER_USER_GROUP=${PUSHOVER_USER_GROUP}
+      - WASCHING_DRYER_IP_ADDRESS=${WASCHING_MACHINE_IP_ADDRESS}
