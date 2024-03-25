@@ -21,7 +21,6 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
         await asyncio.sleep(60)
 
 
-
 async def main():
     load_dotenv()
     tapo_username = os.getenv("TAPO_USERNAME")
@@ -32,7 +31,7 @@ async def main():
 
     client = ApiClient(tapo_username, tapo_password)
     device_solar = await client.p110(solar_ip_address)
-    await monitor_generated_solar_energy_and_notify(device_solar, pushover_user_key)
+    await monitor_generated_solar_energy_and_notify(device_solar, pushover_user_group)
 
 if __name__ == "__main__":
     asyncio.run(main())
