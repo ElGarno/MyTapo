@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import asyncio
 from datetime import datetime, timedelta
+from tapo import EnergyDataInterval
 
 
 def send_pushover_notification(user, message):
@@ -41,3 +42,40 @@ async def monitor_power_and_notify(device, user, threshold_high=50, threshold_lo
             low_power_start_time = None  # Reset if current power is not low
 
         await asyncio.sleep(60)  # Check every minute
+
+
+async def get_energy_data_daily(device):
+    # return await device.get_energy_data(
+    #     EnergyDataInterval.Daily,
+    #     datetime(datetime.today().year, get_quarter_start_month(datetime.today()), 1),
+    # )
+    return await device.get_energy_data(
+        EnergyDataInterval.Daily,
+        datetime(datetime.today().year, 1, 1),
+    )
+
+
+def get_date_df_from_dict(data_dict):
+
+    # Calculating start date from end_timestamp and data length
+    # convert local_time in format '2024-03-21T10:08:34' to datetime object
+    local_time = datetime.strptime(data_dict['local_time'], '%Y-%m-%dT%H:%M:%S')
+    # create datetime-object named start_date for date 2024-01-01
+    start_date = datetime(local_time.year, 1, 1)
+
+    # end_date = local_time
+    # interval_days = data_dict['interval'] // 1440  # Assuming interval is in minutes
+    # end_date = start_date + timedelta(days=(len(data_dict['data']) - 1) * interval_days)
+
+    # Generating date range
+    dates = [start_date + timedelta(days=i) for i in range(len(data_dict['data']))]
+
+    # Creating DataFrame
+    df = pd.DataFrame({
+        'Date': dates,
+        'Value': data_dict['data']
+    })
+
+    # Formatting Date column
+    df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+    return df
