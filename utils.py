@@ -4,6 +4,7 @@ import os
 import asyncio
 from datetime import datetime, timedelta
 from tapo import EnergyDataInterval
+import pandas as pd
 
 
 def send_pushover_notification(user, message):
