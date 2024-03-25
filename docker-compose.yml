@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.solar
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -14,6 +17,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.washing
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -24,6 +30,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dryer
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
