@@ -1,31 +1,10 @@
-import httpx
 import asyncio
 import os
 from datetime import datetime, timedelta
 from tapo import ApiClient, EnergyDataInterval
 from dotenv import load_dotenv
 
-
-async def check_power_and_notify(device):
-    current_power = await device.get_current_power()
-    print(f"Current power: {current_power.to_dict()}")
-
-    power_threshold = 1000  # Define your threshold here
-    if current_power['power'] > power_threshold:
-        message = f"Power exceeded threshold: {current_power['power']}W"
-        send_pushover_notification(message)
-
-
-def send_pushover_notification(user, message):
-    load_dotenv()
-    pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-
-    response = httpx.post("https://api.pushover.net/1/messages.json", data={
-        "token": pushover_api_token,
-        "user": user,
-        "message": message,
-    })
-    print(response.text)
+from utils import send_pushover_notification
 
 
 async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5):
