@@ -1,8 +1,7 @@
-import httpx
 import asyncio
 import os
-from datetime import datetime, timedelta
-from tapo import ApiClient, EnergyDataInterval
+from datetime import datetime
+from tapo import ApiClient
 from dotenv import load_dotenv
 from utils import get_energy_data_daily, get_date_df_from_dict, send_pushover_notification
 
