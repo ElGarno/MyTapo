@@ -8,7 +8,7 @@ from utils import get_df_energy_consumption, compute_mean_energy_consumption, co
 
 async def monitor_generated_solar_energy_and_notify(device_solar, user):
     while True:
-        df_energy_consumption = get_df_energy_consumption(device_solar)
+        df_energy_consumption = await get_df_energy_consumption(device_solar)
         solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
         max_solar_energy = df_energy_consumption['Value'].max()
         mean_solar_energy = compute_mean_energy_consumption(df_energy_consumption)
