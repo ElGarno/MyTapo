@@ -3,17 +3,25 @@ import os
 from datetime import datetime
 from tapo import ApiClient
 from dotenv import load_dotenv
-from utils import get_energy_data_daily, get_date_df_from_dict, send_pushover_notification
+from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification
 
 
 async def monitor_generated_solar_energy_and_notify(device_solar, user):
     while True:
-        dict_energy_data_daily = (await get_energy_data_daily(device_solar)).to_dict()
-        df_energy_consumption = get_date_df_from_dict(dict_energy_data_daily)
-        df_energy_consumption.set_index('Date', inplace=True)
+        df_energy_consumption = get_df_energy_consumption(device_solar)
         solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
         max_solar_energy = df_energy_consumption['Value'].max()
-        message = f"The energy consumed today has been {solar_energy_generated_today / 1000:.4g} kWh which is {solar_energy_generated_today / max_solar_energy:.1%} of the maximum energy generated this year."
+        mean_solar_energy = compute_mean_energy_consumption(df_energy_consumption)
+        saved_costs_today = compute_costs(solar_energy_generated_today / 1000)
+        # sum up generated energy for the year
+        saved_energy_this_year = df_energy_consumption['Value'].sum()
+        saved_costs_year = compute_costs(saved_energy_this_year / 1000)
+
+        message = (f"The energy consumed today has been {solar_energy_generated_today / 1000:.4g} kWh "
+                   f"which is {solar_energy_generated_today / max_solar_energy:.1%} of the maximum energy generated "
+                   f"this year ({max_solar_energy / 1000:.4g} kWh)."
+                   f"You saved {saved_costs_today:.2f} € today and {saved_costs_year:.2f} € this year. "
+                   f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
         # send notification every day at 11pm
         print(message)
         if (datetime.now().hour == 22) and (datetime.now().minute == 0):
