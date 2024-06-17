@@ -15,7 +15,7 @@ async def main():
 
     client = ApiClient(tapo_username, tapo_password)
     device_wasching_dryer = await client.p110(wasching_dryer_ip_address)
-    await monitor_power_and_notify(device=device_wasching_dryer, user=pushover_user_group,
+    await monitor_power_and_notify(device=device_wasching_dryer, user=pushover_user_group, threshold_high=40, threshold_low=10, duration_minutes=3,
                                    message="Der Trocker ist fertig. Bitte die Wäsche entnehmen. 🧺🧦👚👖🧦🧺")
 
 if __name__ == "__main__":
