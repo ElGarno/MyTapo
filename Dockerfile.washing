@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir httpx asyncio python-dotenv tapo pandas
+RUN pip install --no-cache-dir requests asyncio python-dotenv tapo pandas
 
 # Run app.py when the container launches
 CMD ["python", "./waching_machine_alert.py"]
