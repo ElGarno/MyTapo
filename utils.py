@@ -1,22 +1,37 @@
-import httpx
 from dotenv import load_dotenv
 import os
 import asyncio
 from datetime import datetime, timedelta
 from tapo import EnergyDataInterval
 import pandas as pd
+import requests
 
 
 def send_pushover_notification(user, message):
     load_dotenv()
     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-
-    response = httpx.post("https://api.pushover.net/1/messages.json", data={
+    r = requests.post("https://api.pushover.net/1/messages.json", data = {
         "token": pushover_api_token,
         "user": user,
-        "message": message,
-    })
-    print(response.text)
+        "message": message
+    },)
+    # files = {
+    #     "attachment": ("image.jpg", open("your_image.jpg", "rb"), "image/jpeg")
+    # })
+    print(r.text)
+
+
+# def send_pushover_notification_new(user, message):
+#     load_dotenv()
+#     conn = http.client.HTTPSConnection("api.pushover.net:443")
+#     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
+#     conn.request("POST", "/1/messages.json",
+#                  urllib.parse.urlencode({
+#                      "token": pushover_api_token,
+#                      "user": user,
+#                      "message": message,
+#                  }), {"Content-type": "application/x-www-form-urlencoded"})
+#     conn.getresponse()
 
 
 async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message=""):
