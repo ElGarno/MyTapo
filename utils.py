@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import asyncio
 from datetime import datetime, timedelta
-from tapo import EnergyDataInterval
+from tapo.requests import EnergyDataInterval
 import pandas as pd
 import requests
 
