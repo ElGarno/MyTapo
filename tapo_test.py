@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from tapo import ApiClient, EnergyDataInterval
+from tapo import ApiClient
+from tapo.requests import EnergyDataInterval
 from dotenv import load_dotenv
 
 
@@ -19,7 +20,7 @@ async def main():
     device_solar = await client.p110(solar_ip_address)
     device_wasching_machine = await client.p110(wasching_machine_ip_address)
 
-    device_info = await device_solar.get_device_info()
+    device_info = await device_wasching_machine.get_device_info()
     print(f"Device info: {device_info.to_dict()}")
     # get energy data for all quarters until now
     # current quarter
@@ -81,6 +82,16 @@ def compute_mean_energy_consumption(df_energy_consumption):
     return mean_energy_consumption
 
 async def get_energy_data_daily(device, startmonth):
+    """
+    Fetches daily energy data for a given device starting from a specified month.
+
+    Args:
+        device: The device from which to fetch energy data.
+        startmonth: The starting month for fetching energy data.
+
+    Returns:
+        A dictionary containing the energy data.
+    """
     # return await device.get_energy_data(
     #     EnergyDataInterval.Daily,
     #     datetime(datetime.today().year, get_quarter_start_month(datetime.today()), 1),
