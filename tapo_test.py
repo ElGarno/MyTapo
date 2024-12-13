@@ -46,7 +46,8 @@ async def main():
     print(f"Current power solar: {cur_power_solar.to_dict()}")
 
     cur_power_wasching_machine = await device_wasching_machine.get_current_power()
-    print(f"Current power wasching machine: {cur_power_wasching_machine.to_dict()}")
+    print(f"Current power wasching machine: {cur_power_wasching_machine.current_power}")
+    print(f"Current power wasching machine: {cur_power_wasching_machine}")
     # set date as index for df_energy_consumption
     df_energy_consumption.set_index('Date', inplace=True)
     solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
