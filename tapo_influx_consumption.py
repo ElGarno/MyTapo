@@ -1,6 +1,5 @@
 import asyncio
 import os
-from datetime import datetime, timedelta
 
 from tapo import ApiClient
 from dotenv import load_dotenv
@@ -8,7 +7,7 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 
-async def main():
+async def fetch_and_write_data():
     load_dotenv()
     tapo_username = os.getenv("TAPO_USERNAME")
     tapo_password = os.getenv("TAPO_PASSWORD")
@@ -48,15 +47,25 @@ async def main():
 
         # Get power for each device and write to InfluxDB
         for device_name, ip in devices.items():
-            device = await client.p110(ip)
-            power_data = await device.get_current_power()
-            print(f"Current power {device_name}: {power_data.current_power}")
-            
-            point = Point("power_consumption") \
-                .tag("device", device_name) \
-                .field("power", power_data.current_power)
-            
-            write_api.write(bucket=influx_bucket, org="None", record=point)
+            try:
+                device = await client.p110(ip)
+                power_data = await device.get_current_power()
+                # print(f"Current power {device_name}: {power_data.current_power}")
+                
+                point = Point("power_consumption") \
+                    .tag("device", device_name) \
+                    .field("power", power_data.current_power)
+                
+                write_api.write(bucket=influx_bucket, org="None", record=point)
+            except Exception as e:
+                print(f"Failed to get power for device {device_name}: {e}")
+
+
+async def main():
+    while True:
+        await fetch_and_write_data()
+        # Wait for 30 seconds before the next run
+        await asyncio.sleep(30)
 
 
 if __name__ == "__main__":
