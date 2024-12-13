@@ -34,14 +34,25 @@ def send_pushover_notification(user, message):
 #     conn.getresponse()
 
 
-async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message=""):
+async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
     power_exceeded = False
     low_power_start_time = None
     sensor_name = 'current_power'
 
     while True:
-        current_power = (await device.get_current_power()).to_dict()
-        print(f"Current power: {current_power[sensor_name]}W")  # For debugging
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                current_power = (await device.get_current_power()).to_dict()
+                print(f"Current power: {current_power[sensor_name]}W")  # For debugging
+                break
+            except Exception as e:
+                retry_count += 1
+                if retry_count == max_retries:
+                    print(f"Failed to get power after {max_retries} attempts: {e}")
+                    await asyncio.sleep(max_delay)
+                    continue
+                await asyncio.sleep(min(2 ** retry_count, max_delay))
 
         if current_power[sensor_name] > threshold_high:
             power_exceeded = True
