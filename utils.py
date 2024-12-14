@@ -117,13 +117,24 @@ def compute_costs(saved_kwh, cost_per_kwh=0.28):
     return savings
 
 
-async def get_df_energy_consumption(device_solar):
+async def get_df_energy_consumption(device_solar, max_retries=3, max_delay=60):
     cur_quarter = (datetime.today().month - 1) // 3 + 1
     list_dict_energy_data_daily = []
     for i_quarter in range(1, cur_quarter + 1):
         quarter_start_month = 3 * (i_quarter - 1) + 1
-        dict_energy_data_daily = (await get_energy_data_daily(device_solar, quarter_start_month)).to_dict()
-        list_dict_energy_data_daily.append(dict_energy_data_daily)
+        retry_count = 0
+        while retry_count < max_retries:
+            try:
+                dict_energy_data_daily = (await get_energy_data_daily(device_solar, quarter_start_month)).to_dict()
+                list_dict_energy_data_daily.append(dict_energy_data_daily)
+                break
+            except Exception as e:
+                retry_count += 1
+                if retry_count == max_retries:
+                    print(f"Failed to get energy data after {max_retries} attempts: {e}")
+                    await asyncio.sleep(max_delay)
+                    continue
+                await asyncio.sleep(min(2 ** retry_count, max_delay))
     # concat dicts to one
     df_energy_consumption = []
     for i_quarter_m1, dict_energy_data in enumerate(list_dict_energy_data_daily):
