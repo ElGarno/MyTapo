@@ -1,0 +1,116 @@
+{
+    "file_uploads": [
+        {
+            "Kundenaktion": "Kundenübersicht",
+            "datatable": "customers",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_customers_2024-11-29_12-28-45.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "yes"
+        },
+        {
+            "Kundenaktion": "Newsletter / Email Kampagne geöffnet",
+            "datatable": "campaigns",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_campaigns_2024-11-29_10-11-35.csv",
+            "regular_uploadtime": "05:30",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Cash-Korken eingelöst",
+            "datatable": "code-redeemed",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_code-redeemed_2024-11-29_10-11-05.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Registrierung",
+            "datatable": "user-registered",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_user-registered_2024-10-24_14-09-14.csv",
+            "regular_uploadtime": "-",
+            "full_load": "-"
+        },
+        {
+            "Kundenaktion": "Adresse dem Profil hinzugefügt",
+            "datatable": "profile-address-added",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_profile-adress-added_2024-11-29_10-18-23.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Erster App-Login",
+            "datatable": "first-app-login",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_first-app-login_2024-11-29_10-22-59.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Punkte ausgegeben",
+            "datatable": "points-burned",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_points-burned_2024-11-29_10-28-01.csv",
+            "regular_uploadtime": "05:20",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Teilnahem an Umfrage",
+            "datatable": "survey",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_survey_2024-11-29_10-31-16.csv",
+            "regular_uploadtime": "05:20",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Website-Login",
+            "datatable": "website-login",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_website-login_2024-11-29_11-07-57.csv",
+            "regular_uploadtime": "05:20",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Newsletter-Einwilligung",
+            "datatable": "first-newsletter-consent",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_first-newsletter-consent_2024-11-29_11-15-52.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Erster Bon-Upload",
+            "datatable": "receipt-uploaded",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_receipt-uploaded_2024-11-29_12-04-02.csv",
+            "regular_uploadtime": "05:20",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Engagementaktion",
+            "datatable": "participation-confirmed",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_participation-confirmed_2024-11-29_12-07-29.csv",
+            "regular_uploadtime": "05:10",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Shopkauf",
+            "datatable": "purchase€",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_purchase%E2%82%AC_2024-11-29_12-19-26.csv",
+            "regular_uploadtime": "05:10",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Erfolgreicher Bon-Upload",
+            "datatable": "receipt-accepted",
+            "initial_file": "https://eu-central-1.console.aws.amazon.com/s3/object/bloomreach-export-bucket-prod?region=eu-central-1&bucketType=general&prefix=raw_exports_clv/initial_receipt-accepted_2024-11-29_12-23-09.csv",
+            "regular_uploadtime": "05:00",
+            "full_load": "no"
+        },
+        {
+            "Kundenaktion": "Zweiter erfolgreicher Bon-Upload",
+            "datatable": "t.b.d",
+            "initial_file": "-",
+            "regular_uploadtime": "-",
+            "full_load": "-"
+        },
+        {
+            "Kundenaktion": "Normalpreiskauf",
+            "datatable": "t.b.d",
+            "initial_file": "-",
+            "regular_uploadtime": "-",
+            "full_load": "-"
+        }
+    ]
+}
