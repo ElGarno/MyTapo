@@ -68,7 +68,7 @@ async def monitor_power_and_notify(device, user, threshold_high=50, threshold_lo
         else:
             low_power_start_time = None  # Reset if current power is not low
 
-        await asyncio.sleep(60)  # Check every minute
+        await asyncio.sleep(20)  # Check every minute
 
 
 async def get_energy_data_daily(device, startmonth):
