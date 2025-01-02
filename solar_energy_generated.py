@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from tapo import ApiClient
 from dotenv import load_dotenv
-from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification
+from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification_new
 
 
 async def monitor_generated_solar_energy_and_notify(device_solar, user):
@@ -24,8 +24,8 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
                    f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
         # send notification every day at 11pm
         print(message)
-        # if (datetime.now().hour == 22) and (datetime.now().minute == 0):
-        send_pushover_notification(user, message)
+        if (datetime.now().hour == 22) and (datetime.now().minute == 0):
+            send_pushover_notification_new(user, message)
         await asyncio.sleep(60)
 
 
