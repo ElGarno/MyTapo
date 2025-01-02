@@ -4,34 +4,36 @@ import asyncio
 from datetime import datetime, timedelta
 from tapo.requests import EnergyDataInterval
 import pandas as pd
-import requests
+# import requests
+import http.client, urllib
 
 
-def send_pushover_notification(user, message):
-    load_dotenv()
-    pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-    r = requests.post("https://api.pushover.net/1/messages.json", data = {
-        "token": pushover_api_token,
-        "user": user,
-        "message": message
-    },)
-    # files = {
-    #     "attachment": ("image.jpg", open("your_image.jpg", "rb"), "image/jpeg")
-    # })
-    print(r.text)
-
-
-# def send_pushover_notification_new(user, message):
+# def send_pushover_notification(user, message):
 #     load_dotenv()
-#     conn = http.client.HTTPSConnection("api.pushover.net:443")
 #     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-#     conn.request("POST", "/1/messages.json",
-#                  urllib.parse.urlencode({
-#                      "token": pushover_api_token,
-#                      "user": user,
-#                      "message": message,
-#                  }), {"Content-type": "application/x-www-form-urlencoded"})
-#     conn.getresponse()
+#     r = requests.post("https://api.pushover.net/1/messages.json", data = {
+#         "token": pushover_api_token,
+#         "user": user,
+#         "message": message
+#     },)
+#     # files = {
+#     #     "attachment": ("image.jpg", open("your_image.jpg", "rb"), "image/jpeg")
+#     # })
+#     print(r.text)
+
+
+def send_pushover_notification_new(user, message):
+    load_dotenv()
+    conn = http.client.HTTPSConnection("api.pushover.net:443")
+    pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
+    conn.request("POST", "/1/messages.json",
+                 urllib.parse.urlencode({
+                     "token": pushover_api_token,
+                     "user": user,
+                     "message": message,
+                 }), {"Content-type": "application/x-www-form-urlencoded"})
+    conn.getresponse()
+
 
 
 async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
@@ -62,7 +64,7 @@ async def monitor_power_and_notify(device, user, threshold_high=50, threshold_lo
             if low_power_start_time is None:
                 low_power_start_time = datetime.now()
             elif datetime.now() - low_power_start_time > timedelta(minutes=duration_minutes):
-                send_pushover_notification(user=user, message=message)
+                send_pushover_notification_new(user=user, message=message)
                 power_exceeded = False  # Reset condition
                 low_power_start_time = None  # Reset timer
         else:
