@@ -22,9 +22,9 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
                    f"this year ({max_solar_energy / 1000:.4g} kWh)."
                    f"You saved {saved_costs_today:.2f} € today and {saved_costs_year:.2f} € this year. "
                    f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
-        # send notification every day at 11pm
+        # send notification every day at 10pm
         print(message)
-        if (datetime.now().hour == 22) and (datetime.now().minute == 0):
+        if (datetime.now().hour == 21) and (datetime.now().minute == 0):
             send_pushover_notification_new(user, message)
         await asyncio.sleep(60)
 
