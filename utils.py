@@ -6,6 +6,11 @@ from tapo.requests import EnergyDataInterval
 import pandas as pd
 # import requests
 import http.client, urllib
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+import logging
+logging.basicConfig(level=logging.INFO)
 
 
 # def send_pushover_notification(user, message):
@@ -33,8 +38,7 @@ def send_pushover_notification_new(user, message):
                      "message": message,
                  }), {"Content-type": "application/x-www-form-urlencoded"})
     conn.getresponse()
-
-
+    
 
 async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
     power_exceeded = False
