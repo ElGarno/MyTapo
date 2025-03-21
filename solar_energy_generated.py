@@ -20,7 +20,7 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
         message = (f"The energy consumed today has been {solar_energy_generated_today / 1000:.4g} kWh "
                    f"which is {solar_energy_generated_today / max_solar_energy:.1%} of the maximum energy generated "
                    f"this year ({max_solar_energy / 1000:.4g} kWh)."
-                   f"You saved {saved_costs_today:.2f} € today and {saved_costs_year:.2f} € this year. "
+                   f"You saved {saved_costs_today:.2f} € today (assuming 28Cent/kWh) and {saved_costs_year:.2f} € this year. "
                    f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
         # send notification every day at 10pm
         print(message)
