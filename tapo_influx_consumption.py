@@ -20,6 +20,8 @@ async def fetch_and_write_data():
     bedroom_ip_address = "192.168.178.60"
     television_ip_address = "192.168.178.58"
     office_ip_address = "192.168.178.55"
+    hwr_sauger_fahrradcharger_ip_address = "192.168.178.104"
+    kaffe_bar_ip_address = "192.168.178.91"
 
     client = ApiClient(tapo_username, tapo_password)
     # Define devices
@@ -32,7 +34,9 @@ async def fetch_and_write_data():
         'kitchen': kitchen_ip_address,
         'bedroom': bedroom_ip_address,
         'television': television_ip_address,
-        'office': office_ip_address
+        'office': office_ip_address,
+        'hwr_charger': hwr_sauger_fahrradcharger_ip_address,
+        'kaffe_bar': kaffe_bar_ip_address,
     }
 
     # Create InfluxDB client
