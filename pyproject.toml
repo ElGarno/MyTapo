@@ -19,6 +19,7 @@ influxdb-client = "^1.48.0"
 notebook = "^7.3.2"
 pyarrow = "^19.0.1"
 fastparquet = "^2024.11.0"
+watchdog = "^6.0.0"
 
 
 [build-system]

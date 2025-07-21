@@ -7,6 +7,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
+    network_mode: "host"
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -20,6 +21,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
+    network_mode: "host"
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -33,8 +35,27 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
+    network_mode: "host"
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
       - PUSHOVER_USER_GROUP=${PUSHOVER_USER_GROUP}
-      - WASCHING_DRYER_IP_ADDRESS=${WASCHING_MACHINE_IP_ADDRESS}
+      - WASCHING_DRYER_IP_ADDRESS=${WASCHING_DRYER_IP_ADDRESS}
+
+  influx_consumption:
+    build:
+      context: .
+      dockerfile: Dockerfile.influx_consumption
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
+    network_mode: "host"
+    volumes:
+      - ./config:/usr/src/app/config
+    environment:
+      - TAPO_USERNAME=${TAPO_USERNAME}
+      - TAPO_PASSWORD=${TAPO_PASSWORD}
+      - INFLUXDB_HOST=${INFLUXDB_HOST}
+      - INFLUXDB_PORT=${INFLUXDB_PORT}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}

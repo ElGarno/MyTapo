@@ -11,17 +11,17 @@ async def fetch_and_write_data():
     load_dotenv()
     tapo_username = os.getenv("TAPO_USERNAME")
     tapo_password = os.getenv("TAPO_PASSWORD")
-    solar_ip_address = "192.168.178.61"
-    washing_machine_ip_address = "192.168.178.52"
-    washing_dryer_ip_address = "192.168.178.54"
-    cooler_ip_address = "192.168.178.86"
-    living_room_window_ip_address = "192.168.178.75"
-    kitchen_ip_address = "192.168.178.74"
-    bedroom_ip_address = "192.168.178.60"
-    television_ip_address = "192.168.178.58"
-    office_ip_address = "192.168.178.55"
-    hwr_sauger_fahrradcharger_ip_address = "192.168.178.104"
-    kaffe_bar_ip_address = "192.168.178.91"
+    solar_ip_address = os.getenv("SOLAR_IP_ADDRESS")
+    washing_machine_ip_address = os.getenv("WASCHING_MACHINE_IP_ADDRESS")
+    washing_dryer_ip_address = os.getenv("WASCHING_DRYER_IP_ADDRESS")
+    cooler_ip_address = os.getenv("COOLER_IP_ADDRESS")
+    living_room_window_ip_address = os.getenv("LIVING_ROOM_WINDOW_IP_ADDRESS")
+    kitchen_ip_address = os.getenv("KITCHEN_IP_ADDRESS")
+    bedroom_ip_address = os.getenv("BEDROOM_IP_ADDRESS")
+    television_ip_address = os.getenv("TELEVISION_IP_ADDRESS")
+    office_ip_address = os.getenv("OFFICE_IP_ADDRESS")
+    hwr_sauger_fahrradcharger_ip_address = os.getenv("HWR_CHARGER_IP_ADDRESS")
+    kaffe_bar_ip_address = os.getenv("KAFFE_BAR_IP_ADDRESS")
 
     client = ApiClient(tapo_username, tapo_password)
     # Define devices

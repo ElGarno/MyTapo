@@ -1,0 +1,59 @@
+{
+  "devices": {
+    "solar": {
+      "ip": "192.168.178.61",
+      "enabled": true,
+      "description": "Solar panels"
+    },
+    "washing_machine": {
+      "ip": "192.168.178.52",
+      "enabled": true,
+      "description": "Washing machine"
+    },
+    "washing_dryer": {
+      "ip": "192.168.178.54",
+      "enabled": true,
+      "description": "Washing dryer"
+    },
+    "cooler": {
+      "ip": "192.168.178.86",
+      "enabled": true,
+      "description": "Cooler"
+    },
+    "living_room_window": {
+      "ip": "192.168.178.75",
+      "enabled": true,
+      "description": "Living room window outlet"
+    },
+    "kitchen": {
+      "ip": "192.168.178.74",
+      "enabled": true,
+      "description": "Kitchen outlet"
+    },
+    "bedroom": {
+      "ip": "192.168.178.60",
+      "enabled": true,
+      "description": "Bedroom outlet"
+    },
+    "television": {
+      "ip": "192.168.178.58",
+      "enabled": true,
+      "description": "Television"
+    },
+    "office": {
+      "ip": "192.168.178.55",
+      "enabled": true,
+      "description": "Office outlet"
+    },
+    "hwr_charger": {
+      "ip": "192.168.178.104",
+      "enabled": true,
+      "description": "HWR charger outlet"
+    },
+    "kaffe_bar": {
+      "ip": "192.168.178.91",
+      "enabled": true,
+      "description": "Coffee bar"
+    }
+  }
+}
