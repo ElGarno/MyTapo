@@ -11,5 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Ensure config directory exists
+RUN mkdir -p /usr/src/app/config
+
+# Copy config files
+COPY config/ /usr/src/app/config/
+
 # Run dynamic app when the container launches
 CMD ["python", "./tapo_influx_consumption_dynamic.py"]
