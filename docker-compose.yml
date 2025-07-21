@@ -8,6 +8,8 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -23,6 +25,8 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -37,6 +41,8 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -53,6 +59,8 @@ services:
     network_mode: "host"
     volumes:
       - ./config:/usr/src/app/config
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
