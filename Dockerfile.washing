@@ -4,20 +4,9 @@ FROM python:3.13-slim
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y curl build-essential
-
-# Install Poetry and add to PATH
-RUN curl -sSL https://install.python-poetry.org | python3 - && \
-    ln -s /root/.local/bin/poetry /usr/local/bin/poetry
-
-# Copy dependency files
-COPY pyproject.toml poetry.lock ./
-
-# Configure Poetry and install dependencies
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-root --no-dev
+# Copy requirements and install dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
