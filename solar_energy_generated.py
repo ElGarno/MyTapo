@@ -3,10 +3,13 @@ import os
 from datetime import datetime
 from tapo import ApiClient
 from dotenv import load_dotenv
-from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification_new
+from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification_new, get_awtrix_client
 
 
-async def monitor_generated_solar_energy_and_notify(device_solar, user):
+async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_awtrix=True):
+    awtrix_client = get_awtrix_client() if enable_awtrix else None
+    last_hourly_notification = None
+    
     while True:
         df_energy_consumption = await get_df_energy_consumption(device_solar)
         solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
@@ -22,10 +25,33 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user):
                    f"this year ({max_solar_energy / 1000:.4g} kWh)."
                    f"You saved {saved_costs_today:.2f} € today (assuming 28Cent/kWh) and {saved_costs_year:.2f} € this year. "
                    f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
-        # send notification every day at 10pm
+        
         print(message)
-        if (datetime.now().hour == 21) and (datetime.now().minute == 0):
+        
+        current_time = datetime.now()
+        
+        # Hourly Awtrix notifications (during daylight hours 8-20)
+        if (enable_awtrix and awtrix_client and 
+            8 <= current_time.hour <= 20 and 
+            current_time.minute == 0 and
+            (last_hourly_notification is None or 
+             (current_time - last_hourly_notification).seconds > 3300)):  # More than 55 minutes
+            
+            awtrix_client.send_solar_report(
+                solar_energy_generated_today / 1000, 
+                saved_costs_today
+            )
+            last_hourly_notification = current_time
+        
+        # Daily evening notification at 9pm
+        if (current_time.hour == 21) and (current_time.minute == 0):
             send_pushover_notification_new(user, message)
+            if enable_awtrix and awtrix_client:
+                awtrix_client.send_solar_report(
+                    solar_energy_generated_today / 1000, 
+                    saved_costs_today
+                )
+        
         await asyncio.sleep(60)
 
 

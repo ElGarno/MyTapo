@@ -10,6 +10,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import logging
+from awtrix_client import AwtrixClient, AwtrixMessage
 logging.basicConfig(level=logging.INFO)
 
 
@@ -151,3 +152,193 @@ async def get_df_energy_consumption(device_solar, max_retries=3, max_delay=60):
     df_energy_consumption = df_energy_consumption[df_energy_consumption['Date'] <= datetime.today().strftime('%Y-%m-%d')]
     df_energy_consumption.set_index('Date', inplace=True)
     return df_energy_consumption
+
+
+def get_awtrix_client():
+    """Get configured Awtrix client from environment variables"""
+    load_dotenv()
+    awtrix_host = os.getenv("AWTRIX_HOST", "192.168.178.108")  # Default IP
+    awtrix_port = int(os.getenv("AWTRIX_PORT", "80"))  # Default port (HTTP standard)
+    return AwtrixClient(awtrix_host, awtrix_port)
+
+
+async def monitor_power_and_notify_enhanced(device, user, device_name="Device", threshold_high=50, threshold_low=10, 
+                                          duration_minutes=5, message="", high_power_threshold=1000, 
+                                          max_retries=3, max_delay=60, enable_awtrix=True):
+    """Enhanced power monitoring with both Pushover and Awtrix notifications"""
+    power_exceeded = False
+    low_power_start_time = None
+    sensor_name = 'current_power'
+    last_high_power_alert = None
+    
+    # Initialize Awtrix client if enabled
+    awtrix_client = get_awtrix_client() if enable_awtrix else None
+    
+    while True:
+        retry_count = 0
+        current_power = None
+        
+        while retry_count < max_retries:
+            try:
+                current_power = (await device.get_current_power()).to_dict()
+                print(f"Current power: {current_power[sensor_name]}W")  # For debugging
+                break
+            except Exception as e:
+                retry_count += 1
+                if retry_count == max_retries:
+                    print(f"Failed to get power after {max_retries} attempts: {e}")
+                    await asyncio.sleep(max_delay)
+                    continue
+                await asyncio.sleep(min(2 ** retry_count, max_delay))
+
+        if current_power is None:
+            continue
+
+        current_power_value = current_power[sensor_name]
+        
+        # Check for high power consumption alert
+        if enable_awtrix and current_power_value > high_power_threshold:
+            now = datetime.now()
+            # Only send alert if more than 10 minutes passed since last alert
+            if last_high_power_alert is None or (now - last_high_power_alert).seconds > 600:
+                if awtrix_client:
+                    awtrix_client.send_energy_alert(current_power_value, device_name)
+                last_high_power_alert = now
+
+        # Original appliance completion logic
+        if current_power_value > threshold_high:
+            power_exceeded = True
+            low_power_start_time = None  # Reset since power is high again
+
+        if power_exceeded and current_power_value < threshold_low:
+            if low_power_start_time is None:
+                low_power_start_time = datetime.now()
+            elif datetime.now() - low_power_start_time > timedelta(minutes=duration_minutes):
+                # Send both notifications
+                send_pushover_notification_new(user=user, message=message)
+                if enable_awtrix and awtrix_client:
+                    awtrix_client.send_appliance_done(device_name)
+                
+                power_exceeded = False  # Reset condition
+                low_power_start_time = None  # Reset timer
+        else:
+            low_power_start_time = None  # Reset if current power is not low
+
+        await asyncio.sleep(20)  # Check every 20 seconds
+
+
+async def monitor_all_devices_power(devices_config, high_power_threshold=1000, enable_awtrix=True, 
+                                  enable_status_display=True, status_interval_minutes=10):
+    """Monitor all devices for high power consumption and send alerts"""
+    load_dotenv()
+    tapo_username = os.getenv("TAPO_USERNAME")
+    tapo_password = os.getenv("TAPO_PASSWORD")
+    
+    from tapo import ApiClient
+    client = ApiClient(tapo_username, tapo_password)
+    
+    awtrix_client = get_awtrix_client() if enable_awtrix else None
+    last_alerts = {}  # Track last alert time for each device
+    last_status_display = None  # Track last status display time
+    device_power_cache = {}  # Cache current power readings
+    
+    while True:
+        for device_name, device_ip in devices_config.items():
+            try:
+                device = await client.p110(device_ip)
+                current_power = (await device.get_current_power()).to_dict()
+                power_value = current_power['current_power']
+                
+                # Cache the power value for status display
+                device_power_cache[device_name] = power_value
+                
+                print(f"{device_name}: {power_value}W")
+                
+                # Check for high power threshold alerts
+                if power_value > high_power_threshold:
+                    now = datetime.now()
+                    # Only alert if more than 10 minutes since last alert for this device
+                    if (device_name not in last_alerts or 
+                        (now - last_alerts[device_name]).seconds > 600):
+                        
+                        if awtrix_client:
+                            awtrix_client.send_energy_alert(power_value, device_name)
+                        
+                        last_alerts[device_name] = now
+                        
+            except Exception as e:
+                print(f"Error monitoring {device_name}: {e}")
+                device_power_cache[device_name] = None  # Mark as unavailable
+                continue
+        
+        # Check if it's time for status display (every X minutes)
+        now = datetime.now()
+        if (enable_status_display and enable_awtrix and awtrix_client and 
+            device_power_cache and  # Only if we have device data
+            (last_status_display is None or 
+             (now - last_status_display).total_seconds() >= status_interval_minutes * 60)):
+            
+            print(f"\n📊 Displaying device status cycle...")
+            await display_device_status_cycle(awtrix_client, device_power_cache)
+            last_status_display = now
+        
+        await asyncio.sleep(30)  # Check every 30 seconds
+
+
+async def display_device_status_cycle(awtrix_client, device_power_cache, display_duration_seconds=4):
+    """Display cycling status of all devices on Awtrix"""
+    
+    # Filter out devices with no data and sort by power consumption (highest first)
+    valid_devices = {name: power for name, power in device_power_cache.items() if power is not None}
+    sorted_devices = sorted(valid_devices.items(), key=lambda x: x[1], reverse=True)
+    
+    if not sorted_devices:
+        print("⚠️  No valid device data for status display")
+        return
+    
+    print(f"🔄 Cycling through {len(sorted_devices)} devices...")
+    
+    for i, (device_name, power_value) in enumerate(sorted_devices):
+        try:
+            # Determine color based on power consumption
+            if power_value < 100:
+                color = "#00FF00"  # Green - Low power
+                icon = "128994"    # Green circle
+            elif power_value < 500:
+                color = "#FFFF00"  # Yellow - Medium power
+                icon = "128993"    # Yellow circle
+            elif power_value < 1000:
+                color = "#FF6600"  # Orange - High power
+                icon = "128992"    # Orange circle
+            else:
+                color = "#FF0000"  # Red - Very high power
+                icon = "128308"    # Red circle
+            
+            # Create status message
+            message_text = f"{device_name}: {power_value:.0f}W"
+            
+            # Send to Awtrix
+            from awtrix_client import AwtrixMessage
+            status_message = AwtrixMessage(
+                text=message_text,
+                icon=icon,
+                color=color,
+                duration=display_duration_seconds
+            )
+            
+            success = awtrix_client.send_notification(status_message)
+            if success:
+                print(f"  📱 {i+1}/{len(sorted_devices)}: {message_text}")
+            else:
+                print(f"  ❌ Failed to display: {message_text}")
+            
+            # Wait for display duration before showing next device
+            # (except for the last device, let it display naturally)
+            if i < len(sorted_devices) - 1:
+                await asyncio.sleep(display_duration_seconds)
+                
+        except Exception as e:
+            print(f"  ❌ Error displaying {device_name}: {e}")
+            continue
+    
+    print(f"✅ Status cycle completed!\n")

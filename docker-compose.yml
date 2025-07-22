@@ -7,6 +7,7 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    restart: unless-stopped
     healthcheck:
       disable: true
     environment:
@@ -15,6 +16,8 @@ services:
       - PUSHOVER_USER_KEY=${PUSHOVER_USER_KEY}
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - SOLAR_IP_ADDRESS=${SOLAR_IP_ADDRESS}
+      - AWTRIX_HOST=${AWTRIX_HOST}
+      - AWTRIX_PORT=${AWTRIX_PORT}
 
   washing_machine_alert:
     build:
@@ -24,6 +27,7 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    restart: unless-stopped
     healthcheck:
       disable: true
     environment:
@@ -31,6 +35,8 @@ services:
       - TAPO_PASSWORD=${TAPO_PASSWORD}
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - WASCHING_MACHINE_IP_ADDRESS=${WASCHING_MACHINE_IP_ADDRESS}
+      - AWTRIX_HOST=${AWTRIX_HOST}
+      - AWTRIX_PORT=${AWTRIX_PORT}
 
   washing_dryer_alert:
     build:
@@ -40,6 +46,7 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    restart: unless-stopped
     healthcheck:
       disable: true
     environment:
@@ -47,6 +54,8 @@ services:
       - TAPO_PASSWORD=${TAPO_PASSWORD}
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - WASCHING_DRYER_IP_ADDRESS=${WASCHING_DRYER_IP_ADDRESS}
+      - AWTRIX_HOST=${AWTRIX_HOST}
+      - AWTRIX_PORT=${AWTRIX_PORT}
 
   influx_consumption:
     build:
@@ -56,6 +65,7 @@ services:
         PLATFORM: linux/amd64
     platform: linux/amd64
     network_mode: "host"
+    restart: unless-stopped
     volumes:
       - config:/usr/src/app/config
     healthcheck:
@@ -67,6 +77,8 @@ services:
       - INFLUXDB_PORT=${INFLUXDB_PORT}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - AWTRIX_HOST=${AWTRIX_HOST}
+      - AWTRIX_PORT=${AWTRIX_PORT}
 
 volumes:
   config:

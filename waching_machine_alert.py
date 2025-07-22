@@ -3,7 +3,7 @@ import os
 from tapo import ApiClient
 from dotenv import load_dotenv
 
-from utils import monitor_power_and_notify
+from utils import monitor_power_and_notify_enhanced
 
 
 async def main():
@@ -15,7 +15,14 @@ async def main():
 
     client = ApiClient(tapo_username, tapo_password)
     device_wasching_machine = await client.p110(wasching_machine_ip_address)
-    await monitor_power_and_notify(device=device_wasching_machine, user=pushover_user_group, message="Die Wäsche ist fertig, Tapsi! 🧺🐶")
+    await monitor_power_and_notify_enhanced(
+        device=device_wasching_machine, 
+        user=pushover_user_group, 
+        device_name="Washing Machine",
+        message="Die Wäsche ist fertig, Tapsi! 🧺🐶",
+        high_power_threshold=1000,
+        enable_awtrix=True
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())
