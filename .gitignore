@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# MCP configuration (may contain sensitive server configs)
+.mcp.json
+
 # Python
 __pycache__/
 *.py[cod]
