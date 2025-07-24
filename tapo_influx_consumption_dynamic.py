@@ -14,7 +14,12 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from utils import get_awtrix_client
 
-logging.basicConfig(level=logging.INFO)
+# Configure logging with timestamps
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 logger = logging.getLogger(__name__)
 
 class DeviceConfigHandler(FileSystemEventHandler):
@@ -86,7 +91,7 @@ class InfluxWriter:
                     .field("power", power_value)
                     
                 write_api.write(bucket=self.influx_bucket, org=self.influx_org, record=point)
-                logger.debug(f"Wrote {device_name}: {power_value}W to InfluxDB")
+                logger.info(f"📊 {device_name}: {power_value}W → InfluxDB")
         except Exception as e:
             logger.error(f"Failed to write to InfluxDB for {device_name}: {e}")
 
@@ -165,9 +170,9 @@ async def display_device_carousel(awtrix_client, device_power_data):
             
             success = awtrix_client.send_notification(message)
             if success:
-                logger.info(f"Displayed: {device_name} {power_value:.0f}W")
+                logger.info(f"✅ Carousel displayed: {device_name} {power_value:.0f}W")
             else:
-                logger.error(f"Failed to display: {device_name}")
+                logger.error(f"❌ Failed to display carousel: {device_name}")
             
             await asyncio.sleep(5)  # Wait 5 seconds before next device
             
@@ -189,6 +194,17 @@ async def main():
     tapo_client = ApiClient(tapo_username, tapo_password)
     awtrix_client = get_awtrix_client()
     
+    # Log Awtrix configuration
+    awtrix_host = os.getenv("AWTRIX_HOST", "192.168.178.108")
+    awtrix_port = os.getenv("AWTRIX_PORT", "80")
+    logger.info(f"Awtrix client configured for {awtrix_host}:{awtrix_port}")
+    
+    # Test Awtrix connection
+    if awtrix_client and awtrix_client.test_connection():
+        logger.info("Awtrix device connection test successful")
+    else:
+        logger.warning("Awtrix device connection test failed")
+    
     logger.info("Starting dynamic device monitoring with Awtrix notifications...")
     
     last_carousel_time = None
@@ -197,6 +213,7 @@ async def main():
         while True:
             # Fetch and write data to InfluxDB
             device_power_data = await fetch_and_write_data(device_manager, influx_writer, tapo_client)
+            logger.debug(f"Fetched power data for {len(device_power_data)} devices")
             
             # Display device carousel every 5 minutes
             current_time = datetime.now()
@@ -204,8 +221,12 @@ async def main():
                 (last_carousel_time is None or 
                  (current_time - last_carousel_time).total_seconds() >= 300)):  # 5 minutes
                 
+                logger.info(f"Time for device carousel - {len(device_power_data)} devices available")
                 await display_device_carousel(awtrix_client, device_power_data)
                 last_carousel_time = current_time
+            elif device_power_data:
+                time_until_next = 300 - (current_time - last_carousel_time).total_seconds() if last_carousel_time else 300
+                logger.debug(f"Next carousel in {time_until_next:.0f} seconds")
             
             await asyncio.sleep(30)
     except KeyboardInterrupt:
