@@ -188,7 +188,7 @@ class AwtrixClient:
         """
         message = AwtrixMessage(
             text=f"{device_name}: {power_watts:.0f}W",
-            icon="128268",  # Electric plug emoji
+            icon="32491",  # Electric plug LaMetric icon
             color="#FF6600",  # Orange color for alerts
             duration=15,
             sound="beep"
@@ -206,9 +206,9 @@ class AwtrixClient:
             bool: True if successful, False otherwise
         """
         icon_map = {
-            "washing": "129658",  # Laundry basket emoji
-            "dryer": "128293",    # Fire/heat emoji
-            "dishwasher": "127869"  # Fork and knife with plate emoji
+            "washing": "9482",   # Washing machine LaMetric icon
+            "dryer": "61811",    # Dryer LaMetric icon (original)
+            "dishwasher": "61812"  # Dishwasher LaMetric icon (original)
         }
         
         # Try to find appropriate icon

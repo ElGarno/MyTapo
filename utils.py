@@ -11,7 +11,14 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import logging
 from awtrix_client import AwtrixClient, AwtrixMessage
-logging.basicConfig(level=logging.INFO)
+
+# Configure logging with timestamps
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 
 # def send_pushover_notification(user, message):
@@ -51,12 +58,12 @@ async def monitor_power_and_notify(device, user, threshold_high=50, threshold_lo
         while retry_count < max_retries:
             try:
                 current_power = (await device.get_current_power()).to_dict()
-                print(f"Current power: {current_power[sensor_name]}W")  # For debugging
+                logger.info(f"{device_name} current power: {current_power[sensor_name]}W")
                 break
             except Exception as e:
                 retry_count += 1
                 if retry_count == max_retries:
-                    print(f"Failed to get power after {max_retries} attempts: {e}")
+                    logger.error(f"Failed to get power for {device_name} after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
                     continue
                 await asyncio.sleep(min(2 ** retry_count, max_delay))
@@ -173,6 +180,12 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
     
     # Initialize Awtrix client if enabled
     awtrix_client = get_awtrix_client() if enable_awtrix else None
+    if enable_awtrix:
+        logger.info(f"Awtrix enabled for {device_name}. Client initialized: {awtrix_client is not None}")
+        if awtrix_client:
+            logger.info(f"Awtrix client configured for host: {os.getenv('AWTRIX_HOST', '192.168.178.108')}:{os.getenv('AWTRIX_PORT', '80')}")
+    else:
+        logger.info(f"Awtrix disabled for {device_name}")
     
     while True:
         retry_count = 0
@@ -181,12 +194,12 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
         while retry_count < max_retries:
             try:
                 current_power = (await device.get_current_power()).to_dict()
-                print(f"Current power: {current_power[sensor_name]}W")  # For debugging
+                logger.info(f"{device_name} current power: {current_power[sensor_name]}W")
                 break
             except Exception as e:
                 retry_count += 1
                 if retry_count == max_retries:
-                    print(f"Failed to get power after {max_retries} attempts: {e}")
+                    logger.error(f"Failed to get power for {device_name} after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
                     continue
                 await asyncio.sleep(min(2 ** retry_count, max_delay))
@@ -199,11 +212,19 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
         # Check for high power consumption alert
         if enable_awtrix and current_power_value > high_power_threshold:
             now = datetime.now()
+            logger.warning(f"High power detected: {current_power_value}W > {high_power_threshold}W for {device_name}")
             # Only send alert if more than 10 minutes passed since last alert
             if last_high_power_alert is None or (now - last_high_power_alert).seconds > 600:
                 if awtrix_client:
-                    awtrix_client.send_energy_alert(current_power_value, device_name)
+                    logger.info(f"Sending Awtrix energy alert for {device_name}: {current_power_value}W")
+                    success = awtrix_client.send_energy_alert(current_power_value, device_name)
+                    logger.info(f"Awtrix energy alert result for {device_name}: {success}")
+                else:
+                    logger.warning(f"Awtrix client not available for energy alert for {device_name}")
                 last_high_power_alert = now
+            else:
+                time_since_last = (now - last_high_power_alert).seconds
+                logger.debug(f"High power alert suppressed for {device_name} - only {time_since_last}s since last alert (need 600s)")
 
         # Original appliance completion logic
         if current_power_value > threshold_high:
@@ -215,9 +236,14 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
                 low_power_start_time = datetime.now()
             elif datetime.now() - low_power_start_time > timedelta(minutes=duration_minutes):
                 # Send both notifications
+                logger.info(f"Appliance {device_name} completed cycle - sending notifications")
                 send_pushover_notification_new(user=user, message=message)
                 if enable_awtrix and awtrix_client:
-                    awtrix_client.send_appliance_done(device_name)
+                    logger.info(f"Sending Awtrix appliance completion for {device_name}")
+                    success = awtrix_client.send_appliance_done(device_name)
+                    logger.info(f"Awtrix appliance completion result for {device_name}: {success}")
+                else:
+                    logger.warning(f"Awtrix not enabled or client unavailable for appliance completion for {device_name}")
                 
                 power_exceeded = False  # Reset condition
                 low_power_start_time = None  # Reset timer
@@ -252,7 +278,7 @@ async def monitor_all_devices_power(devices_config, high_power_threshold=1000, e
                 # Cache the power value for status display
                 device_power_cache[device_name] = power_value
                 
-                print(f"{device_name}: {power_value}W")
+                logger.info(f"{device_name}: {power_value}W")
                 
                 # Check for high power threshold alerts
                 if power_value > high_power_threshold:
@@ -262,12 +288,16 @@ async def monitor_all_devices_power(devices_config, high_power_threshold=1000, e
                         (now - last_alerts[device_name]).seconds > 600):
                         
                         if awtrix_client:
-                            awtrix_client.send_energy_alert(power_value, device_name)
+                            logger.info(f"Sending Awtrix energy alert for {device_name}: {power_value}W")
+                            success = awtrix_client.send_energy_alert(power_value, device_name)
+                            logger.info(f"Awtrix energy alert result for {device_name}: {success}")
+                        else:
+                            logger.warning(f"Awtrix client not available for energy alert for {device_name}")
                         
                         last_alerts[device_name] = now
                         
             except Exception as e:
-                print(f"Error monitoring {device_name}: {e}")
+                logger.error(f"Error monitoring {device_name}: {e}")
                 device_power_cache[device_name] = None  # Mark as unavailable
                 continue
         
