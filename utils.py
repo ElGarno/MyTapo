@@ -177,6 +177,8 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
     low_power_start_time = None
     sensor_name = 'current_power'
     last_high_power_alert = None
+    last_power_log = None
+    log_interval = 300  # Log power reading only every 5 minutes
     
     # Initialize Awtrix client if enabled
     awtrix_client = get_awtrix_client() if enable_awtrix else None
@@ -190,11 +192,20 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
     while True:
         retry_count = 0
         current_power = None
+        current_time = datetime.now()
         
         while retry_count < max_retries:
             try:
                 current_power = (await device.get_current_power()).to_dict()
-                logger.info(f"{device_name} current power: {current_power[sensor_name]}W")
+                
+                # Log power reading only every 5 minutes or if significant change
+                should_log = (last_power_log is None or 
+                             (current_time - last_power_log).total_seconds() >= log_interval)
+                
+                if should_log:
+                    logger.info(f"{device_name} current power: {current_power[sensor_name]}W")
+                    last_power_log = current_time
+                
                 break
             except Exception as e:
                 retry_count += 1
