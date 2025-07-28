@@ -10,11 +10,43 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
     awtrix_client = get_awtrix_client() if enable_awtrix else None
     last_solar_report = None
     last_current_power_display = None
+    last_energy_data_fetch = None
+    last_daily_stats_log = None
+    last_pushover_sent = None
+    cached_energy_data = None
     
     while True:
         try:
-            df_energy_consumption = await get_df_energy_consumption(device_solar)
-            solar_energy_generated_today = df_energy_consumption.loc[str(datetime.today().date())]['Value']
+            current_time = datetime.now()
+            
+            # Fetch energy data only every 10 minutes to reduce API calls and logging spam
+            if (last_energy_data_fetch is None or 
+                (current_time - last_energy_data_fetch).total_seconds() >= 600):  # 10 minutes
+                
+                try:
+                    cached_energy_data = await get_df_energy_consumption(device_solar)
+                    last_energy_data_fetch = current_time
+                except Exception as e:
+                    print(f"Error fetching energy data: {e}")
+                    if cached_energy_data is None:
+                        await asyncio.sleep(60)
+                        continue
+            
+            # Use cached data if available
+            if cached_energy_data is None:
+                await asyncio.sleep(60)
+                continue
+                
+            df_energy_consumption = cached_energy_data
+            today_str = str(datetime.today().date())
+            
+            # Check if today's data exists in the dataframe
+            if today_str not in df_energy_consumption.index:
+                print(f"No energy data available for today ({today_str})")
+                await asyncio.sleep(60)
+                continue
+                
+            solar_energy_generated_today = df_energy_consumption.loc[today_str]['Value']
             max_solar_energy = df_energy_consumption['Value'].max()
             mean_solar_energy = compute_mean_energy_consumption(df_energy_consumption)
             saved_costs_today = compute_costs(solar_energy_generated_today / 1000)
@@ -28,9 +60,11 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
                        f"You saved {saved_costs_today:.2f} € today (assuming 28Cent/kWh) and {saved_costs_year:.2f} € this year. "
                        f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
             
-            print(message)
-            
-            current_time = datetime.now()
+            # Log daily stats only every 30 minutes to reduce log spam
+            if (last_daily_stats_log is None or 
+                (current_time - last_daily_stats_log).total_seconds() >= 1800):  # 30 minutes
+                print(f"[{current_time.strftime('%H:%M')}] {message}")
+                last_daily_stats_log = current_time
             
             # Get current solar power generation
             try:
@@ -93,17 +127,26 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
                 except Exception as e:
                     print(f"Error sending solar report: {e}")
             
-            # Daily evening notification at 9pm
-            if (current_time.hour == 21) and (current_time.minute == 0):
-                send_pushover_notification_new(user, message)
-                if enable_awtrix and awtrix_client:
-                    try:
-                        awtrix_client.send_solar_report(
-                            solar_energy_generated_today / 1000, 
-                            saved_costs_today
-                        )
-                    except Exception as e:
-                        print(f"Error sending evening solar report: {e}")
+            # Daily evening notification between 9-10pm (more flexible timing)
+            if (20 <= current_time.hour <= 21 and 
+                (last_pushover_sent is None or 
+                 last_pushover_sent.date() != current_time.date())):
+                
+                try:
+                    send_pushover_notification_new(user, message)
+                    print(f"Sent daily Pushover notification at {current_time.strftime('%H:%M')}")
+                    last_pushover_sent = current_time
+                    
+                    if enable_awtrix and awtrix_client:
+                        try:
+                            awtrix_client.send_solar_report(
+                                solar_energy_generated_today / 1000, 
+                                saved_costs_today
+                            )
+                        except Exception as e:
+                            print(f"Error sending evening solar report: {e}")
+                except Exception as e:
+                    print(f"Error sending Pushover notification: {e}")
         
         except Exception as e:
             print(f"Error in solar monitoring loop: {e}")
