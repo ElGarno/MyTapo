@@ -37,15 +37,43 @@ logger = logging.getLogger(__name__)
 
 def send_pushover_notification_new(user, message):
     load_dotenv()
-    conn = http.client.HTTPSConnection("api.pushover.net:443")
     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-    conn.request("POST", "/1/messages.json",
-                 urllib.parse.urlencode({
-                     "token": pushover_api_token,
-                     "user": user,
-                     "message": message,
-                 }), {"Content-type": "application/x-www-form-urlencoded"})
-    conn.getresponse()
+    
+    if not pushover_api_token:
+        logger.error("PUSHOVER_TAPO_API_TOKEN environment variable not set")
+        return False
+    
+    if not user or not message:
+        logger.error(f"Missing required parameters: user={bool(user)}, message={bool(message)}")
+        return False
+    
+    try:
+        conn = http.client.HTTPSConnection("api.pushover.net:443")
+        conn.request("POST", "/1/messages.json",
+                     urllib.parse.urlencode({
+                         "token": pushover_api_token,
+                         "user": user,
+                         "message": message,
+                     }), {"Content-type": "application/x-www-form-urlencoded"})
+        
+        response = conn.getresponse()
+        response_data = response.read().decode()
+        
+        if response.status == 200:
+            logger.info(f"Pushover notification sent successfully: {message[:50]}...")
+            return True
+        else:
+            logger.error(f"Pushover API error {response.status}: {response_data}")
+            return False
+            
+    except Exception as e:
+        logger.error(f"Failed to send Pushover notification: {e}")
+        return False
+    finally:
+        try:
+            conn.close()
+        except:
+            pass
     
 
 async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
