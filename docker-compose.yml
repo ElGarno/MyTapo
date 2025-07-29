@@ -6,7 +6,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
-    network_mode: "host"
+    network_mode: "bridge"
     restart: unless-stopped
     healthcheck:
       disable: true
@@ -26,7 +26,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
-    network_mode: "host"
+    network_mode: "bridge"
     restart: unless-stopped
     healthcheck:
       disable: true
@@ -45,7 +45,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
-    network_mode: "host"
+    network_mode: "bridge"
     restart: unless-stopped
     healthcheck:
       disable: true
@@ -64,7 +64,7 @@ services:
       args:
         PLATFORM: linux/amd64
     platform: linux/amd64
-    network_mode: "host"
+    network_mode: "bridge"
     restart: unless-stopped
     volumes:
       - config:/usr/src/app/config
