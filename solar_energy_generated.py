@@ -23,14 +23,20 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
             if (last_energy_data_fetch is None or 
                 (current_time - last_energy_data_fetch).total_seconds() >= 600):  # 10 minutes
                 
-                try:
-                    cached_energy_data = await get_df_energy_consumption(device_solar)
-                    last_energy_data_fetch = current_time
-                except Exception as e:
-                    print(f"Error fetching energy data: {e}")
-                    if cached_energy_data is None:
-                        await asyncio.sleep(60)
-                        continue
+                for retry in range(3):
+                    try:
+                        cached_energy_data = await get_df_energy_consumption(device_solar)
+                        last_energy_data_fetch = current_time
+                        break
+                    except Exception as e:
+                        if retry < 2:
+                            print(f"Retry {retry + 1}/3 - Error fetching energy data: {e}")
+                            await asyncio.sleep(10)
+                        else:
+                            print(f"Failed to fetch energy data after 3 retries: {e}")
+                            if cached_energy_data is None:
+                                await asyncio.sleep(60)
+                                continue
             
             # Use cached data if available
             if cached_energy_data is None:
@@ -66,13 +72,20 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
                 print(f"[{current_time.strftime('%H:%M')}] {message}")
                 last_daily_stats_log = current_time
             
-            # Get current solar power generation
-            try:
-                current_solar_power = await device_solar.get_current_power()
-                current_power_w = current_solar_power.current_power
-            except Exception as e:
-                print(f"Error getting current solar power: {e}")
-                current_power_w = 0
+            # Get current solar power generation with retry logic
+            current_power_w = 0
+            for retry in range(3):
+                try:
+                    current_solar_power = await device_solar.get_current_power()
+                    current_power_w = current_solar_power.current_power
+                    break
+                except Exception as e:
+                    if retry < 2:
+                        print(f"Retry {retry + 1}/3 - Error getting current solar power: {e}")
+                        await asyncio.sleep(5)
+                    else:
+                        print(f"Failed to get current solar power after 3 retries: {e}")
+                        current_power_w = 0
             
             # Display current solar power every 10 minutes during daylight hours (6-19)
             if (enable_awtrix and awtrix_client and 
