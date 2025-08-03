@@ -45,9 +45,13 @@ class DeviceManager:
                 with open(self.config_path, 'r') as f:
                     config = json.load(f)
                 with self.lock:
-                    # Only load enabled devices
+                    # Load full device config for enabled devices
                     self.devices = {
-                        name: device_config['ip'] 
+                        name: {
+                            'ip': device_config['ip'],
+                            'emoji_id': device_config.get('emoji_id'),
+                            'description': device_config.get('description', name)
+                        }
                         for name, device_config in config['devices'].items() 
                         if device_config.get('enabled', True)
                     }
@@ -100,7 +104,8 @@ async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
     device_power_data = {}
     
     tasks = []
-    for device_name, ip in devices.items():
+    for device_name, device_config in devices.items():
+        ip = device_config['ip']
         task = asyncio.create_task(process_device(device_name, ip, tapo_client, influx_writer))
         tasks.append(task)
     
@@ -129,7 +134,7 @@ async def process_device(device_name, ip, tapo_client, influx_writer):
         logger.error(f"Failed to get power for device {device_name} ({ip}): {e}")
         return None
 
-async def display_device_carousel(awtrix_client, device_power_data):
+async def display_device_carousel(awtrix_client, device_power_data, device_manager):
     """Display each device's power consumption for 5 seconds"""
     if not device_power_data:
         return
@@ -141,24 +146,32 @@ async def display_device_carousel(awtrix_client, device_power_data):
         return
         
     sorted_devices = sorted(valid_devices.items(), key=lambda x: x[1], reverse=True)
+    devices_config = device_manager.get_devices()
     
     logger.info(f"Starting device carousel with {len(sorted_devices)} devices")
     
     for device_name, power_value in sorted_devices:
         try:
-            # Determine color based on power consumption
+            # Get emoji_id from device config
+            device_config = devices_config.get(device_name, {})
+            emoji_id = device_config.get('emoji_id')
+            
+            # Determine color and circle icon based on power consumption
             if power_value < 50:
                 color = "#00FF00"  # Green - Low power
-                icon = "128994"    # Green circle
+                circle_icon = "27070"    # Green circle
             elif power_value < 200:
                 color = "#FFFF00"  # Yellow - Medium power
-                icon = "128993"    # Yellow circle
+                circle_icon = "27067"    # Yellow circle
             elif power_value < 1000:
                 color = "#FF6600"  # Orange - High power
-                icon = "128992"    # Orange circle
+                circle_icon = "27072"    # Orange circle
             else:
                 color = "#FF0000"  # Red - Very high power
-                icon = "128308"    # Red circle
+                circle_icon = "27068"    # Red circle
+            
+            # Use emoji if available, otherwise use circle
+            icon = str(emoji_id) if emoji_id else circle_icon
             
             from awtrix_client import AwtrixMessage
             message = AwtrixMessage(
@@ -170,7 +183,8 @@ async def display_device_carousel(awtrix_client, device_power_data):
             
             success = awtrix_client.send_notification(message)
             if success:
-                logger.info(f"✅ Carousel displayed: {device_name} {power_value:.0f}W")
+                emoji_info = f"emoji: {emoji_id}" if emoji_id else f"circle: {circle_icon}"
+                logger.info(f"✅ Carousel displayed: {device_name} {power_value:.0f}W ({emoji_info})")
             else:
                 logger.error(f"❌ Failed to display carousel: {device_name}")
             
@@ -222,7 +236,7 @@ async def main():
                  (current_time - last_carousel_time).total_seconds() >= 300)):  # 5 minutes
                 
                 logger.info(f"Time for device carousel - {len(device_power_data)} devices available")
-                await display_device_carousel(awtrix_client, device_power_data)
+                await display_device_carousel(awtrix_client, device_power_data, device_manager)
                 last_carousel_time = current_time
             elif device_power_data:
                 time_until_next = 300 - (current_time - last_carousel_time).total_seconds() if last_carousel_time else 300

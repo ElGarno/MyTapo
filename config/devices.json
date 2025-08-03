@@ -3,57 +3,68 @@
     "solar": {
       "ip": "192.168.178.61",
       "enabled": true,
-      "description": "Solar panels"
+      "description": "Solar panels",
+      "emoji_id": 27464
     },
     "washing_machine": {
       "ip": "192.168.178.52",
       "enabled": true,
-      "description": "Washing machine"
+      "description": "Washing machine",
+      "emoji_id": 53355
     },
     "washing_dryer": {
       "ip": "192.168.178.54",
       "enabled": true,
-      "description": "Washing dryer"
+      "description": "Washing dryer",
+      "emoji_id": 50128
     },
     "cooler": {
       "ip": "192.168.178.86",
       "enabled": true,
-      "description": "Cooler"
+      "description": "Cooler",
+      "emoji_id": 56526
     },
     "living_room_window": {
       "ip": "192.168.178.75",
       "enabled": true,
-      "description": "Living room window outlet"
+      "description": "Living room window outlet",
+      "emoji_id": 63810
     },
     "kitchen": {
       "ip": "192.168.178.74",
       "enabled": true,
-      "description": "Kitchen outlet"
+      "description": "Kitchen outlet",
+      "emoji_id": 57796
     },
     "bedroom": {
       "ip": "192.168.178.60",
       "enabled": true,
-      "description": "Bedroom outlet"
+      "description": "Bedroom outlet",
+      "emoji_id": 22278
     },
     "television": {
       "ip": "192.168.178.58",
       "enabled": true,
-      "description": "Television"
+      "description": "Television",
+      "emoji_id": 2109
     },
     "office": {
       "ip": "192.168.178.55",
       "enabled": true,
-      "description": "Office outlet"
+      "description": "Office outlet",
+      "emoji_id": 8135
     },
     "hwr_charger": {
       "ip": "192.168.178.104",
       "enabled": true,
-      "description": "HWR charger outlet"
+      "description": "HWR charger outlet",
+      "emoji_id": 24125
     },
     "kaffe_bar": {
       "ip": "192.168.178.91",
       "enabled": true,
-      "description": "Coffee bar"
+      "description": "Coffee bar",
+      "emoji_id": 11813
     }
   }
 }

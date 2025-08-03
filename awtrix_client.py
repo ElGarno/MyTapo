@@ -206,9 +206,9 @@ class AwtrixClient:
             bool: True if successful, False otherwise
         """
         icon_map = {
-            "washing": "9482",   # Washing machine LaMetric icon
-            "dryer": "61811",    # Dryer LaMetric icon (original)
-            "dishwasher": "61812"  # Dishwasher LaMetric icon (original)
+            "washing": "26673",   # Washing machine LaMetric icon
+            "dryer": "56907",    # Dryer LaMetric icon (original)
+            "dishwasher": "24501"  # Dishwasher LaMetric icon (original)
         }
         
         # Try to find appropriate icon
@@ -220,7 +220,7 @@ class AwtrixClient:
         
         message = AwtrixMessage(
             text=f"{appliance_name} Done!",
-            icon=icon or "2705",  # Default checkmark emoji
+            icon=icon or "4474",  # Default checkmark emoji
             color="#00FF00",  # Green color for completion
             duration=20,
             sound="chime",
@@ -241,7 +241,7 @@ class AwtrixClient:
         """
         message = AwtrixMessage(
             text=f"Solar: {energy_kwh:.2f}kWh €{savings_eur:.2f}",
-            icon="2600",  # Sun emoji
+            icon="27464",  # Sun emoji
             color="#FFD700",  # Gold color
             duration=15
         )
