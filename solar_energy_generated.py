@@ -14,6 +14,8 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
     last_daily_stats_log = None
     last_pushover_sent = None
     cached_energy_data = None
+    consecutive_errors = 0
+    max_consecutive_errors = 5
     
     while True:
         try:
@@ -161,11 +163,56 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
                 except Exception as e:
                     print(f"Error sending Pushover notification: {e}")
         
+            # Reset error counter on successful iteration
+            consecutive_errors = 0
+            
         except Exception as e:
             print(f"Error in solar monitoring loop: {e}")
+            consecutive_errors += 1
+            
+            # Check if we're getting authentication errors
+            if "403" in str(e) or "Forbidden" in str(e) or "Response error" in str(e):
+                print(f"Authentication error detected. Triggering reconnection...")
+                raise  # Re-raise to trigger reconnection in main loop
+            
+            # If too many consecutive errors, trigger reconnection
+            if consecutive_errors >= max_consecutive_errors:
+                print(f"Too many consecutive errors ({consecutive_errors}). Triggering reconnection...")
+                raise  # Re-raise to trigger reconnection in main loop
         
         await asyncio.sleep(60)
 
+
+async def get_device_with_retry(tapo_username, tapo_password, solar_ip_address, max_retries=5):
+    """Try to connect to the device with retries and re-authentication."""
+    for attempt in range(max_retries):
+        try:
+            print(f"Attempting to connect to solar device (attempt {attempt + 1}/{max_retries})")
+            client = ApiClient(tapo_username, tapo_password)
+            device = await client.p110(solar_ip_address)
+            
+            # Test the connection by getting device info
+            try:
+                await device.get_current_power()
+                print(f"Successfully connected to solar device at {solar_ip_address}")
+                return device
+            except Exception as test_error:
+                # If we get a deserialization error, the connection is working
+                if "missing field" in str(test_error) or "Serde" in str(test_error):
+                    print(f"Connected to device (with expected serialization warning)")
+                    return device
+                else:
+                    raise test_error
+                    
+        except Exception as e:
+            print(f"Connection attempt {attempt + 1} failed: {e}")
+            if attempt < max_retries - 1:
+                wait_time = min(60 * (2 ** attempt), 300)  # Exponential backoff, max 5 minutes
+                print(f"Waiting {wait_time} seconds before retry...")
+                await asyncio.sleep(wait_time)
+            else:
+                print(f"Failed to connect after {max_retries} attempts")
+                raise
 
 async def main():
     load_dotenv()
@@ -175,9 +222,14 @@ async def main():
     pushover_user_group = os.getenv("PUSHOVER_USER_GROUP_WOERIS")
     solar_ip_address = os.getenv("SOLAR_IP_ADDRESS")
 
-    client = ApiClient(tapo_username, tapo_password)
-    device_solar = await client.p110(solar_ip_address)
-    await monitor_generated_solar_energy_and_notify(device_solar, pushover_user_group)
+    while True:
+        try:
+            device_solar = await get_device_with_retry(tapo_username, tapo_password, solar_ip_address)
+            await monitor_generated_solar_energy_and_notify(device_solar, pushover_user_group)
+        except Exception as e:
+            print(f"Main loop error: {e}")
+            print("Restarting in 60 seconds...")
+            await asyncio.sleep(60)
 
 if __name__ == "__main__":
     asyncio.run(main())
