@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from utils import get_df_energy_consumption, compute_mean_energy_consumption, compute_costs, send_pushover_notification_new, get_awtrix_client
 
 
-async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_awtrix=True):
+async def monitor_generated_solar_energy_and_notify(tapo_username, tapo_password, solar_ip_address, user, enable_awtrix=True):
     awtrix_client = get_awtrix_client() if enable_awtrix else None
     last_solar_report = None
     last_current_power_display = None
@@ -16,10 +16,30 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
     cached_energy_data = None
     consecutive_errors = 0
     max_consecutive_errors = 5
+    device_solar = None
+    last_device_refresh = None
+    device_refresh_interval = 7200  # Refresh device connection every 2 hours
     
     while True:
         try:
             current_time = datetime.now()
+            
+            # Refresh device connection every 2 hours or if not initialized
+            if (device_solar is None or last_device_refresh is None or 
+                (current_time - last_device_refresh).total_seconds() >= device_refresh_interval):
+                try:
+                    print(f"[{current_time.strftime('%H:%M')}] Refreshing device connection...")
+                    device_solar = await get_device_with_retry(tapo_username, tapo_password, solar_ip_address)
+                    last_device_refresh = current_time
+                    consecutive_errors = 0  # Reset error counter on successful refresh
+                    print(f"[{current_time.strftime('%H:%M')}] Device connection refreshed successfully")
+                except Exception as e:
+                    print(f"Failed to refresh device connection: {e}")
+                    if device_solar is None:
+                        # Can't proceed without initial connection
+                        print("No device connection available. Retrying in 60 seconds...")
+                        await asyncio.sleep(60)
+                        continue
             
             # Fetch energy data only every 10 minutes to reduce API calls and logging spam
             if (last_energy_data_fetch is None or 
@@ -171,14 +191,20 @@ async def monitor_generated_solar_energy_and_notify(device_solar, user, enable_a
             consecutive_errors += 1
             
             # Check if we're getting authentication errors
-            if "403" in str(e) or "Forbidden" in str(e) or "Response error" in str(e):
-                print(f"Authentication error detected. Triggering reconnection...")
-                raise  # Re-raise to trigger reconnection in main loop
+            if "403" in str(e) or "Forbidden" in str(e) or "SessionTimeout" in str(e) or "Response error" in str(e):
+                print(f"Authentication/Session error detected. Forcing device reconnection...")
+                device_solar = None  # Force reconnection on next iteration
+                last_device_refresh = None
+                await asyncio.sleep(10)
+                continue
             
-            # If too many consecutive errors, trigger reconnection
+            # If too many consecutive errors, force reconnection
             if consecutive_errors >= max_consecutive_errors:
-                print(f"Too many consecutive errors ({consecutive_errors}). Triggering reconnection...")
-                raise  # Re-raise to trigger reconnection in main loop
+                print(f"Too many consecutive errors ({consecutive_errors}). Forcing device reconnection...")
+                device_solar = None  # Force reconnection on next iteration
+                last_device_refresh = None
+                await asyncio.sleep(10)
+                continue
         
         await asyncio.sleep(60)
 
@@ -224,8 +250,11 @@ async def main():
 
     while True:
         try:
-            device_solar = await get_device_with_retry(tapo_username, tapo_password, solar_ip_address)
-            await monitor_generated_solar_energy_and_notify(device_solar, pushover_user_group)
+            # Pass credentials instead of device object
+            await monitor_generated_solar_energy_and_notify(
+                tapo_username, tapo_password, solar_ip_address, 
+                pushover_user_group
+            )
         except Exception as e:
             print(f"Main loop error: {e}")
             print("Restarting in 60 seconds...")

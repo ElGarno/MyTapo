@@ -182,6 +182,14 @@ async def get_df_energy_consumption(device_solar, max_retries=3, max_delay=60):
     for i_quarter_m1, dict_energy_data in enumerate(list_dict_energy_data_daily):
         quarter_start_month = 3 * i_quarter_m1 + 1
         df_energy_consumption.append(get_date_df_from_dict(dict_energy_data, quarter_start_month))
+    
+    # Handle case when no data was fetched
+    if not df_energy_consumption:
+        print("No energy data available - returning empty DataFrame")
+        empty_df = pd.DataFrame(columns=['Date', 'Value'])
+        empty_df.set_index('Date', inplace=True)
+        return empty_df
+    
     df_energy_consumption = pd.concat(df_energy_consumption)
     # delete dates that are in the future
     df_energy_consumption = df_energy_consumption[df_energy_consumption['Date'] <= datetime.today().strftime('%Y-%m-%d')]
