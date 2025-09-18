@@ -31,6 +31,21 @@ MyTapo is a Python-based project aimed at enabling users to monitor energy consu
    ```
 3. Follow the on-screen instructions to monitor your energy consumption.
 
+## Troubleshooting
+
+### Session Timeout Issues
+The Tapo API sessions expire after approximately 3-4 hours of continuous use, which can cause the following errors:
+- `Tapo(SessionTimeout)` - Session has expired
+- `403 Forbidden` errors from the KLAP protocol
+- `No objects to concatenate` - When no data can be fetched due to authentication failure
+
+**Solution implemented:**
+- **Automatic session refresh**: The solar monitoring service now refreshes device connections every 2 hours proactively
+- **Reactive reconnection**: When authentication errors are detected, the service automatically reconnects
+- **Graceful error handling**: Empty data responses are handled without crashing the service
+
+The monitoring services will now automatically recover from session timeouts and continue running indefinitely without manual intervention.
+
 ## Contributing
 Contributions are welcome! Please feel free to open issues or submit pull requests.
 

@@ -49,13 +49,24 @@ async def monitor_generated_solar_energy_and_notify(tapo_username, tapo_password
                     try:
                         cached_energy_data = await get_df_energy_consumption(device_solar)
                         last_energy_data_fetch = current_time
+                        consecutive_errors = 0  # Reset error counter on success
                         break
                     except Exception as e:
+                        print(f"Retry {retry + 1}/3 - Error fetching energy data: {e}")
+                        
+                        # Check for authentication/session errors
+                        if ("403" in str(e) or "Forbidden" in str(e) or 
+                            "SessionTimeout" in str(e) or "Response error" in str(e)):
+                            print("Authentication error detected while fetching energy data. Forcing device reconnection...")
+                            device_solar = None  # Force reconnection
+                            last_device_refresh = None
+                            break  # Break retry loop and let main loop handle reconnection
+                        
                         if retry < 2:
-                            print(f"Retry {retry + 1}/3 - Error fetching energy data: {e}")
                             await asyncio.sleep(10)
                         else:
                             print(f"Failed to fetch energy data after 3 retries: {e}")
+                            consecutive_errors += 1
                             if cached_energy_data is None:
                                 await asyncio.sleep(60)
                                 continue
@@ -102,8 +113,18 @@ async def monitor_generated_solar_energy_and_notify(tapo_username, tapo_password
                     current_power_w = current_solar_power.current_power
                     break
                 except Exception as e:
+                    print(f"Retry {retry + 1}/3 - Error getting current solar power: {e}")
+                    
+                    # Check for authentication/session errors
+                    if ("403" in str(e) or "Forbidden" in str(e) or 
+                        "SessionTimeout" in str(e) or "Response error" in str(e)):
+                        print("Authentication error detected while getting current power. Forcing device reconnection...")
+                        device_solar = None  # Force reconnection
+                        last_device_refresh = None
+                        current_power_w = 0
+                        break  # Break retry loop and let main loop handle reconnection
+                    
                     if retry < 2:
-                        print(f"Retry {retry + 1}/3 - Error getting current solar power: {e}")
                         await asyncio.sleep(5)
                     else:
                         print(f"Failed to get current solar power after 3 retries: {e}")
