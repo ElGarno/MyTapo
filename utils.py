@@ -90,6 +90,13 @@ async def monitor_power_and_notify(device, user, threshold_high=50, threshold_lo
                 break
             except Exception as e:
                 retry_count += 1
+
+                # Check for authentication/session errors - raise to trigger reconnection
+                if ("403" in str(e) or "Forbidden" in str(e) or
+                    "SessionTimeout" in str(e) or "Response error" in str(e)):
+                    logger.error(f"Authentication error detected in monitor_power_and_notify: {e}")
+                    raise e  # Re-raise to let calling function handle reconnection
+
                 if retry_count == max_retries:
                     logger.error(f"Failed to get power for {device_name} after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
@@ -172,6 +179,14 @@ async def get_df_energy_consumption(device_solar, max_retries=3, max_delay=60):
                 break
             except Exception as e:
                 retry_count += 1
+                print(f"Retry {retry_count}/{max_retries} - Error getting energy data: {e}")
+
+                # Check for authentication/session errors - raise to trigger reconnection
+                if ("403" in str(e) or "Forbidden" in str(e) or
+                    "SessionTimeout" in str(e) or "Response error" in str(e)):
+                    print("Authentication error detected in utils.py - raising to trigger device reconnection...")
+                    raise e  # Re-raise to let calling function handle reconnection
+
                 if retry_count == max_retries:
                     print(f"Failed to get energy data after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
