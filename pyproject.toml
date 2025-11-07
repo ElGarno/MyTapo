@@ -1,27 +1,31 @@
-[tool.poetry]
+[project]
 name = "mytapo"
 version = "0.1.0"
-description = ""
-authors = ["Fabian Wörenkämper <f.woerenkaemper@krombacher.de>"]
+description = "Python-based smart home energy monitoring system for Tapo P110 smart plugs"
+authors = [
+    { name = "Fabian Wörenkämper", email = "f.woerenkaemper@krombacher.de" }
+]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.13"
-python-dotenv = "^1.0.1"
-pandas = "^2.2.3"
-asyncio = "^3.4.3"
-matplotlib = "^3.9.4"
-tapo = "^0.8.0"
-ipython = "^8.30.0"
-ipykernel = "^6.29.5"
-requests = "^2.32.3"
-influxdb-client = "^1.48.0"
-notebook = "^7.3.2"
-pyarrow = "^19.0.1"
-fastparquet = "^2024.11.0"
-watchdog = "^6.0.0"
-
+requires-python = ">=3.13"
+dependencies = [
+    "python-dotenv>=1.0.1",
+    "pandas>=2.2.3",
+    "asyncio>=3.4.3",
+    "matplotlib>=3.9.4",
+    "tapo>=0.8.0",
+    "ipython>=8.30.0",
+    "ipykernel>=6.29.5",
+    "requests>=2.32.3",
+    "influxdb-client>=1.48.0",
+    "notebook>=7.3.2",
+    "pyarrow>=19.0.1",
+    "fastparquet>=2024.11.0",
+    "watchdog>=6.0.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = []
