@@ -57,18 +57,16 @@
     },
     "office2": {
       "ip": "192.168.178.121",
-      "enabled": false,
+      "enabled": true,
       "description": "Office outlet 2",
       "emoji_id": 3971,
-      "grafana_group": "office",
-      "note": "Disabled temporarily - newer firmware needs 24h to allow API access"
+      "grafana_group": "office"
     },
     "bathroom": {
       "ip": "192.168.178.120",
-      "enabled": false,
+      "enabled": true,
       "description": "Bathroom outlet",
-      "emoji_id": 64837,
-      "note": "Disabled temporarily - newer firmware needs 24h to allow API access"
+      "emoji_id": 64837
     },
     "hwr_charger": {
       "ip": "192.168.178.104",
