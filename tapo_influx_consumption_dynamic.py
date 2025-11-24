@@ -134,7 +134,7 @@ async def process_device(device_name, ip, tapo_client):
         return None
 
 async def display_device_carousel(awtrix_client, device_power_data, device_manager):
-    """Display each device's power consumption for 5 seconds"""
+    """Display each device's power consumption for 8 seconds"""
     if not device_power_data:
         return
     
@@ -177,17 +177,17 @@ async def display_device_carousel(awtrix_client, device_power_data, device_manag
                 text=f"{device_name}: {power_value:.0f}W",
                 icon=icon,
                 color=color,
-                duration=5
+                duration=8
             )
-            
+
             success = awtrix_client.send_notification(message)
             if success:
                 emoji_info = f"emoji: {emoji_id}" if emoji_id else f"circle: {circle_icon}"
                 logger.info(f"✅ Carousel displayed: {device_name} {power_value:.0f}W ({emoji_info})")
             else:
                 logger.error(f"❌ Failed to display carousel: {device_name}")
-            
-            await asyncio.sleep(5)  # Wait 5 seconds before next device
+
+            await asyncio.sleep(8)  # Wait 8 seconds before next device
             
         except Exception as e:
             logger.error(f"Error displaying {device_name}: {e}")
