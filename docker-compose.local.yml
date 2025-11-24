@@ -10,6 +10,9 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -29,6 +32,9 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 0.25
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -47,6 +53,9 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    mem_limit: 128m
+    memswap_limit: 128m
+    cpus: 0.25
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -65,6 +74,9 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    mem_limit: 512m
+    memswap_limit: 512m
+    cpus: 1.0
     volumes:
       - config:/usr/src/app/config
     environment:
