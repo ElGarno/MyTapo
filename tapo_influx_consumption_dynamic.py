@@ -293,14 +293,15 @@ async def main():
             device_power_data = await fetch_and_write_data(device_manager, influx_writer, tapo_client)
             logger.debug(f"Fetched power data for {len(device_power_data)} devices")
             
-            # Display device carousel every 5 minutes
+            # Display device carousel every 5 minutes (non-blocking)
             current_time = datetime.now()
-            if (device_power_data and 
-                (last_carousel_time is None or 
+            if (device_power_data and
+                (last_carousel_time is None or
                  (current_time - last_carousel_time).total_seconds() >= 300)):  # 5 minutes
-                
+
                 logger.info(f"Time for device carousel - {len(device_power_data)} devices available")
-                await display_device_carousel(awtrix_client, device_power_data, device_manager)
+                # Run carousel in background without blocking data collection
+                asyncio.create_task(display_device_carousel(awtrix_client, device_power_data, device_manager))
                 last_carousel_time = current_time
             elif device_power_data:
                 time_until_next = 300 - (current_time - last_carousel_time).total_seconds() if last_carousel_time else 300
