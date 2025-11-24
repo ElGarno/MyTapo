@@ -51,9 +51,10 @@ class DeviceManager:
                         name: {
                             'ip': device_config['ip'],
                             'emoji_id': device_config.get('emoji_id'),
-                            'description': device_config.get('description', name)
+                            'description': device_config.get('description', name),
+                            'grafana_group': device_config.get('grafana_group')
                         }
-                        for name, device_config in config['devices'].items() 
+                        for name, device_config in config['devices'].items()
                         if device_config.get('enabled', True)
                     }
                 logger.info(f"Loaded {len(self.devices)} enabled devices")
@@ -97,12 +98,15 @@ async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         # Process results: add to batch writer and collect for Awtrix
-        for i, (device_name, _) in enumerate(devices.items()):
+        for i, (device_name, device_config) in enumerate(devices.items()):
             if i < len(results) and not isinstance(results[i], Exception):
                 power_value = results[i]
                 if power_value is not None:
+                    # Get optional device_group for Grafana aggregation
+                    device_group = device_config.get('grafana_group')
+
                     # Add to batch (accumulated, not written yet)
-                    influx_writer.add_power_measurement(device_name, power_value)
+                    influx_writer.add_power_measurement(device_name, power_value, device_group=device_group)
                     device_power_data[device_name] = power_value
 
         # Write all device data in a single batch operation
@@ -300,8 +304,8 @@ async def main():
             elif device_power_data:
                 time_until_next = 300 - (current_time - last_carousel_time).total_seconds() if last_carousel_time else 300
                 logger.debug(f"Next carousel in {time_until_next:.0f} seconds")
-            
-            await asyncio.sleep(30)
+
+            await asyncio.sleep(15)  # Write to InfluxDB every 15 seconds for finer resolution
     except KeyboardInterrupt:
         logger.info("Shutting down...")
     finally:

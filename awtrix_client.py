@@ -195,13 +195,14 @@ class AwtrixClient:
         )
         return self.send_notification(message)
     
-    def send_appliance_done(self, appliance_name: str) -> bool:
+    def send_appliance_done(self, appliance_name: str, loop_sound: bool = False) -> bool:
         """
         Send appliance completion notification
-        
+
         Args:
             appliance_name: Name of the appliance (e.g., "Washing Machine", "Dryer")
-            
+            loop_sound: If True, plays sound in a loop for ~15 seconds (3 repeats × 5s)
+
         Returns:
             bool: True if successful, False otherwise
         """
@@ -210,21 +211,26 @@ class AwtrixClient:
             "dryer": "56907",    # Dryer LaMetric icon (original)
             "dishwasher": "24501"  # Dishwasher LaMetric icon (original)
         }
-        
+
         # Try to find appropriate icon
         icon = None
         for key, icon_code in icon_map.items():
             if key.lower() in appliance_name.lower():
                 icon = icon_code
                 break
-        
+
+        # If loop_sound is True, repeat notification 3 times (5s each = 15s total)
+        repeat_count = 3 if loop_sound else None
+        duration = 5 if loop_sound else 20
+
         message = AwtrixMessage(
             text=f"{appliance_name} Done!",
             icon=icon or "4474",  # Default checkmark emoji
             color="#00FF00",  # Green color for completion
-            duration=20,
+            duration=duration,
             sound="chime",
-            priority=2
+            priority=2,
+            repeat=repeat_count
         )
         return self.send_notification(message)
     

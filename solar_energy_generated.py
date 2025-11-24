@@ -138,30 +138,36 @@ async def monitor_generated_solar_energy_and_notify(tapo_username, tapo_password
                 
                 try:
                     from awtrix_client import AwtrixMessage
-                    
+
                     # Determine icon and color based on power generation
+                    # Using rainbow effect for high power to make it more visible
                     if current_power_w > 1000:
-                        icon = "2600"    # Sun
+                        icon = "1246"    # Sun
                         color = "#FFD700"  # Gold
+                        rainbow = True
                     elif current_power_w > 500:
-                        icon = "9728"    # Partly sunny
+                        icon = "2286"    # Partly sunny
                         color = "#FFA500"  # Orange
+                        rainbow = False
                     elif current_power_w > 100:
-                        icon = "9729"    # Cloudy
+                        icon = "2283"    # Cloudy
                         color = "#87CEEB"  # Sky blue
+                        rainbow = False
                     else:
-                        icon = "9729"    # Cloud
+                        icon = "2283"    # Cloud
                         color = "#696969"  # Gray
-                    
+                        rainbow = False
+
                     power_message = AwtrixMessage(
                         text=f"Solar: {current_power_w:.0f}W",
                         icon=icon,
                         color=color,
-                        duration=8
+                        duration=8,
+                        rainbow=rainbow
                     )
-                    
+
                     awtrix_client.send_notification(power_message)
-                    print(f"Sent current solar power: {current_power_w}W")
+                    print(f"Sent current solar power: {current_power_w}W (color: {color}, rainbow: {rainbow})")
                     last_current_power_display = current_time
                     
                 except Exception as e:

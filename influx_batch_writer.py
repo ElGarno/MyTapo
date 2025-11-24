@@ -2,7 +2,7 @@
 Optimized InfluxDB batch writer for MyTapo monitoring services.
 
 This module provides efficient batched writes to InfluxDB, reducing connection
-overhead from 1,320 connections/hour to 120 connections/hour (11 devices × 120 cycles).
+overhead from 3,120 connections/hour to 240 connections/hour (13 devices × 240 cycles @ 15s intervals).
 """
 
 import os
@@ -86,7 +86,8 @@ class InfluxBatchWriter:
         self,
         device_name: str,
         power_value: float,
-        timestamp: Optional[datetime] = None
+        timestamp: Optional[datetime] = None,
+        device_group: Optional[str] = None
     ) -> None:
         """
         Add a power measurement to the batch queue.
@@ -95,10 +96,15 @@ class InfluxBatchWriter:
             device_name: Name/identifier of the device
             power_value: Current power consumption in watts
             timestamp: Measurement timestamp (defaults to now)
+            device_group: Optional group name for aggregation (e.g., "office" for office+office2)
         """
         point = Point("power_consumption") \
             .tag("device", device_name) \
             .field("power", power_value)
+
+        # Add optional device_group tag for Grafana aggregation
+        if device_group:
+            point = point.tag("device_group", device_group)
 
         if timestamp:
             point = point.time(timestamp, WritePrecision.NS)

@@ -16,15 +16,16 @@ async def main():
     client = ApiClient(tapo_username, tapo_password)
     device_washing_dryer = await client.p110(washing_dryer_ip_address)
     await monitor_power_and_notify_enhanced(
-        device=device_washing_dryer, 
-        user=pushover_user_group, 
+        device=device_washing_dryer,
+        user=pushover_user_group,
         device_name="Dryer",
-        threshold_high=40, 
-        threshold_low=10, 
+        threshold_high=40,
+        threshold_low=10,
         duration_minutes=3,
         message="Der Trockner ist fertig. Bitte die Wäsche entnehmen. 🧺🧦👚👖🧦🧺",
         high_power_threshold=1000,
-        enable_awtrix=True
+        enable_awtrix=True,
+        loop_sound=True  # Play chime sound for ~15 seconds (3 repeats × 5s each)
     )
 
 if __name__ == "__main__":

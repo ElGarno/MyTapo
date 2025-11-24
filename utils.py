@@ -205,10 +205,14 @@ def get_awtrix_client():
     return AwtrixClient(awtrix_host, awtrix_port)
 
 
-async def monitor_power_and_notify_enhanced(device, user, device_name="Device", threshold_high=50, threshold_low=10, 
-                                          duration_minutes=5, message="", high_power_threshold=1000, 
-                                          max_retries=3, max_delay=60, enable_awtrix=True):
-    """Enhanced power monitoring with both Pushover and Awtrix notifications"""
+async def monitor_power_and_notify_enhanced(device, user, device_name="Device", threshold_high=50, threshold_low=10,
+                                          duration_minutes=5, message="", high_power_threshold=1000,
+                                          max_retries=3, max_delay=60, enable_awtrix=True, loop_sound=False):
+    """Enhanced power monitoring with both Pushover and Awtrix notifications
+
+    Args:
+        loop_sound: If True, plays completion sound in a loop for ~15 seconds (3 repeats)
+    """
     power_exceeded = False
     low_power_start_time = None
     sensor_name = 'current_power'
@@ -286,8 +290,8 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
                 logger.info(f"Appliance {device_name} completed cycle - sending notifications")
                 send_pushover_notification_new(user=user, message=message)
                 if enable_awtrix and awtrix_client:
-                    logger.info(f"Sending Awtrix appliance completion for {device_name}")
-                    success = awtrix_client.send_appliance_done(device_name)
+                    logger.info(f"Sending Awtrix appliance completion for {device_name} (loop_sound={loop_sound})")
+                    success = awtrix_client.send_appliance_done(device_name, loop_sound=loop_sound)
                     logger.info(f"Awtrix appliance completion result for {device_name}: {success}")
                 else:
                     logger.warning(f"Awtrix not enabled or client unavailable for appliance completion for {device_name}")
