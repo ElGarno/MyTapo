@@ -96,7 +96,8 @@ class InfluxBatchWriter:
             device_name: Name/identifier of the device
             power_value: Current power consumption in watts
             timestamp: Measurement timestamp (defaults to now)
-            device_group: Optional group name for aggregation (e.g., "office" for office+office2)
+            device_group: Group name for aggregation (e.g., "office" for office+office2)
+                         If None, no device_group tag will be added
         """
         point = Point("power_consumption") \
             .tag("device", device_name) \

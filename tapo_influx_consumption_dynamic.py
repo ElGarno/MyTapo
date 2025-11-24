@@ -102,8 +102,9 @@ async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
             if i < len(results) and not isinstance(results[i], Exception):
                 power_value = results[i]
                 if power_value is not None:
-                    # Get optional device_group for Grafana aggregation
-                    device_group = device_config.get('grafana_group')
+                    # Get device_group for Grafana aggregation
+                    # If not specified in config, use device name itself
+                    device_group = device_config.get('grafana_group', device_name)
 
                     # Add to batch (accumulated, not written yet)
                     influx_writer.add_power_measurement(device_name, power_value, device_group=device_group)

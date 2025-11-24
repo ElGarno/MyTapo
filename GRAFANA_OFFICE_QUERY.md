@@ -165,14 +165,28 @@ from(bucket: "power_consumption")
 3. `config/devices.json`: Both office devices now have `"grafana_group": "office"`
 
 ### Data Structure in InfluxDB
+
+**For grouped devices (office + office2):**
 ```
 measurement: power_consumption
 tags:
   - device: "office"           (individual device identifier)
-  - device_group: "office"     (aggregation group - NEW)
+  - device_group: "office"     (aggregation group)
 fields:
   - power: 187.0               (power consumption in watts)
 ```
+
+**For standalone devices (solar, bedroom, etc.):**
+```
+measurement: power_consumption
+tags:
+  - device: "solar"            (individual device identifier)
+  - device_group: "solar"      (same as device name for consistency)
+fields:
+  - power: 1250.0              (power consumption in watts)
+```
+
+**Key Point:** ALL devices now have a `device_group` tag for consistent Grafana queries!
 
 ### Benefits
 ✅ Cleaner Grafana queries (single tag filter instead of OR conditions)
