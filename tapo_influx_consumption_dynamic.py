@@ -190,31 +190,95 @@ async def display_device_carousel(awtrix_client, device_power_data, device_manag
 
 
 async def main():
+    # Startup banner
+    logger.info("=" * 60)
+    logger.info("🚀 MyTapo Dynamic Device Monitor Starting...")
+    logger.info("=" * 60)
+
     load_dotenv()
+
+    # Verify environment variables
+    logger.info("🔍 Checking environment variables...")
     tapo_username = os.getenv("TAPO_USERNAME")
     tapo_password = os.getenv("TAPO_PASSWORD")
-    
-    if not tapo_username or not tapo_password:
-        logger.error("TAPO credentials not found in environment variables")
+    influx_host = os.getenv("INFLUXDB_HOST")
+    influx_token = os.getenv("INFLUXDB_TOKEN")
+    influx_bucket = os.getenv("INFLUXDB_BUCKET")
+
+    missing_vars = []
+    if not tapo_username:
+        missing_vars.append("TAPO_USERNAME")
+    if not tapo_password:
+        missing_vars.append("TAPO_PASSWORD")
+    if not influx_host:
+        missing_vars.append("INFLUXDB_HOST")
+    if not influx_token:
+        missing_vars.append("INFLUXDB_TOKEN")
+    if not influx_bucket:
+        missing_vars.append("INFLUXDB_BUCKET")
+
+    if missing_vars:
+        logger.error(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
+        logger.error("Please check your .env file or Portainer environment settings")
         return
-    
-    device_manager = DeviceManager()
-    influx_writer = InfluxBatchWriter()  # Now using batch writer for 90% fewer connections
-    tapo_client = ApiClient(tapo_username, tapo_password)
-    awtrix_client = get_awtrix_client()
-    
-    # Log Awtrix configuration
+
+    logger.info(f"✅ TAPO_USERNAME: {tapo_username[:10]}***")
+    logger.info(f"✅ INFLUXDB_HOST: {influx_host}")
+    logger.info(f"✅ INFLUXDB_BUCKET: {influx_bucket}")
+
+    # Initialize device manager
+    logger.info("📱 Loading device configuration...")
+    try:
+        device_manager = DeviceManager()
+        devices = device_manager.get_devices()
+        logger.info(f"✅ Loaded {len(devices)} enabled devices:")
+        for name, config in devices.items():
+            logger.info(f"   - {name}: {config['ip']} ({config.get('description', 'N/A')})")
+    except Exception as e:
+        logger.error(f"❌ Failed to load device configuration: {e}")
+        logger.exception("Full traceback:")
+        return
+
+    # Initialize InfluxDB writer
+    logger.info("📊 Initializing InfluxDB batch writer...")
+    try:
+        influx_writer = InfluxBatchWriter()
+        logger.info(f"✅ InfluxDB writer configured for {influx_host}")
+    except Exception as e:
+        logger.error(f"❌ Failed to initialize InfluxDB writer: {e}")
+        logger.exception("Full traceback:")
+        return
+
+    # Initialize Tapo client
+    logger.info("🔌 Initializing Tapo API client...")
+    try:
+        tapo_client = ApiClient(tapo_username, tapo_password)
+        logger.info("✅ Tapo API client initialized")
+    except Exception as e:
+        logger.error(f"❌ Failed to initialize Tapo client: {e}")
+        logger.exception("Full traceback:")
+        return
+
+    # Initialize Awtrix client
+    logger.info("📺 Initializing Awtrix display client...")
     awtrix_host = os.getenv("AWTRIX_HOST", "192.168.178.108")
     awtrix_port = os.getenv("AWTRIX_PORT", "80")
-    logger.info(f"Awtrix client configured for {awtrix_host}:{awtrix_port}")
-    
-    # Test Awtrix connection
-    if awtrix_client and awtrix_client.test_connection():
-        logger.info("Awtrix device connection test successful")
-    else:
-        logger.warning("Awtrix device connection test failed")
-    
-    logger.info("Starting dynamic device monitoring with Awtrix notifications...")
+    try:
+        awtrix_client = get_awtrix_client()
+        logger.info(f"✅ Awtrix client configured for {awtrix_host}:{awtrix_port}")
+
+        # Test Awtrix connection
+        if awtrix_client and awtrix_client.test_connection():
+            logger.info("✅ Awtrix device connection test successful")
+        else:
+            logger.warning("⚠️  Awtrix device connection test failed (non-critical)")
+    except Exception as e:
+        logger.warning(f"⚠️  Awtrix initialization failed (non-critical): {e}")
+        awtrix_client = None
+
+    logger.info("=" * 60)
+    logger.info("✅ All systems initialized - Starting monitoring loop...")
+    logger.info("=" * 60)
     
     last_carousel_time = None
     
