@@ -1,15 +1,36 @@
-# Use an official Python runtime as a parent image
-FROM python:3.13-slim
+# Multi-stage build for optimized image size and caching
+# Stage 1: Builder - Install dependencies
+FROM python:3.13-slim AS builder
 
-# Set the working directory in the container
+WORKDIR /build
+
+COPY requirements.txt .
+
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime - Minimal final image
+FROM python:3.13-slim AS runtime
+
 WORKDIR /usr/src/app
 
-# Copy requirements and install dependencies
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy application code
-COPY . .
+# Create non-root user
+RUN useradd -m -u 1000 mytapo && \
+    chown -R mytapo:mytapo /usr/src/app
 
-# Run app.py when the container launches
-CMD ["python", "./waching_dryer_alert.py"]
+# Copy only necessary files
+COPY --chown=mytapo:mytapo washing_dryer_alert.py \
+                            utils.py \
+                            awtrix_client.py \
+                            retry_manager.py \
+                            tapo_connection_pool.py \
+                            ./
+
+USER mytapo
+
+CMD ["python", "./washing_dryer_alert.py"]

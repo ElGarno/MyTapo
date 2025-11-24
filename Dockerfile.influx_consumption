@@ -1,21 +1,45 @@
-# Use an official Python runtime as a parent image
-FROM python:3.13-slim
+# Multi-stage build for optimized image size and caching
+# Stage 1: Builder - Install dependencies
+FROM python:3.13-slim AS builder
 
-# Set the working directory in the container
+WORKDIR /build
+
+# Copy only requirements first for better layer caching
+COPY requirements.txt .
+
+# Install dependencies in a virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime - Minimal final image
+FROM python:3.13-slim AS runtime
+
 WORKDIR /usr/src/app
 
-# Copy requirements and install dependencies
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Copy application code
-COPY . .
+# Create non-root user for security
+RUN useradd -m -u 1000 mytapo && \
+    mkdir -p /usr/src/app/config && \
+    chown -R mytapo:mytapo /usr/src/app
 
-# Ensure config directory exists
-RUN mkdir -p /usr/src/app/config
+# Copy only necessary application files (not test files, notebooks, etc.)
+COPY --chown=mytapo:mytapo tapo_influx_consumption_dynamic.py \
+                            utils.py \
+                            awtrix_client.py \
+                            retry_manager.py \
+                            influx_batch_writer.py \
+                            tapo_connection_pool.py \
+                            manage_devices.py \
+                            ./
+COPY --chown=mytapo:mytapo config/ ./config/
 
-# Copy config files
-COPY config/ /usr/src/app/config/
+# Switch to non-root user
+USER mytapo
 
 # Run dynamic app when the container launches
 CMD ["python", "./tapo_influx_consumption_dynamic.py"]

@@ -52,7 +52,21 @@
       "ip": "192.168.178.55",
       "enabled": true,
       "description": "Office outlet",
-      "emoji_id": 8135
+      "emoji_id": 3971,
+      "grafana_group": "office"
+    },
+    "office2": {
+      "ip": "192.168.178.121",
+      "enabled": true,
+      "description": "Office outlet 2",
+      "emoji_id": 3971,
+      "grafana_group": "office"
+    },
+    "bathroom": {
+      "ip": "192.168.178.120",
+      "enabled": true,
+      "description": "Bathroom outlet",
+      "emoji_id": 64837
     },
     "hwr_charger": {
       "ip": "192.168.178.104",

@@ -65,8 +65,8 @@ def load_device_config():
     # Add known devices from environment
     env_devices = [
         ("Solar", "SOLAR_IP_ADDRESS"),
-        ("Washing Machine", "WASCHING_MACHINE_IP_ADDRESS"),
-        ("Dryer", "WASCHING_DRYER_IP_ADDRESS"),
+        ("Washing Machine", "WASHING_MACHINE_IP_ADDRESS"),
+        ("Dryer", "WASHING_DRYER_IP_ADDRESS"),
     ]
     
     for name, env_var in env_devices:

@@ -4,7 +4,6 @@ import asyncio
 from datetime import datetime, timedelta
 from tapo.requests import EnergyDataInterval
 import pandas as pd
-# import requests
 import http.client, urllib
 import requests
 from requests.adapters import HTTPAdapter
@@ -19,20 +18,6 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 logger = logging.getLogger(__name__)
-
-
-# def send_pushover_notification(user, message):
-#     load_dotenv()
-#     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-#     r = requests.post("https://api.pushover.net/1/messages.json", data = {
-#         "token": pushover_api_token,
-#         "user": user,
-#         "message": message
-#     },)
-#     # files = {
-#     #     "attachment": ("image.jpg", open("your_image.jpg", "rb"), "image/jpeg")
-#     # })
-#     print(r.text)
 
 
 def send_pushover_notification_new(user, message):
@@ -76,7 +61,7 @@ def send_pushover_notification_new(user, message):
             pass
     
 
-async def monitor_power_and_notify(device, user, threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
+async def monitor_power_and_notify(device, user, device_name="Device", threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
     power_exceeded = False
     low_power_start_time = None
     sensor_name = 'current_power'

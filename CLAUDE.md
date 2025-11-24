@@ -37,8 +37,8 @@ python manage_devices.py disable bedroom
 python manage_devices.py enable bedroom
 
 # Run individual monitoring services
-python waching_machine_alert.py
-python waching_dryer_alert.py  
+python washing_machine_alert.py
+python washing_dryer_alert.py
 python solar_energy_generated.py
 
 # Interactive testing/development
@@ -68,8 +68,8 @@ docker build -f Dockerfile.dryer .
    - Handles device connectivity and error recovery
 
 2. **Alert System**
-   - `waching_machine_alert.py` - Detects washing cycle completion
-   - `waching_dryer_alert.py` - Monitors dryer operations
+   - `washing_machine_alert.py` - Detects washing cycle completion
+   - `washing_dryer_alert.py` - Monitors dryer operations
    - `solar_energy_generated.py` - Daily solar generation reports
 
 3. **Utilities** (`utils.py`)

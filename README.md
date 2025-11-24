@@ -9,8 +9,10 @@ MyTapo is a Python-based project aimed at enabling users to monitor energy consu
 - **Multi-Device Support**: Monitor multiple Tapo devices from a single interface.
 
 ## Requirements
-- Python 3.x
-- Required Python Packages: `requests`, `matplotlib`, etc.
+- Python 3.13+
+- [uv](https://docs.astral.sh/uv/) - Fast Python package installer and resolver
+- InfluxDB instance (for time-series data storage)
+- Tapo P110 smart plugs
 
 ## Installation
 1. Clone the repository:
@@ -18,18 +20,63 @@ MyTapo is a Python-based project aimed at enabling users to monitor energy consu
    git clone https://github.com/ElGarno/MyTapo.git
    cd MyTapo
    ```
-2. Install the required packages:
+
+2. Install uv (if not already installed):
    ```bash
-   pip install -r requirements.txt
+   # On macOS/Linux
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+
+   # On Windows
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
 
-## Usage
-1. Configure your Tapo credentials in the configuration file.
-2. Run the main script:
+3. Install project dependencies:
    ```bash
-   python main.py
+   uv sync
    ```
-3. Follow the on-screen instructions to monitor your energy consumption.
+
+4. Configure your environment:
+   - Copy `.env.template` to `.env`
+   - Fill in your Tapo credentials, InfluxDB connection details, and Pushover API keys
+
+## Usage
+
+### Running Monitoring Services
+
+```bash
+# Run the dynamic data collection service (recommended)
+uv run python tapo_influx_consumption_dynamic.py
+
+# Run individual monitoring services
+uv run python washing_machine_alert.py
+uv run python washing_dryer_alert.py
+uv run python solar_energy_generated.py
+```
+
+### Device Management
+
+```bash
+# List all configured devices
+uv run python manage_devices.py list
+
+# Add a new device
+uv run python manage_devices.py add device_name 192.168.178.100 "Device description"
+
+# Enable/disable a device
+uv run python manage_devices.py enable device_name
+uv run python manage_devices.py disable device_name
+```
+
+### Docker Deployment
+
+```bash
+# Build and run all services
+docker-compose up --build
+
+# Run specific services
+docker-compose up influx_consumption
+docker-compose up solar
+```
 
 ## Troubleshooting
 

@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from utils import get_awtrix_client
+from influx_batch_writer import InfluxBatchWriter
 
 # Configure logging with timestamps
 logging.basicConfig(
@@ -75,60 +76,54 @@ class DeviceManager:
         self.observer.stop()
         self.observer.join()
 
-class InfluxWriter:
-    def __init__(self):
-        load_dotenv()
-        influx_host = os.getenv("INFLUXDB_HOST", "192.168.178.114")
-        influx_port = os.getenv("INFLUXDB_PORT", "8088")
-        self.influx_url = f"http://{influx_host}:{influx_port}"
-        self.influx_token = os.getenv("INFLUXDB_TOKEN")
-        self.influx_org = "None"
-        self.influx_bucket = os.getenv("INFLUXDB_BUCKET", "power_consumption")
-        
-    async def write_power_data(self, device_name, power_value):
-        try:
-            with InfluxDBClient(url=self.influx_url, token=self.influx_token, org=self.influx_org) as influx_client:
-                write_api = influx_client.write_api(write_options=SYNCHRONOUS)
-                
-                point = Point("power_consumption") \
-                    .tag("device", device_name) \
-                    .field("power", power_value)
-                    
-                write_api.write(bucket=self.influx_bucket, org=self.influx_org, record=point)
-                logger.info(f"📊 {device_name}: {power_value}W → InfluxDB")
-        except Exception as e:
-            logger.error(f"Failed to write to InfluxDB for {device_name}: {e}")
+# Legacy InfluxWriter class removed - now using InfluxBatchWriter for 90% fewer connections
 
 async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
+    """
+    Fetch power data from all devices and write to InfluxDB in a single batch.
+    This reduces connections from 11/cycle to 1/cycle (90% reduction).
+    """
     devices = device_manager.get_devices()
     device_power_data = {}
-    
+
+    # Fetch all device power readings concurrently
     tasks = []
     for device_name, device_config in devices.items():
         ip = device_config['ip']
-        task = asyncio.create_task(process_device(device_name, ip, tapo_client, influx_writer))
+        task = asyncio.create_task(process_device(device_name, ip, tapo_client))
         tasks.append(task)
-    
+
     if tasks:
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        
-        # Extract power data from results for Awtrix
+
+        # Process results: add to batch writer and collect for Awtrix
         for i, (device_name, _) in enumerate(devices.items()):
             if i < len(results) and not isinstance(results[i], Exception):
-                device_power_data[device_name] = results[i]
-    
+                power_value = results[i]
+                if power_value is not None:
+                    # Add to batch (accumulated, not written yet)
+                    influx_writer.add_power_measurement(device_name, power_value)
+                    device_power_data[device_name] = power_value
+
+        # Write all device data in a single batch operation
+        if influx_writer.batch_size() > 0:
+            success = await influx_writer.flush()
+            if not success:
+                logger.error(f"Failed to write batch of {influx_writer.batch_size()} measurements")
+
     return device_power_data
 
-async def process_device(device_name, ip, tapo_client, influx_writer):
+async def process_device(device_name, ip, tapo_client):
+    """
+    Fetch power data from a single device.
+    No longer writes directly - data is accumulated in batch by calling function.
+    """
     try:
         device = await tapo_client.p110(ip)
         power_data = await device.get_current_power()
         power_value = power_data.current_power
-        
-        # Write to InfluxDB
-        await influx_writer.write_power_data(device_name, power_value)
-        
-        # Return power value for Awtrix use
+
+        logger.debug(f"{device_name}: {power_value}W")
         return power_value
     except Exception as e:
         logger.error(f"Failed to get power for device {device_name} ({ip}): {e}")
@@ -204,7 +199,7 @@ async def main():
         return
     
     device_manager = DeviceManager()
-    influx_writer = InfluxWriter()
+    influx_writer = InfluxBatchWriter()  # Now using batch writer for 90% fewer connections
     tapo_client = ApiClient(tapo_username, tapo_password)
     awtrix_client = get_awtrix_client()
     

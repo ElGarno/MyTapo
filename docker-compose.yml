@@ -8,8 +8,20 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
     healthcheck:
-      disable: true
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -29,14 +41,26 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
     healthcheck:
-      disable: true
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - PUSHOVER_TAPO_API_TOKEN=${PUSHOVER_TAPO_API_TOKEN}
-      - WASCHING_MACHINE_IP_ADDRESS=${WASCHING_MACHINE_IP_ADDRESS}
+      - WASHING_MACHINE_IP_ADDRESS=${WASHING_MACHINE_IP_ADDRESS}
       - AWTRIX_HOST=${AWTRIX_HOST}
       - AWTRIX_PORT=${AWTRIX_PORT}
 
@@ -49,14 +73,26 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
     healthcheck:
-      disable: true
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - PUSHOVER_TAPO_API_TOKEN=${PUSHOVER_TAPO_API_TOKEN}
-      - WASCHING_DRYER_IP_ADDRESS=${WASCHING_DRYER_IP_ADDRESS}
+      - WASHING_DRYER_IP_ADDRESS=${WASHING_DRYER_IP_ADDRESS}
       - AWTRIX_HOST=${AWTRIX_HOST}
       - AWTRIX_PORT=${AWTRIX_PORT}
 
@@ -71,8 +107,20 @@ services:
     restart: unless-stopped
     volumes:
       - config:/usr/src/app/config
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
     healthcheck:
-      disable: true
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
