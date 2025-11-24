@@ -10,9 +10,16 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
-    mem_limit: 256m
-    memswap_limit: 256m
-    cpus: 0.5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -32,9 +39,16 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
-    mem_limit: 128m
-    memswap_limit: 128m
-    cpus: 0.25
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -53,9 +67,16 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
-    mem_limit: 128m
-    memswap_limit: 128m
-    cpus: 0.25
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -74,11 +95,18 @@ services:
     platform: linux/amd64
     network_mode: "bridge"
     restart: unless-stopped
-    mem_limit: 512m
-    memswap_limit: 512m
-    cpus: 1.0
     volumes:
       - config:/usr/src/app/config
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+    healthcheck:
+      disable: true
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
