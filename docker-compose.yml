@@ -66,7 +66,7 @@ services:
     network_mode: "bridge"
     restart: unless-stopped
     volumes:
-      - ./config:/usr/src/app/config
+      - config:/usr/src/app/config
     environment:
       - TAPO_USERNAME=${TAPO_USERNAME}
       - TAPO_PASSWORD=${TAPO_PASSWORD}
@@ -76,3 +76,6 @@ services:
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - AWTRIX_HOST=${AWTRIX_HOST}
       - AWTRIX_PORT=${AWTRIX_PORT}
+
+volumes:
+  config:
