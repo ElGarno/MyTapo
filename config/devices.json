@@ -79,12 +79,6 @@
       "enabled": true,
       "description": "Coffee bar",
       "emoji_id": 11813
-    },
-    "network_nas": {
-      "ip": "192.168.178.122",
-      "enabled": true,
-      "description": "Network NAS",
-      "emoji_id": 54092
     }
   }
 }
