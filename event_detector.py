@@ -249,12 +249,12 @@ class EventDetectorService:
 
     def _is_summary_time(self) -> bool:
         """
-        Check if it's time for scheduled summary (xx:x5).
+        Check if it's time for scheduled summary (every 20 min at xx:x5).
 
-        Summaries run at xx:05, xx:15, xx:25, xx:35, xx:45, xx:55.
+        Summaries run at xx:05, xx:25, xx:45 - every 20 minutes.
         """
         current_minute = datetime.now().minute
-        return (current_minute % 10 == 5)
+        return current_minute in (5, 25, 45)
 
     def _queue_awtrix_message(self, message: AwtrixMessage):
         """
@@ -304,6 +304,111 @@ class EventDetectorService:
             token=self.influx_token,
             org=self.influx_org
         )
+
+    def _query_events_from_influx(self, days: int) -> Dict[str, Dict[str, Any]]:
+        """
+        Query event counts and durations from InfluxDB for a given time range.
+
+        Args:
+            days: Number of days to look back
+
+        Returns:
+            Dict mapping event_type to {count, total_duration_seconds}
+        """
+        query = f'''
+        from(bucket: "{self.events_bucket}")
+            |> range(start: -{days}d)
+            |> filter(fn: (r) => r["_measurement"] == "event")
+            |> filter(fn: (r) => r["_field"] == "duration_seconds")
+            |> group(columns: ["event_type"])
+        '''
+
+        results: Dict[str, Dict[str, Any]] = {}
+
+        try:
+            with self._get_influx_client() as client:
+                query_api = client.query_api()
+                tables = query_api.query(query)
+
+                for table in tables:
+                    event_type = None
+                    count = 0
+                    total_duration = 0.0
+
+                    for record in table.records:
+                        event_type = record.values.get("event_type")
+                        count += 1
+                        total_duration += record.get_value() or 0
+
+                    if event_type:
+                        results[event_type] = {
+                            "count": count,
+                            "total_duration_seconds": total_duration
+                        }
+
+        except Exception as e:
+            logger.error(f"Failed to query events from InfluxDB: {e}")
+
+        return results
+
+    def _format_period_summary(self, events: Dict[str, Dict[str, Any]], period: str) -> Optional[str]:
+        """
+        Format a summary string for a time period.
+
+        Args:
+            events: Dict from _query_events_from_influx
+            period: Period name (Day, Week, Month, Year)
+
+        Returns:
+            Formatted summary string or None if no events
+        """
+        if not events:
+            return None
+
+        parts = []
+        tv_duration = 0
+
+        for event_type, data in events.items():
+            count = data["count"]
+            duration = data["total_duration_seconds"]
+
+            # Track TV time separately for prominent display
+            if event_type == "tv_session":
+                tv_duration = duration
+                continue  # Will be added at the end
+
+            # Find the profile to check if we track duration
+            profile = None
+            for device_profile in self.profiles.values():
+                if device_profile.get("event_name") == event_type:
+                    profile = device_profile
+                    break
+
+            if profile and profile.get("track_duration") and duration > 60:
+                hours = duration / 3600
+                if hours >= 1:
+                    parts.append(f"{count} {event_type} ({hours:.0f}h)")
+                else:
+                    parts.append(f"{count} {event_type} ({duration/60:.0f}m)")
+            else:
+                parts.append(f"{count} {event_type}")
+
+        # Add TV time prominently at the end
+        if tv_duration > 0:
+            tv_hours = tv_duration / 3600
+            tv_minutes = (tv_duration % 3600) / 60
+            if tv_hours >= 1:
+                if tv_minutes >= 5:
+                    parts.append(f"TV {int(tv_hours)}h{int(tv_minutes)}m")
+                else:
+                    parts.append(f"TV {tv_hours:.1f}h")
+            else:
+                parts.append(f"TV {int(tv_minutes)}m")
+
+        if not parts:
+            return None
+
+        return f"{period}: {', '.join(parts)}"
 
     async def _query_latest_power(self) -> Dict[str, tuple]:
         """
@@ -398,67 +503,57 @@ class EventDetectorService:
 
     async def _send_summary(self):
         """
-        Send summary to AWTRIX at fixed times (xx:x5).
+        Send day/week/month/year summaries to AWTRIX every 20 minutes.
 
-        Runs at xx:05, xx:15, xx:25, xx:35, xx:45, xx:55 - safely between carousel slots.
+        Runs at xx:05, xx:25, xx:45 - shows all 4 time periods in sequence.
         """
-        if not self.settings.get("hourly_summary_enabled", True):
+        if not self.settings.get("summary_enabled", True):
             return
 
         now = datetime.now()
         current_minute = now.minute
 
-        # Only run at xx:x5 times (5, 15, 25, 35, 45, 55)
+        # Only run at xx:05, xx:25, xx:45 (every 20 minutes)
         if not self._is_summary_time():
             return
 
-        # Check if we already ran this xx:x5 minute
+        # Check if we already ran this minute
         if self.last_summary_minute == current_minute:
             return
 
-        # Count events in the last hour
-        hour_ago = now - timedelta(hours=1)
-        recent_events = [e for e in self.today_events if e.start_time > hour_ago]
+        logger.info(f"Sending period summaries at {now.strftime('%H:%M')}")
 
-        if not recent_events:
-            self.last_summary_minute = current_minute
-            return
+        # Define time periods: (days, label, icon, color)
+        periods = [
+            (1, "Day", "1543", "#87CEEB"),      # Light blue - calendar
+            (7, "Week", "2103", "#90EE90"),     # Light green - clock
+            (30, "Month", "51462", "#FFB347"),  # Orange - chart
+            (365, "Year", "27225", "#DDA0DD"),  # Plum - star
+        ]
 
-        # Build summary
-        event_counts: Dict[str, int] = {}
-        duration_totals: Dict[str, float] = {}
+        summary_duration = self.settings.get("summary_display_seconds", 12)
+        summaries_sent = 0
 
-        for event in recent_events:
-            profile = self.profiles.get(event.device, {})
-            event_name = profile.get("event_name_plural", event.event_type)
+        for days, label, icon, color in periods:
+            events = self._query_events_from_influx(days)
+            summary_text = self._format_period_summary(events, label)
 
-            event_counts[event_name] = event_counts.get(event_name, 0) + 1
+            if summary_text:
+                message = AwtrixMessage(
+                    text=summary_text,
+                    icon=icon,
+                    color=color,
+                    duration=summary_duration
+                )
+                self._send_awtrix_immediately(message)
+                summaries_sent += 1
+                logger.info(f"Sent {label} summary: {summary_text}")
 
-            if profile.get("track_duration"):
-                duration_totals[event_name] = duration_totals.get(event_name, 0) + event.duration_seconds
+                # Small delay between messages to ensure they queue properly
+                await asyncio.sleep(0.5)
 
-        # Format message
-        parts = []
-        for name, count in event_counts.items():
-            if name in duration_totals and duration_totals[name] > 60:
-                hours = duration_totals[name] / 3600
-                if hours >= 1:
-                    parts.append(f"{name} {hours:.1f}h")
-                else:
-                    parts.append(f"{name} {duration_totals[name]/60:.0f}min")
-            else:
-                parts.append(f"{count} {name}")
-
-        if parts:
-            summary_text = ", ".join(parts)
-            message = AwtrixMessage(
-                text=summary_text,
-                icon="2103",  # Clock icon
-                color="#87CEEB",  # Light blue
-                duration=15
-            )
-            self._send_awtrix_immediately(message)
-            logger.info(f"Sent summary at {now.strftime('%H:%M')}: {summary_text}")
+        if summaries_sent == 0:
+            logger.debug("No events found for any period")
 
         self.last_summary_minute = current_minute
 
@@ -554,7 +649,7 @@ class EventDetectorService:
         logger.info(f"Source bucket: {self.source_bucket}")
         logger.info(f"Events bucket: {self.events_bucket}")
         logger.info(f"Monitoring devices: {list(self.profiles.keys())}")
-        logger.info("AWTRIX schedule: Summaries at xx:05, xx:15, xx:25, xx:35, xx:45, xx:55")
+        logger.info("AWTRIX schedule: Period summaries (Day/Week/Month/Year) at xx:05, xx:25, xx:45")
         logger.info("AWTRIX schedule: Carousel window avoided at xx:00-xx:02 (each 10min cycle)")
 
         while True:

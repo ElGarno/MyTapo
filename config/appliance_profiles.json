@@ -102,12 +102,13 @@
   "settings": {
     "polling_interval_seconds": 15,
     "cooling_confirmation_seconds": 30,
-    "hourly_summary_enabled": true,
+    "summary_enabled": true,
+    "summary_display_seconds": 12,
     "daily_summary_hour": 21,
     "daily_summary_minute": 5,
     "analytics_generation_hour": 2,
     "enable_awtrix_on_event": false,
     "enable_pushover_daily": true,
-    "_awtrix_schedule_comment": "Fixed time scheduling: Carousel at xx:x0, Summaries at xx:x5, Events sent outside carousel window (xx:03-xx:09)"
+    "_awtrix_schedule_comment": "Carousel at xx:x0, Period summaries (Day/Week/Month/Year) at xx:05/25/45, Events outside carousel window"
   }
 }
