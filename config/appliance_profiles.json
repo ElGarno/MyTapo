@@ -1,0 +1,113 @@
+{
+  "profiles": {
+    "kaffe_bar": {
+      "event_name": "espresso",
+      "event_name_plural": "espressos",
+      "detection_type": "spike",
+      "threshold_on": 800,
+      "threshold_off": 50,
+      "min_duration_seconds": 20,
+      "max_duration_seconds": 180,
+      "cooldown_seconds": 60,
+      "track_duration": true,
+      "track_energy": true,
+      "emoji_id": 11813,
+      "awtrix_icon": "4049"
+    },
+    "television": {
+      "event_name": "tv_session",
+      "event_name_plural": "TV sessions",
+      "detection_type": "sustained",
+      "threshold_on": 30,
+      "threshold_off": 10,
+      "min_duration_seconds": 60,
+      "max_duration_seconds": null,
+      "cooldown_seconds": 300,
+      "track_duration": true,
+      "track_energy": false,
+      "emoji_id": 2109,
+      "awtrix_icon": "1407"
+    },
+    "hwr_charger": {
+      "event_name": "ebike_charge",
+      "event_name_plural": "e-bike charges",
+      "detection_type": "sustained",
+      "threshold_on": 100,
+      "threshold_off": 20,
+      "min_duration_seconds": 300,
+      "max_duration_seconds": null,
+      "cooldown_seconds": 600,
+      "track_duration": true,
+      "track_energy": true,
+      "emoji_id": 24125,
+      "awtrix_icon": "51299"
+    },
+    "bathroom": {
+      "event_name": "hairdryer",
+      "event_name_plural": "hairdryer uses",
+      "detection_type": "spike",
+      "threshold_on": 1000,
+      "threshold_off": 50,
+      "min_duration_seconds": 30,
+      "max_duration_seconds": 900,
+      "cooldown_seconds": 120,
+      "track_duration": true,
+      "track_energy": false,
+      "emoji_id": 64837,
+      "awtrix_icon": "12210"
+    },
+    "kitchen": {
+      "event_name": "airfryer",
+      "event_name_plural": "airfryer uses",
+      "detection_type": "sustained",
+      "threshold_on": 1000,
+      "threshold_off": 100,
+      "min_duration_seconds": 180,
+      "max_duration_seconds": 3600,
+      "cooldown_seconds": 300,
+      "track_duration": true,
+      "track_energy": true,
+      "emoji_id": 57796,
+      "awtrix_icon": "2965"
+    },
+    "washing_machine": {
+      "event_name": "wash_cycle",
+      "event_name_plural": "wash cycles",
+      "detection_type": "cycle",
+      "threshold_on": 100,
+      "threshold_off": 10,
+      "min_duration_seconds": 600,
+      "max_duration_seconds": 10800,
+      "cooldown_seconds": 300,
+      "track_duration": true,
+      "track_energy": true,
+      "emoji_id": 53355,
+      "awtrix_icon": "26673"
+    },
+    "washing_dryer": {
+      "event_name": "dry_cycle",
+      "event_name_plural": "dry cycles",
+      "detection_type": "cycle",
+      "threshold_on": 40,
+      "threshold_off": 10,
+      "min_duration_seconds": 600,
+      "max_duration_seconds": 10800,
+      "cooldown_seconds": 300,
+      "track_duration": true,
+      "track_energy": true,
+      "emoji_id": 50128,
+      "awtrix_icon": "56907"
+    }
+  },
+  "settings": {
+    "polling_interval_seconds": 15,
+    "cooling_confirmation_seconds": 30,
+    "hourly_summary_enabled": true,
+    "daily_summary_hour": 21,
+    "daily_summary_minute": 5,
+    "analytics_generation_hour": 2,
+    "enable_awtrix_on_event": false,
+    "enable_pushover_daily": true,
+    "_awtrix_schedule_comment": "Fixed time scheduling: Carousel at xx:x0, Summaries at xx:x5, Events sent outside carousel window (xx:03-xx:09)"
+  }
+}

@@ -283,29 +283,34 @@ async def main():
 
     logger.info("=" * 60)
     logger.info("✅ All systems initialized - Starting monitoring loop...")
+    logger.info("📺 Carousel scheduled at fixed times: xx:00, xx:10, xx:20, xx:30, xx:40, xx:50")
     logger.info("=" * 60)
-    
-    last_carousel_time = None
-    
+
+    last_carousel_minute = None  # Track which minute we last ran carousel
+
     try:
         while True:
             # Fetch and write data to InfluxDB
             device_power_data = await fetch_and_write_data(device_manager, influx_writer, tapo_client)
             logger.debug(f"Fetched power data for {len(device_power_data)} devices")
-            
-            # Display device carousel every 5 minutes (non-blocking)
-            current_time = datetime.now()
-            if (device_power_data and
-                (last_carousel_time is None or
-                 (current_time - last_carousel_time).total_seconds() >= 300)):  # 5 minutes
 
-                logger.info(f"Time for device carousel - {len(device_power_data)} devices available")
+            # Display device carousel at fixed times: xx:00, xx:10, xx:20, xx:30, xx:40, xx:50
+            current_time = datetime.now()
+            current_minute = current_time.minute
+
+            # Check if we're at a xx:x0 minute and haven't run carousel this minute yet
+            is_carousel_minute = (current_minute % 10 == 0)
+            already_ran_this_minute = (last_carousel_minute == current_minute)
+
+            if device_power_data and is_carousel_minute and not already_ran_this_minute:
+                logger.info(f"🎠 Carousel time ({current_time.strftime('%H:%M')}) - {len(device_power_data)} devices")
                 # Run carousel in background without blocking data collection
                 asyncio.create_task(display_device_carousel(awtrix_client, device_power_data, device_manager))
-                last_carousel_time = current_time
-            elif device_power_data:
-                time_until_next = 300 - (current_time - last_carousel_time).total_seconds() if last_carousel_time else 300
-                logger.debug(f"Next carousel in {time_until_next:.0f} seconds")
+                last_carousel_minute = current_minute
+            elif device_power_data and not is_carousel_minute:
+                # Calculate minutes until next carousel
+                minutes_until_next = 10 - (current_minute % 10)
+                logger.debug(f"Next carousel in {minutes_until_next} minutes (at xx:{((current_minute // 10 + 1) * 10) % 60:02d})")
 
             await asyncio.sleep(15)  # Write to InfluxDB every 15 seconds for finer resolution
     except KeyboardInterrupt:

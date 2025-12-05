@@ -1,0 +1,44 @@
+# Multi-stage build for optimized image size and caching
+# Stage 1: Builder - Install dependencies
+FROM python:3.13-slim AS builder
+
+WORKDIR /build
+
+# Copy only requirements first for better layer caching
+COPY requirements.txt .
+
+# Install dependencies in a virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime - Minimal final image
+FROM python:3.13-slim AS runtime
+
+WORKDIR /usr/src/app
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Create non-root user for security
+RUN useradd -m -u 1000 mytapo && \
+    mkdir -p /usr/src/app/config && \
+    mkdir -p /usr/src/app/analytics && \
+    chown -R mytapo:mytapo /usr/src/app
+
+# Copy only necessary application files
+COPY --chown=mytapo:mytapo event_detector.py \
+                            analytics_generator.py \
+                            utils.py \
+                            awtrix_client.py \
+                            influx_batch_writer.py \
+                            ./
+COPY --chown=mytapo:mytapo config/ ./config/
+
+# Switch to non-root user
+USER mytapo
+
+# Run event detector when the container launches
+CMD ["python", "./event_detector.py"]
