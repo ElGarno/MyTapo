@@ -100,6 +100,29 @@ services:
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - PUSHOVER_TAPO_API_TOKEN=${PUSHOVER_TAPO_API_TOKEN}
 
+  # One-time backfill job - run manually with:
+  # docker-compose run --rm backfill_events
+  # or: docker-compose run --rm backfill_events --days 30
+  backfill_events:
+    build:
+      context: .
+      dockerfile: Dockerfile.backfill
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
+    network_mode: "bridge"
+    restart: "no"
+    profiles:
+      - backfill
+    volumes:
+      - config:/usr/src/app/config
+    environment:
+      - INFLUXDB_HOST=${INFLUXDB_HOST}
+      - INFLUXDB_PORT=${INFLUXDB_PORT}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - INFLUXDB_EVENTS_BUCKET=${INFLUXDB_EVENTS_BUCKET}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+
 volumes:
   config:
   analytics:
