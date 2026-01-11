@@ -15,7 +15,8 @@ from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
 from io import BytesIO
 from dotenv import load_dotenv
-from influxdb_client import InfluxDBClient
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
 import matplotlib
 matplotlib.use('Agg')  # Non-interactive backend for server
 import matplotlib.pyplot as plt
@@ -52,6 +53,7 @@ class ConsumptionReporter:
         self.influx_token = os.getenv("INFLUXDB_TOKEN")
         self.influx_org = "None"
         self.influx_bucket = os.getenv("INFLUXDB_BUCKET", "power_consumption")
+        self.consumption_bucket = os.getenv("INFLUXDB_CONSUMPTION_BUCKET", "consumption_daily")
 
         # Pushover configuration
         self.pushover_user = os.getenv("PUSHOVER_USER_GROUP_WOERIS")
@@ -71,6 +73,7 @@ class ConsumptionReporter:
         self.last_monthly = None
         self.last_yearly = None
         self.last_awtrix_carousel = None
+        self.last_daily_storage = None
 
         # Devices to exclude from reports (e.g., solar is generation, not consumption)
         self.exclude_devices = {"solar"}
@@ -483,12 +486,111 @@ class ConsumptionReporter:
 
         await self.send_awtrix_consumption(total_kwh, cost, breakdown)
 
+    async def store_daily_consumption(self, date: Optional[datetime] = None) -> bool:
+        """
+        Store daily consumption summary to InfluxDB.
+
+        Calculates and stores per-device consumption for the specified day
+        (or yesterday if not specified) to the consumption_daily bucket.
+
+        Args:
+            date: The date to store consumption for (defaults to yesterday)
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if date is None:
+            # Default to yesterday (complete day)
+            date = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+
+        start = date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(days=1)
+        date_str = start.strftime("%Y-%m-%d")
+
+        logger.info(f"Storing daily consumption for {date_str}...")
+
+        # Query consumption for the day
+        consumption = await self.query_consumption_for_period(start, end)
+
+        if not consumption:
+            logger.warning(f"No consumption data found for {date_str}")
+            return False
+
+        total_kwh = sum(consumption.values())
+        breakdown = self.calculate_device_breakdown(consumption)
+
+        try:
+            with self._get_client() as client:
+                write_api = client.write_api(write_options=SYNCHRONOUS)
+
+                # Store per-device consumption
+                for item in breakdown:
+                    point = Point("daily_consumption") \
+                        .tag("device", item.device) \
+                        .field("kwh", item.kwh) \
+                        .field("cost", item.cost) \
+                        .field("percentage", item.percentage) \
+                        .time(start, WritePrecision.NS)
+
+                    write_api.write(
+                        bucket=self.consumption_bucket,
+                        org=self.influx_org,
+                        record=point
+                    )
+
+                # Store total consumption for the day
+                total_point = Point("daily_consumption") \
+                    .tag("device", "_total") \
+                    .field("kwh", total_kwh) \
+                    .field("cost", total_kwh * self.cost_per_kwh) \
+                    .field("percentage", 100.0) \
+                    .time(start, WritePrecision.NS)
+
+                write_api.write(
+                    bucket=self.consumption_bucket,
+                    org=self.influx_org,
+                    record=total_point
+                )
+
+            logger.info(f"Stored daily consumption for {date_str}: {total_kwh:.2f} kWh "
+                       f"({len(breakdown)} devices)")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to store daily consumption: {e}")
+            return False
+
+    async def backfill_daily_consumption(self, days: int = 30) -> None:
+        """
+        Backfill daily consumption data for the specified number of days.
+
+        Useful for populating historical data when first deploying.
+
+        Args:
+            days: Number of days to backfill (default: 30)
+        """
+        logger.info(f"Backfilling daily consumption for {days} days...")
+
+        now = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        success_count = 0
+        fail_count = 0
+
+        for i in range(1, days + 1):
+            date = now - timedelta(days=i)
+            if await self.store_daily_consumption(date):
+                success_count += 1
+            else:
+                fail_count += 1
+
+        logger.info(f"Backfill complete: {success_count} days stored, {fail_count} failed")
+
     async def run(self) -> None:
         """Main service loop with scheduling."""
         logger.info("=" * 60)
         logger.info("Consumption Reporter Service Started")
         logger.info("=" * 60)
         logger.info(f"InfluxDB: {self.influx_url}")
+        logger.info(f"Consumption bucket: {self.consumption_bucket}")
         logger.info(f"Cost rate: {self.currency_symbol}{self.cost_per_kwh}/kWh")
 
         polling_interval = 60  # Check every minute
@@ -496,6 +598,12 @@ class ConsumptionReporter:
         while True:
             try:
                 now = datetime.now()
+
+                # Daily consumption storage: 00:05 every day (store yesterday's data)
+                if (now.hour == 0 and now.minute == 5
+                    and (self.last_daily_storage is None or self.last_daily_storage.date() != now.date())):
+                    await self.store_daily_consumption()
+                    self.last_daily_storage = now
 
                 # Weekly report: Sunday (weekday=6) at 20:05
                 if (now.weekday() == 6 and now.hour == 20 and now.minute == 5
@@ -569,10 +677,19 @@ def main():
         action="store_true",
         help="Run test report generation"
     )
+    parser.add_argument(
+        "--backfill",
+        type=int,
+        metavar="DAYS",
+        help="Backfill daily consumption data for specified number of days"
+    )
     args = parser.parse_args()
 
     if args.test:
         asyncio.run(test_report())
+    elif args.backfill:
+        reporter = ConsumptionReporter()
+        asyncio.run(reporter.backfill_daily_consumption(args.backfill))
     else:
         reporter = ConsumptionReporter()
         asyncio.run(reporter.run())
