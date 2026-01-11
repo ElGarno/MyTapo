@@ -23,15 +23,15 @@ logger = logging.getLogger(__name__)
 def send_pushover_notification_new(user, message):
     load_dotenv()
     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
-    
+
     if not pushover_api_token:
         logger.error("PUSHOVER_TAPO_API_TOKEN environment variable not set")
         return False
-    
+
     if not user or not message:
         logger.error(f"Missing required parameters: user={bool(user)}, message={bool(message)}")
         return False
-    
+
     try:
         conn = http.client.HTTPSConnection("api.pushover.net:443")
         conn.request("POST", "/1/messages.json",
@@ -40,17 +40,17 @@ def send_pushover_notification_new(user, message):
                          "user": user,
                          "message": message,
                      }), {"Content-type": "application/x-www-form-urlencoded"})
-        
+
         response = conn.getresponse()
         response_data = response.read().decode()
-        
+
         if response.status == 200:
             logger.info(f"Pushover notification sent successfully: {message[:50]}...")
             return True
         else:
             logger.error(f"Pushover API error {response.status}: {response_data}")
             return False
-            
+
     except Exception as e:
         logger.error(f"Failed to send Pushover notification: {e}")
         return False
@@ -59,6 +59,73 @@ def send_pushover_notification_new(user, message):
             conn.close()
         except:
             pass
+
+
+def send_pushover_notification_with_image(user, message, image_data, title=None, filename="chart.png"):
+    """
+    Send Pushover notification with image attachment.
+
+    Uses multipart/form-data for image upload.
+    Pushover API supports PNG, JPEG, GIF up to 2.5MB.
+
+    Args:
+        user: Pushover user/group key
+        message: Notification message text
+        image_data: PNG image as bytes
+        title: Optional notification title
+        filename: Filename for the attachment
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    load_dotenv()
+    pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
+
+    if not pushover_api_token:
+        logger.error("PUSHOVER_TAPO_API_TOKEN environment variable not set")
+        return False
+
+    if not user or not message:
+        logger.error(f"Missing required parameters: user={bool(user)}, message={bool(message)}")
+        return False
+
+    if not image_data:
+        logger.warning("No image data provided, falling back to text-only notification")
+        return send_pushover_notification_new(user, message)
+
+    try:
+        # Prepare multipart form data
+        data = {
+            "token": pushover_api_token,
+            "user": user,
+            "message": message,
+        }
+
+        if title:
+            data["title"] = title
+
+        # Use requests for multipart/form-data with file upload
+        files = {
+            "attachment": (filename, image_data, "image/png")
+        }
+
+        response = requests.post(
+            "https://api.pushover.net/1/messages.json",
+            data=data,
+            files=files,
+            timeout=30
+        )
+
+        if response.status_code == 200:
+            logger.info(f"Pushover notification with image sent successfully: {message[:50]}...")
+            return True
+        else:
+            logger.error(f"Pushover API error {response.status_code}: {response.text}")
+            return False
+
+    except Exception as e:
+        logger.error(f"Failed to send Pushover notification with image: {e}")
+        return False
     
 
 async def monitor_power_and_notify(device, user, device_name="Device", threshold_high=50, threshold_low=10, duration_minutes=5, message="", max_retries=3, max_delay=60):
