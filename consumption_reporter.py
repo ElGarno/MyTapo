@@ -354,7 +354,7 @@ class ConsumptionReporter:
 
         message = AwtrixMessage(
             text=f"Today: {total_kwh:.1f}kWh {self.currency_symbol}{cost:.2f}{top_str}",
-            icon="6723",  # Lightning bolt / energy icon
+            icon="2709",  # Lightning bolt / energy icon
             color="#00BFFF",  # Deep sky blue
             duration=10
         )
@@ -623,9 +623,9 @@ class ConsumptionReporter:
                     await self.run_yearly_report()
                     self.last_yearly = now
 
-                # AWTRIX carousel: every 20 minutes at xx:05, xx:25, xx:45
-                # (avoiding xx:00, xx:10, xx:20 which are device carousel times)
-                if now.minute in (5, 25, 45):
+                # AWTRIX carousel: every 20 minutes at xx:15, xx:35, xx:55
+                # (offset from event_detector summaries at xx:05, xx:25, xx:45)
+                if now.minute in (15, 35, 55):
                     if (self.last_awtrix_carousel is None or
                         (now - self.last_awtrix_carousel).total_seconds() >= 1200):
                         await self.run_awtrix_carousel()

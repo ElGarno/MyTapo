@@ -19,7 +19,7 @@
       "event_name_plural": "TV sessions",
       "detection_type": "sustained",
       "threshold_on": 30,
-      "threshold_off": 10,
+      "threshold_off": 20,
       "min_duration_seconds": 60,
       "max_duration_seconds": null,
       "cooldown_seconds": 300,

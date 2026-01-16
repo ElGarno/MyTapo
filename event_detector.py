@@ -525,10 +525,10 @@ class EventDetectorService:
 
         # Define time periods: (days, label, icon, color)
         periods = [
-            (1, "Day", "1543", "#87CEEB"),      # Light blue - calendar
-            (7, "Week", "2103", "#90EE90"),     # Light green - clock
-            (30, "Month", "51462", "#FFB347"),  # Orange - chart
-            (365, "Year", "27225", "#DDA0DD"),  # Plum - star
+            (1, "Day", "17956", "#87CEEB"),     # Light blue - calendar
+            (7, "Week", "63414", "#90EE90"),    # Light green - clock
+            (30, "Month", "26536", "#FFB347"),  # Orange - chart
+            (365, "Year", "635", "#DDA0DD"),    # Plum - star
         ]
 
         summary_duration = self.settings.get("summary_display_seconds", 12)
@@ -603,7 +603,7 @@ class EventDetectorService:
         awtrix_text = f"Today: {', '.join(parts)}"
         message = AwtrixMessage(
             text=awtrix_text,
-            icon="1543",  # Calendar icon
+            icon="17956",  # Calendar icon
             color="#FFD700",  # Gold
             duration=20,
             sound="chime"
