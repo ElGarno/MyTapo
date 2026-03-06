@@ -97,7 +97,7 @@ async def monitor_generated_solar_energy_and_notify(tapo_username, tapo_password
                        f"which is {solar_energy_generated_today / max_solar_energy:.1%} of the maximum energy generated "
                        f"this year ({max_solar_energy / 1000:.4g} kWh)."
                        f"You saved {saved_costs_today:.2f} € today (assuming 28Cent/kWh) and {saved_costs_year:.2f} € this year. "
-                       f"The mean energy consumption is {mean_solar_energy:.2f} kWh.")
+                       f"The mean energy consumption is {mean_solar_energy / 1000:.2f} kWh.")
             
             # Log daily stats only every 30 minutes to reduce log spam
             if (last_daily_stats_log is None or 
