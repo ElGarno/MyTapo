@@ -46,8 +46,6 @@
     },
     {
       "parameters": {
-        "mode": "manual",
-        "duplicateItem": false,
         "assignments": {
           "assignments": [
             {
@@ -67,41 +65,42 @@
     },
     {
       "parameters": {
-        "prompt": "={{ $json.chatInput }}",
-        "messages": {
-          "messageValues": [
-            {
-              "type": "System",
-              "message": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh."
-            }
-          ]
-        },
         "options": {
-          "maxTokensToSample": 300
+          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter."
         }
       },
-      "name": "Claude Summary",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
       "position": [910, 300]
     },
     {
       "parameters": {
-        "model": "claude-3-5-sonnet-20241022",
-        "options": {
-          "maxTokensToSample": 300
-        }
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-5-20250929",
+          "cachedResultName": "Claude Sonnet 4.5"
+        },
+        "options": {}
       },
       "name": "Anthropic Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.2,
-      "position": [910, 500],
+      "typeVersion": 1.3,
+      "position": [850, 520],
       "credentials": {
         "anthropicApi": {
-          "id": "anthropic-credentials",
+          "id": "bfPeI9Ato8OfI8mv",
           "name": "Anthropic account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [970, 520]
     },
     {
       "parameters": {
@@ -120,7 +119,7 @@
             },
             {
               "name": "message",
-              "value": "={{ $json.text }}"
+              "value": "={{ $json.output }}"
             },
             {
               "name": "title",
@@ -163,7 +162,7 @@
       "main": [
         [
           {
-            "node": "Claude Summary",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -174,14 +173,25 @@
       "ai_languageModel": [
         [
           {
-            "node": "Claude Summary",
+            "node": "AI Agent",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Claude Summary": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
       "main": [
         [
           {
