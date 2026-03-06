@@ -108,6 +108,48 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "output-check",
+              "leftValue": "={{ $('Webhook').item.json.body.output || 'pushover' }}",
+              "rightValue": "awtrix",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Output Router",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1130, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.178.108/api/notify",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $('Claude Analysis').item.json.text }}\",\n  \"icon\": \"2709\",\n  \"color\": \"#00BFFF\",\n  \"duration\": 30,\n  \"repeat\": 3\n}",
+        "options": {}
+      },
+      "name": "Send to Awtrix",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1350, 200]
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "https://api.pushover.net/1/messages.json",
         "sendBody": true,
@@ -123,7 +165,7 @@
             },
             {
               "name": "message",
-              "value": "={{ $json.text }}"
+              "value": "={{ $('Claude Analysis').item.json.text }}"
             },
             {
               "name": "title",
@@ -136,7 +178,7 @@
       "name": "Send Pushover",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1130, 300]
+      "position": [1350, 400]
     },
     {
       "parameters": {
@@ -163,7 +205,7 @@
       "name": "Response",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [1350, 300]
+      "position": [1570, 300]
     }
   ],
   "connections": {
@@ -215,7 +257,36 @@
       "main": [
         [
           {
+            "node": "Output Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Output Router": {
+      "main": [
+        [
+          {
+            "node": "Send to Awtrix",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Send Pushover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Awtrix": {
+      "main": [
+        [
+          {
+            "node": "Response",
             "type": "main",
             "index": 0
           }
