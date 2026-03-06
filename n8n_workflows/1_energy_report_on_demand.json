@@ -83,7 +83,7 @@
         "url": "http://192.168.178.108/api/notify",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"text\": \"{{ $('Fetch Report').item.json.awtrix_text }}\",\n  \"icon\": \"2709\",\n  \"color\": \"#00BFFF\",\n  \"duration\": 15\n}",
+        "jsonBody": "={\n  \"text\": \"{{ $('Fetch Report').item.json.awtrix_text }}\",\n  \"icon\": \"2709\",\n  \"color\": \"#00BFFF\",\n  \"duration\": 30,\n  \"repeat\": 3\n}",
         "options": {}
       },
       "name": "Send to Awtrix",

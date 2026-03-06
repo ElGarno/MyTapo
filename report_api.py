@@ -102,9 +102,10 @@ class ReportAPI:
         if report_type == "today":
             total = data.get("total_kwh", 0)
             cost = data.get("cost", 0)
-            top = data.get("top_devices", [{}])[0] if data.get("top_devices") else {}
-            top_str = f" | {top.get('device', '?')} {top.get('percentage', 0):.0f}%" if top else ""
-            return f"Today: {total:.1f}kWh EUR{cost:.2f}{top_str}"
+            top_devices = data.get("top_devices", [])[:3]
+            top_str = " | ".join(f"{d.get('device', '?')} {d.get('percentage', 0):.0f}%" for d in top_devices)
+            top_part = f" | {top_str}" if top_str else ""
+            return f"Today: {total:.1f}kWh EUR{cost:.2f}{top_part}"
 
         elif report_type == "events":
             events = data.get("events", {})
