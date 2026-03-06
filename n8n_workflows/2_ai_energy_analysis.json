@@ -1,0 +1,220 @@
+{
+  "name": "AI Energy Analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "energy-analysis",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "energy-analysis-webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.178.114:8099/reports/custom",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"question\": \"{{ $json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Fetch Context Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 300,\n  \"system\": \"Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\\n\\nAktuelle Daten:\\n{{ JSON.stringify($json.data).substring(0, 3000) }}\"\n    }\n  ]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "name": "Claude API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "ai_response",
+              "value": "={{ $json.content[0].text }}"
+            },
+            {
+              "name": "question",
+              "value": "={{ $('Webhook').item.json.body.question || '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Extract Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [930, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pushover.net/1/messages.json",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.PUSHOVER_TAPO_API_TOKEN }}"
+            },
+            {
+              "name": "user",
+              "value": "={{ $env.PUSHOVER_USER_GROUP_WOERIS }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.ai_response }}"
+            },
+            {
+              "name": "title",
+              "value": "AI Energieanalyse"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send Pushover",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1150, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "sent"
+            },
+            {
+              "name": "analysis",
+              "value": "={{ $('Extract Response').item.json.ai_response }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1370, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch Context Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Context Data": {
+      "main": [
+        [
+          {
+            "node": "Claude API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude API": {
+      "main": [
+        [
+          {
+            "node": "Extract Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Response": {
+      "main": [
+        [
+          {
+            "node": "Send Pushover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Pushover": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "energy"
+    },
+    {
+      "name": "ai"
+    }
+  ],
+  "pinData": {}
+}

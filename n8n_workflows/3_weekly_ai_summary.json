@@ -1,0 +1,160 @@
+{
+  "name": "Weekly AI Energy Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 20,
+              "triggerAtMinute": 0,
+              "triggerAtDay": 7
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://192.168.178.114:8099/reports/comparison?period=week",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Fetch Weekly Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 300,\n  \"system\": \"Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Erstelle eine Wochenzusammenfassung des Energieverbrauchs.\\n\\nDaten:\\n{{ JSON.stringify($json.data).substring(0, 3000) }}\"\n    }\n  ]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "name": "Claude API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pushover.net/1/messages.json",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.PUSHOVER_TAPO_API_TOKEN }}"
+            },
+            {
+              "name": "user",
+              "value": "={{ $env.PUSHOVER_USER_GROUP_WOERIS }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.content[0].text }}"
+            },
+            {
+              "name": "title",
+              "value": "Woechentliche Energieanalyse"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send Pushover",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [930, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Weekly Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Weekly Data": {
+      "main": [
+        [
+          {
+            "node": "Claude API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude API": {
+      "main": [
+        [
+          {
+            "node": "Send Pushover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "energy"
+    },
+    {
+      "name": "ai"
+    },
+    {
+      "name": "scheduled"
+    }
+  ],
+  "pinData": {}
+}
