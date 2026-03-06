@@ -46,11 +46,15 @@
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
             {
+              "id": "chatInput-field",
               "name": "chatInput",
-              "value": "=Erstelle eine Wochenzusammenfassung des Energieverbrauchs.\n\nDaten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}"
+              "value": "=Erstelle eine Wochenzusammenfassung des Energieverbrauchs.\n\nDaten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
+              "type": "string"
             }
           ]
         },
@@ -67,7 +71,7 @@
         "messages": {
           "messageValues": [
             {
-              "type": "system",
+              "type": "System",
               "message": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh."
             }
           ]
@@ -83,7 +87,7 @@
     },
     {
       "parameters": {
-        "model": "claude-sonnet-4-20250514",
+        "model": "claude-3-5-sonnet-20241022",
         "options": {
           "maxTokensToSample": 300
         }

@@ -125,15 +125,21 @@
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
             {
+              "id": "status-field",
               "name": "status",
-              "value": "sent"
+              "value": "sent",
+              "type": "string"
             },
             {
+              "id": "report-type-field",
               "name": "report_type",
-              "value": "={{ $('Webhook').item.json.body.report_type || 'today' }}"
+              "value": "={{ $('Webhook').item.json.body.report_type || 'today' }}",
+              "type": "string"
             }
           ]
         },

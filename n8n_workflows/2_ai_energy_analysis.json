@@ -49,11 +49,15 @@
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
             {
+              "id": "chatInput-field",
               "name": "chatInput",
-              "value": "={{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\n\nAktuelle Daten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}"
+              "value": "={{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\n\nAktuelle Daten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
+              "type": "string"
             }
           ]
         },
@@ -70,7 +74,7 @@
         "messages": {
           "messageValues": [
             {
-              "type": "system",
+              "type": "System",
               "message": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh."
             }
           ]
@@ -86,7 +90,7 @@
     },
     {
       "parameters": {
-        "model": "claude-sonnet-4-20250514",
+        "model": "claude-3-5-sonnet-20241022",
         "options": {
           "maxTokensToSample": 300
         }
@@ -136,15 +140,21 @@
     },
     {
       "parameters": {
-        "values": {
-          "string": [
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
             {
+              "id": "status-field",
               "name": "status",
-              "value": "sent"
+              "value": "sent",
+              "type": "string"
             },
             {
+              "id": "analysis-field",
               "name": "analysis",
-              "value": "={{ $('Claude Analysis').item.json.text }}"
+              "value": "={{ $('Claude Analysis').item.json.text }}",
+              "type": "string"
             }
           ]
         },
