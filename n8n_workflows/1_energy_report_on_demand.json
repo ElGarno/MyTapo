@@ -18,6 +18,15 @@
       "parameters": {
         "method": "GET",
         "url": "=http://192.168.178.114:8099/reports/{{ $json.body.report_type || 'today' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
+            }
+          ]
+        },
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -51,7 +60,7 @@
           "conditions": [
             {
               "id": "output-check",
-              "leftValue": "={{ $json.body.output || 'pushover' }}",
+              "leftValue": "={{ $('Webhook').item.json.body.output || 'pushover' }}",
               "rightValue": "awtrix",
               "operator": {
                 "type": "string",
@@ -91,11 +100,11 @@
           "parameters": [
             {
               "name": "token",
-              "value": "={{ $env.PUSHOVER_TAPO_API_TOKEN }}"
+              "value": "REPLACE_WITH_PUSHOVER_API_TOKEN"
             },
             {
               "name": "user",
-              "value": "={{ $env.PUSHOVER_USER_GROUP_WOERIS }}"
+              "value": "REPLACE_WITH_PUSHOVER_USER_KEY"
             },
             {
               "name": "message",
