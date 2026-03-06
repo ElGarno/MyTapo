@@ -53,6 +53,12 @@
               "name": "chatInput",
               "value": "=Erstelle eine Wochenzusammenfassung des Energieverbrauchs.\n\nDaten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
               "type": "string"
+            },
+            {
+              "id": "sessionId-field",
+              "name": "sessionId",
+              "value": "weekly-summary",
+              "type": "string"
             }
           ]
         },

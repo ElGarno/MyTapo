@@ -56,6 +56,12 @@
               "name": "chatInput",
               "value": "={{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\n\nAktuelle Daten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
               "type": "string"
+            },
+            {
+              "id": "sessionId-field",
+              "name": "sessionId",
+              "value": "energy-analysis",
+              "type": "string"
             }
           ]
         },
