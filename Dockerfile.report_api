@@ -33,6 +33,9 @@ COPY --chown=mytapo:mytapo report_api.py \
                             awtrix_client.py \
                             ./
 
+# Copy device configuration
+COPY --chown=mytapo:mytapo config/ ./config/
+
 # Switch to non-root user
 USER mytapo
 
