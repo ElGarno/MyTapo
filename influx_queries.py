@@ -327,7 +327,7 @@ class InfluxQueries:
             dt_end = now
         elif start:
             dt_start = self._parse_datetime(start)
-            dt_end = self._parse_datetime(end) if end else now
+            dt_end = self._parse_datetime(end, end_of_day=True) if end else now
         else:
             dt_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
             dt_end = now
@@ -439,7 +439,7 @@ class InfluxQueries:
         """
         if start:
             dt_start = self._parse_datetime(start)
-            dt_end = self._parse_datetime(end) if end else datetime.utcnow()
+            dt_end = self._parse_datetime(end, end_of_day=True) if end else datetime.utcnow()
             range_str = f"start: {dt_start.strftime('%Y-%m-%dT%H:%M:%SZ')}, stop: {dt_end.strftime('%Y-%m-%dT%H:%M:%SZ')}"
             period_label = f"{dt_start.strftime('%Y-%m-%d')} to {dt_end.strftime('%Y-%m-%d')}"
         else:
@@ -530,9 +530,9 @@ class InfluxQueries:
             device: Optional device filter
         """
         a_start = self._parse_datetime(period_a_start)
-        a_end = self._parse_datetime(period_a_end)
+        a_end = self._parse_datetime(period_a_end, end_of_day=True)
         b_start = self._parse_datetime(period_b_start)
-        b_end = self._parse_datetime(period_b_end)
+        b_end = self._parse_datetime(period_b_end, end_of_day=True)
 
         consumption_a = self.query_consumption_for_period(a_start, a_end)
         consumption_b = self.query_consumption_for_period(b_start, b_end)
@@ -587,7 +587,7 @@ class InfluxQueries:
             dt_end = now
         elif start:
             dt_start = self._parse_datetime(start)
-            dt_end = self._parse_datetime(end) if end else now
+            dt_end = self._parse_datetime(end, end_of_day=True) if end else now
         else:
             dt_start = now - timedelta(days=7)
             dt_end = now
@@ -661,11 +661,29 @@ class InfluxQueries:
         }
 
     @staticmethod
-    def _parse_datetime(value: str) -> datetime:
-        """Parse flexible date/datetime strings."""
-        for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d", "%d.%m.%Y"):
+    def _parse_datetime(value: str, end_of_day: bool = False) -> datetime:
+        """Parse flexible date/datetime strings.
+
+        Args:
+            value: Date or datetime string to parse
+            end_of_day: If True and value is a date-only string, return 23:59:59 of that day
+        """
+        date_only_formats = ("%Y-%m-%d", "%d.%m.%Y")
+        datetime_formats = ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%SZ")
+
+        for fmt in datetime_formats:
             try:
                 return datetime.strptime(value, fmt)
             except ValueError:
                 continue
+
+        for fmt in date_only_formats:
+            try:
+                dt = datetime.strptime(value, fmt)
+                if end_of_day:
+                    dt = dt.replace(hour=23, minute=59, second=59)
+                return dt
+            except ValueError:
+                continue
+
         raise ValueError(f"Cannot parse datetime: {value}")
