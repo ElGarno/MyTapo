@@ -340,8 +340,30 @@
         "method": "POST",
         "url": "http://192.168.178.108/api/notify",
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"text\": \"{{ $('AI Agent').item.json.output }}\",\n  \"icon\": \"2709\",\n  \"color\": \"#00BFFF\",\n  \"duration\": 30,\n  \"repeat\": 3\n}",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $('AI Agent').item.json.output }}"
+            },
+            {
+              "name": "icon",
+              "value": "2709"
+            },
+            {
+              "name": "color",
+              "value": "#00BFFF"
+            },
+            {
+              "name": "duration",
+              "value": "30"
+            },
+            {
+              "name": "repeat",
+              "value": "3"
+            }
+          ]
+        },
         "options": {}
       },
       "name": "Send to Awtrix",
