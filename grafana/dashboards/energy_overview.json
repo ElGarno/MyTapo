@@ -1,0 +1,562 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "panels": [],
+      "title": "Echtzeit-Leistung",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisLabel": "Watt",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "never",
+            "stacking": { "mode": "none" }
+          },
+          "unit": "watt"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "solar" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "#73BF69", "mode": "fixed" } },
+              { "id": "custom.fillOpacity", "value": 30 }
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 1 },
+      "id": 1,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\" or ${show_solar:raw})\n  |> aggregateWindow(every: ${interval}, fn: mean, createEmpty: false)\n  |> yield(name: \"power\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Echtzeit-Leistung aller Geraete (W)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "id": 101,
+      "panels": [],
+      "title": "Tagesverbrauch",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 5 },
+              { "color": "red", "value": 10 }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 10 },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value / 1000.0}))\n  |> cumulativeSum()\n  |> last()\n  |> yield(name: \"total\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Verbrauch Heute (kWh)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1.5 },
+              { "color": "red", "value": 3 }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 10 },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value * 0.28 / 1000.0}))\n  |> cumulativeSum()\n  |> last()\n  |> yield(name: \"cost\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Kosten Heute (EUR)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#73BF69", "value": null }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 10 },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] == \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value / 1000.0}))\n  |> cumulativeSum()\n  |> last()\n  |> yield(name: \"solar\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar-Erzeugung Heute (kWh)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#73BF69", "value": null }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 10 },
+      "id": 5,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] == \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value * 0.28 / 1000.0}))\n  |> cumulativeSum()\n  |> last()\n  |> yield(name: \"savings\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar-Ersparnis Heute (EUR)",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "kWh",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "stacking": { "mode": "normal" }
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 14 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\")\n  |> group(columns: [\"device\"])\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value / 1000.0}))\n  |> yield(name: \"hourly\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Stuendlicher Verbrauch nach Geraet (kWh)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 14 },
+      "id": 7,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
+        "pieType": "donut",
+        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: today())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\")\n  |> group(columns: [\"device\"])\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value / 1000.0}))\n  |> sum()\n  |> group()\n  |> sort(columns: [\"_value\"], desc: true)\n  |> yield(name: \"top\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Top-Verbraucher Heute",
+      "type": "piechart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
+      "id": 102,
+      "panels": [],
+      "title": "Solar-Analyse",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "#73BF69" },
+          "custom": {
+            "axisLabel": "Watt",
+            "drawStyle": "line",
+            "fillOpacity": 40,
+            "lineWidth": 2,
+            "gradientMode": "opacity"
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 23 },
+      "id": 8,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] == \"solar\")\n  |> aggregateWindow(every: ${interval}, fn: mean, createEmpty: false)\n  |> yield(name: \"solar\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar-Erzeugung (W)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "kWh",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 0
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "solar" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "#73BF69", "mode": "fixed" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "consumption" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "#F2495C", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 23 },
+      "id": 9,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "solar = from(bucket: \"power_consumption\")\n  |> range(start: -7d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] == \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1d, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value * 24.0 / 1000.0, device: \"solar\"}))\n  |> yield(name: \"solar\")\n\nconsumption = from(bucket: \"power_consumption\")\n  |> range(start: -7d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] != \"solar\")\n  |> group()\n  |> aggregateWindow(every: 1d, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _value: r._value * 24.0 / 1000.0, device: \"consumption\"}))\n  |> yield(name: \"consumption\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Solar vs. Verbrauch (letzte 7 Tage, kWh/Tag)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
+      "id": 103,
+      "panels": [],
+      "title": "Kosten & Vergleich",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "EUR",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 0
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 31 },
+      "id": 10,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"consumption_daily\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daily_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cost\")\n  |> filter(fn: (r) => r[\"device\"] != \"_total\")\n  |> group(columns: [\"device\"])\n  |> aggregateWindow(every: 1d, fn: sum, createEmpty: false)\n  |> yield(name: \"costs\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Taegliche Kosten nach Geraet (letzte 30 Tage)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "kWh",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 0
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 31 },
+      "id": 11,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"consumption_daily\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daily_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"kwh\")\n  |> filter(fn: (r) => r[\"device\"] != \"_total\")\n  |> group(columns: [\"device\"])\n  |> aggregateWindow(every: 1d, fn: sum, createEmpty: false)\n  |> yield(name: \"kwh\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Taeglicher Verbrauch nach Geraet (letzte 30 Tage)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 39 },
+      "id": 104,
+      "panels": [],
+      "title": "Einzelgeraet-Analyse",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-blues" },
+          "custom": {
+            "axisLabel": "Watt",
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "lineWidth": 2
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 40 },
+      "id": 12,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"power_consumption\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"power_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"power\")\n  |> filter(fn: (r) => r[\"device\"] == \"${device}\")\n  |> aggregateWindow(every: ${interval}, fn: mean, createEmpty: false)\n  |> yield(name: \"device_power\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Leistungsverlauf: ${device}",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "influxdb", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-blues" },
+          "custom": {
+            "axisLabel": "kWh",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 0
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 },
+      "id": 13,
+      "options": {
+        "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "influxdb", "uid": "${datasource}" },
+          "query": "from(bucket: \"consumption_daily\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daily_consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"kwh\")\n  |> filter(fn: (r) => r[\"device\"] == \"${device}\")\n  |> yield(name: \"daily\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Tagesverbrauch: ${device} (letzte 30 Tage)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["energy", "mytapo"],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": { "selected": false, "text": "cooler", "value": "cooler" },
+        "datasource": { "type": "influxdb", "uid": "${datasource}" },
+        "definition": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"power_consumption\", tag: \"device\")",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Geraet",
+        "multi": false,
+        "name": "device",
+        "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"power_consumption\", tag: \"device\")",
+        "refresh": 2,
+        "type": "query"
+      },
+      {
+        "auto": true,
+        "auto_count": 100,
+        "auto_min": "30s",
+        "current": { "selected": false, "text": "auto", "value": "$__auto_interval_interval" },
+        "hide": 0,
+        "label": "Interval",
+        "name": "interval",
+        "options": [
+          { "selected": true, "text": "auto", "value": "$__auto_interval_interval" },
+          { "selected": false, "text": "30s", "value": "30s" },
+          { "selected": false, "text": "1m", "value": "1m" },
+          { "selected": false, "text": "5m", "value": "5m" },
+          { "selected": false, "text": "15m", "value": "15m" },
+          { "selected": false, "text": "1h", "value": "1h" }
+        ],
+        "type": "interval"
+      },
+      {
+        "current": { "selected": false, "text": "true", "value": "true" },
+        "hide": 0,
+        "label": "Solar anzeigen",
+        "name": "show_solar",
+        "options": [
+          { "selected": true, "text": "true", "value": "true" },
+          { "selected": false, "text": "false", "value": "false" }
+        ],
+        "type": "custom"
+      }
+    ]
+  },
+  "time": { "from": "now-24h", "to": "now" },
+  "timepicker": {},
+  "timezone": "Europe/Berlin",
+  "title": "MyTapo Energy Overview",
+  "uid": "mytapo-energy-overview",
+  "version": 1
+}
