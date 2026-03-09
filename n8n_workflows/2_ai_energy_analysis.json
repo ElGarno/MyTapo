@@ -11,7 +11,7 @@
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1.1,
-      "position": [250, 300],
+      "position": [-4192, 800],
       "webhookId": "energy-analysis-webhook"
     },
     {
@@ -37,18 +37,18 @@
       "name": "Prepare Prompt",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [470, 300]
+      "position": [-3968, 800]
     },
     {
       "parameters": {
         "options": {
-          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter.\n\nDir stehen Tools zur Verfuegung, um Energiedaten aus der InfluxDB abzufragen. Waehle das passende Tool basierend auf der Frage des Nutzers. Du kannst mehrere Tools nacheinander aufrufen, um komplexe Fragen zu beantworten.\n\nHeutiges Datum: {{$now.format('yyyy-MM-dd')}}"
+          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter.\n\nDir stehen Tools zur Verfuegung, um Energiedaten aus der InfluxDB abzufragen. Waehle das passende Tool basierend auf der Frage des Nutzers. Du kannst mehrere Tools nacheinander aufrufen, um komplexe Fragen zu beantworten.\n\nVerfuegbare Geraete: solar, washing_machine, washing_dryer, cooler, living_room_window, kitchen, bedroom, television, office, office2, bathroom, hwr_charger, kaffe_bar, network_nas\n\nHeutiges Datum: {{$now.format('yyyy-MM-dd')}}"
         }
       },
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
-      "position": [690, 300]
+      "position": [-3760, 800]
     },
     {
       "parameters": {
@@ -63,7 +63,7 @@
       "name": "Anthropic Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "typeVersion": 1.3,
-      "position": [550, 520],
+      "position": [-3888, 1008],
       "credentials": {
         "anthropicApi": {
           "id": "bfPeI9Ato8OfI8mv",
@@ -76,62 +76,44 @@
       "name": "Simple Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
-      "position": [670, 520]
+      "position": [-3776, 1008]
     },
     {
       "parameters": {
-        "name": "get_device_consumption",
-        "description": "Stromverbrauch abfragen fuer ein bestimmtes Geraet oder alle Geraete in einem flexiblen Zeitraum. Parameter: device (optional, z.B. 'washing_machine', 'dryer', 'solar'), start (ISO-Datum, z.B. '2025-02-01'), end (ISO-Datum, optional), days (Anzahl Tage zurueck, Alternative zu start/end). Ohne Parameter: heutiger Verbrauch aller Geraete.",
-        "method": "GET",
+        "toolDescription": "Stromverbrauch (kWh) abfragen fuer ein bestimmtes Geraet oder alle Geraete in einem Zeitraum. Nutze dieses Tool wenn nach Verbrauch, Kosten oder Energienutzung eines Geraetes gefragt wird. Beispiele: 'Verbrauch Kuehlschrank am 6. Maerz', 'Was hat die Waschmaschine diese Woche verbraucht?', 'Gesamtverbrauch heute'.",
         "url": "http://192.168.178.114:8099/tools/device_consumption",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
-            }
-          ]
-        },
         "sendQuery": true,
-        "specifyQuery": "keypair",
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "device",
-              "value": "{device}"
-            },
-            {
-              "name": "start",
-              "value": "{start}"
-            },
-            {
-              "name": "end",
-              "value": "{end}"
-            },
-            {
-              "name": "days",
-              "value": "{days}"
-            }
-          ]
-        },
-        "placeholderDefinitions": {
+        "parametersQuery": {
           "values": [
             {
               "name": "device",
-              "description": "Device name filter, e.g. 'washing_machine', 'dryer', 'cooler', 'solar'. Leave empty for all devices."
+              "valueProvider": "modelOptional",
+              "description": "Geraetename, z.B. 'washing_machine', 'cooler', 'solar', 'television'. Leer lassen fuer alle Geraete."
             },
             {
               "name": "start",
-              "description": "Start date in ISO format (YYYY-MM-DD). Leave empty to use 'days' parameter or default to today."
+              "valueProvider": "modelOptional",
+              "description": "Startdatum im ISO-Format (YYYY-MM-DD). Leer lassen fuer heute."
             },
             {
               "name": "end",
-              "description": "End date in ISO format (YYYY-MM-DD). Leave empty for current time."
+              "valueProvider": "modelOptional",
+              "description": "Enddatum im ISO-Format (YYYY-MM-DD). Leer lassen fuer aktuellen Zeitpunkt."
             },
             {
               "name": "days",
-              "description": "Number of days back from now. Alternative to start/end. E.g. '7' for last week, '30' for last month."
+              "valueProvider": "modelOptional",
+              "description": "Anzahl Tage zurueck ab jetzt. Alternative zu start/end. Z.B. '7' fuer letzte Woche."
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
         }
@@ -139,46 +121,34 @@
       "name": "get_device_consumption",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [450, 700]
+      "position": [-4000, 1200]
     },
     {
       "parameters": {
-        "name": "get_hourly_consumption",
-        "description": "Stuendlichen Stromverbrauch abfragen fuer einen bestimmten Tag. Zeigt welche Stunde am meisten verbraucht hat. Parameter: date (ISO-Datum, z.B. '2025-03-08', Standard: heute), device (optional, Geraetefilter).",
-        "method": "GET",
+        "toolDescription": "Stuendlichen Stromverbrauch abfragen fuer einen bestimmten Tag. Zeigt welche Stunde am meisten verbraucht hat. Nutze dieses Tool fuer Tagesprofile und stuendliche Aufschluesselung.",
         "url": "http://192.168.178.114:8099/tools/hourly_consumption",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
-            }
-          ]
-        },
         "sendQuery": true,
-        "specifyQuery": "keypair",
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "date",
-              "value": "{date}"
-            },
-            {
-              "name": "device",
-              "value": "{device}"
-            }
-          ]
-        },
-        "placeholderDefinitions": {
+        "parametersQuery": {
           "values": [
             {
               "name": "date",
-              "description": "Date in ISO format (YYYY-MM-DD). Leave empty for today."
+              "valueProvider": "modelOptional",
+              "description": "Datum im ISO-Format (YYYY-MM-DD). Leer lassen fuer heute."
             },
             {
               "name": "device",
-              "description": "Device name filter. Leave empty for all devices combined."
+              "valueProvider": "modelOptional",
+              "description": "Geraetename als Filter. Leer lassen fuer alle Geraete kombiniert."
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
         }
@@ -186,62 +156,44 @@
       "name": "get_hourly_consumption",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [600, 700]
+      "position": [-3840, 1200]
     },
     {
       "parameters": {
-        "name": "get_device_events",
-        "description": "Geraete-Events abfragen (Waschmaschine, Trockner etc.) mit Anzahl, Dauer und Energieverbrauch pro Event. Parameter: device (optional, z.B. 'washing', 'dryer'), days (Standard: 7), start/end (ISO-Datum, Alternative zu days).",
-        "method": "GET",
+        "toolDescription": "Geraete-Events abfragen (Waschgaenge, Trocknergaenge, Espressos, TV-Sessions etc.) mit Anzahl, Dauer und Energieverbrauch pro Event. Nutze dieses Tool wenn nach Nutzungshaeufigkeit oder einzelnen Ereignissen gefragt wird.",
         "url": "http://192.168.178.114:8099/tools/device_events",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
-            }
-          ]
-        },
         "sendQuery": true,
-        "specifyQuery": "keypair",
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "device",
-              "value": "{device}"
-            },
-            {
-              "name": "days",
-              "value": "{days}"
-            },
-            {
-              "name": "start",
-              "value": "{start}"
-            },
-            {
-              "name": "end",
-              "value": "{end}"
-            }
-          ]
-        },
-        "placeholderDefinitions": {
+        "parametersQuery": {
           "values": [
             {
               "name": "device",
-              "description": "Filter by device/event type, e.g. 'washing', 'dryer'. Leave empty for all events."
+              "valueProvider": "modelOptional",
+              "description": "Geraet/Event-Typ filtern, z.B. 'washing', 'dryer', 'espresso'. Leer fuer alle Events."
             },
             {
               "name": "days",
-              "description": "Number of days back. Default: 7. Ignored if start is set."
+              "valueProvider": "modelOptional",
+              "description": "Anzahl Tage zurueck. Standard: 7. Wird ignoriert wenn start gesetzt."
             },
             {
               "name": "start",
-              "description": "Start date in ISO format (YYYY-MM-DD)."
+              "valueProvider": "modelOptional",
+              "description": "Startdatum im ISO-Format (YYYY-MM-DD)."
             },
             {
               "name": "end",
-              "description": "End date in ISO format (YYYY-MM-DD)."
+              "valueProvider": "modelOptional",
+              "description": "Enddatum im ISO-Format (YYYY-MM-DD)."
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
         }
@@ -249,70 +201,45 @@
       "name": "get_device_events",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [750, 700]
+      "position": [-3696, 1200]
     },
     {
       "parameters": {
-        "name": "compare_periods",
-        "description": "Zwei beliebige Zeitraeume vergleichen. Zeigt Verbrauch, Kosten und prozentuale Aenderung. Parameter: period_a_start, period_a_end, period_b_start, period_b_end (alle ISO-Datum), device (optional).",
-        "method": "GET",
+        "toolDescription": "Zwei beliebige Zeitraeume vergleichen. Zeigt Verbrauch, Kosten und prozentuale Aenderung. Nutze dieses Tool wenn nach Vergleichen gefragt wird, z.B. 'Vergleich diese Woche vs letzte Woche'.",
         "url": "http://192.168.178.114:8099/tools/compare_periods",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
-            }
-          ]
-        },
         "sendQuery": true,
-        "specifyQuery": "keypair",
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "period_a_start",
-              "value": "{period_a_start}"
-            },
-            {
-              "name": "period_a_end",
-              "value": "{period_a_end}"
-            },
-            {
-              "name": "period_b_start",
-              "value": "{period_b_start}"
-            },
-            {
-              "name": "period_b_end",
-              "value": "{period_b_end}"
-            },
-            {
-              "name": "device",
-              "value": "{device}"
-            }
-          ]
-        },
-        "placeholderDefinitions": {
+        "parametersQuery": {
           "values": [
             {
               "name": "period_a_start",
-              "description": "Start date of first period (YYYY-MM-DD). Required."
+              "description": "Startdatum erster Zeitraum (YYYY-MM-DD). Erforderlich."
             },
             {
               "name": "period_a_end",
-              "description": "End date of first period (YYYY-MM-DD). Required."
+              "description": "Enddatum erster Zeitraum (YYYY-MM-DD). Erforderlich."
             },
             {
               "name": "period_b_start",
-              "description": "Start date of second period (YYYY-MM-DD). Required."
+              "description": "Startdatum zweiter Zeitraum (YYYY-MM-DD). Erforderlich."
             },
             {
               "name": "period_b_end",
-              "description": "End date of second period (YYYY-MM-DD). Required."
+              "description": "Enddatum zweiter Zeitraum (YYYY-MM-DD). Erforderlich."
             },
             {
               "name": "device",
-              "description": "Optional device filter."
+              "valueProvider": "modelOptional",
+              "description": "Optionaler Geraetefilter."
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
         }
@@ -320,54 +247,39 @@
       "name": "compare_periods",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [900, 700]
+      "position": [-3536, 1200]
     },
     {
       "parameters": {
-        "name": "get_solar_history",
-        "description": "Solar-Erzeugungshistorie mit taeglicher Aufschluesselung. Zeigt Gesamterzeugung, Ersparnis, besten Tag und Tagesdurchschnitt. Parameter: start/end (ISO-Datum) oder days (Anzahl Tage zurueck, Standard: 7).",
-        "method": "GET",
+        "toolDescription": "Solar-Erzeugungshistorie abfragen mit taeglicher Aufschluesselung. Zeigt Gesamterzeugung, Ersparnis, besten Tag und Tagesdurchschnitt. NUR fuer Solaranlage/Stromerzeugung verwenden, NICHT fuer Geraeteverbrauch.",
         "url": "http://192.168.178.114:8099/tools/solar_history",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
-            }
-          ]
-        },
         "sendQuery": true,
-        "specifyQuery": "keypair",
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "start",
-              "value": "{start}"
-            },
-            {
-              "name": "end",
-              "value": "{end}"
-            },
-            {
-              "name": "days",
-              "value": "{days}"
-            }
-          ]
-        },
-        "placeholderDefinitions": {
+        "parametersQuery": {
           "values": [
             {
               "name": "start",
-              "description": "Start date in ISO format (YYYY-MM-DD)."
+              "valueProvider": "modelOptional",
+              "description": "Startdatum im ISO-Format (YYYY-MM-DD)."
             },
             {
               "name": "end",
-              "description": "End date in ISO format (YYYY-MM-DD)."
+              "valueProvider": "modelOptional",
+              "description": "Enddatum im ISO-Format (YYYY-MM-DD)."
             },
             {
               "name": "days",
-              "description": "Number of days back. Default: 7."
+              "valueProvider": "modelOptional",
+              "description": "Anzahl Tage zurueck. Standard: 7."
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
         }
@@ -375,31 +287,27 @@
       "name": "get_solar_history",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [1050, 700]
+      "position": [-3392, 1200]
     },
     {
       "parameters": {
-        "name": "list_devices",
-        "description": "Alle ueberwachten Geraete auflisten mit Namen, Beschreibung und Status (aktiviert/deaktiviert). Keine Parameter noetig.",
-        "method": "GET",
+        "toolDescription": "Alle ueberwachten Geraete auflisten mit Namen, Beschreibung und Status (aktiviert/deaktiviert). Keine Parameter noetig. Nutze dieses Tool wenn der Nutzer wissen will welche Geraete verfuegbar sind.",
         "url": "http://192.168.178.114:8099/tools/list_devices",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
+        "parametersHeaders": {
+          "values": [
             {
               "name": "Authorization",
+              "valueProvider": "fieldValue",
               "value": "Bearer REPLACE_WITH_REPORT_API_TOKEN"
             }
           ]
-        },
-        "placeholderDefinitions": {
-          "values": []
         }
       },
       "name": "list_devices",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
-      "position": [1200, 700]
+      "position": [-3248, 1200]
     },
     {
       "parameters": {
@@ -427,7 +335,7 @@
       "name": "Output Router",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [910, 300]
+      "position": [-3536, 800]
     },
     {
       "parameters": {
@@ -441,7 +349,7 @@
       "name": "Send to Awtrix",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1130, 200]
+      "position": [-3312, 688]
     },
     {
       "parameters": {
@@ -473,7 +381,7 @@
       "name": "Send Pushover",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1130, 400]
+      "position": [-3312, 896]
     },
     {
       "parameters": {
@@ -498,9 +406,10 @@
       "name": "Response",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [1350, 300]
+      "position": [-3088, 800]
     }
   ],
+  "pinData": {},
   "connections": {
     "Webhook": {
       "main": [
