@@ -1,0 +1,669 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw-jetbrains-plugin",
+  "elements": [
+    {
+      "type": "text",
+      "id": "title2",
+      "x": 270,
+      "y": 5,
+      "text": "MyTapo - Datenfluss",
+      "fontSize": 24,
+      "strokeColor": "#1e1e1e"
+    },
+    {
+      "type": "text",
+      "id": "sub2",
+      "x": 245,
+      "y": 35,
+      "text": "Von der Steckdose bis zur Benachrichtigung",
+      "fontSize": 16,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "plug",
+      "x": 20,
+      "y": 100,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Tapo P110\nSmart Plugs (14x)",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "text",
+      "id": "plug_info",
+      "x": 25,
+      "y": 180,
+      "text": "192.168.178.x",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "arrow",
+      "id": "f1",
+      "x": 200,
+      "y": 135,
+      "width": 80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          80,
+          0
+        ]
+      ],
+      "strokeColor": "#4a9eed",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "async",
+        "fontSize": 14
+      },
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "pool",
+      "x": 280,
+      "y": 100,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Connection Pool\n+ Retry Manager",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "text",
+      "id": "pool_info",
+      "x": 285,
+      "y": 180,
+      "text": "Session-Refresh 2h",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "arrow",
+      "id": "f2",
+      "x": 460,
+      "y": 135,
+      "width": 80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          80,
+          0
+        ]
+      ],
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "15s",
+        "fontSize": 14
+      },
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "dyncoll",
+      "x": 540,
+      "y": 100,
+      "width": 180,
+      "height": 70,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Dynamic Collector\n+ Device Manager",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "text",
+      "id": "dyn_info",
+      "x": 545,
+      "y": 180,
+      "text": "Hot-Reload config",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "arrow",
+      "id": "f3",
+      "x": 720,
+      "y": 135,
+      "width": 80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          80,
+          0
+        ]
+      ],
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "batch",
+        "fontSize": 14
+      },
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "batchw",
+      "x": 800,
+      "y": 100,
+      "width": 160,
+      "height": 70,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Batch Writer\n240 writes/h",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "f4",
+      "x": 880,
+      "y": 170,
+      "width": 0,
+      "height": 60,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          60
+        ]
+      ],
+      "strokeColor": "#22c55e",
+      "strokeWidth": 3,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "influxdb",
+      "x": 760,
+      "y": 230,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "label": {
+        "text": "InfluxDB\npower_consumption",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "text",
+      "id": "influx_info",
+      "x": 765,
+      "y": 318,
+      "text": "192.168.178.114:8088",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "arrow",
+      "id": "f5a",
+      "x": 760,
+      "y": 270,
+      "width": -200,
+      "height": 80,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -200,
+          80
+        ]
+      ],
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f5b",
+      "x": 760,
+      "y": 270,
+      "width": -200,
+      "height": 160,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -200,
+          160
+        ]
+      ],
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f5c",
+      "x": 760,
+      "y": 270,
+      "width": -200,
+      "height": 240,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -200,
+          240
+        ]
+      ],
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f5d",
+      "x": 1000,
+      "y": 270,
+      "width": 0,
+      "height": 80,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "strokeColor": "#f59e0b",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "evdet",
+      "x": 480,
+      "y": 340,
+      "width": 200,
+      "height": 50,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Event Detector",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "washalert",
+      "x": 480,
+      "y": 420,
+      "width": 200,
+      "height": 50,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Wasch-/Trockner-Alert",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "consrep",
+      "x": 480,
+      "y": 500,
+      "width": 200,
+      "height": 50,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Consumption Reporter",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "repapi",
+      "x": 920,
+      "y": 340,
+      "width": 200,
+      "height": 50,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Report API",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "f6a",
+      "x": 680,
+      "y": 365,
+      "width": 120,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          120,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f6b",
+      "x": 680,
+      "y": 445,
+      "width": 120,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          120,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f6c",
+      "x": 680,
+      "y": 525,
+      "width": 120,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          120,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "pushover2",
+      "x": 800,
+      "y": 420,
+      "width": 160,
+      "height": 50,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "label": {
+        "text": "Pushover",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "awtrix2",
+      "x": 800,
+      "y": 500,
+      "width": 160,
+      "height": 50,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "Awtrix / Ulanzi",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "f7a",
+      "x": 680,
+      "y": 445,
+      "width": 120,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          120,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f8",
+      "x": 1020,
+      "y": 390,
+      "width": 0,
+      "height": 30,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          30
+        ]
+      ],
+      "strokeColor": "#f59e0b",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "rectangle",
+      "id": "n8nai",
+      "x": 960,
+      "y": 420,
+      "width": 120,
+      "height": 50,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "n8n + AI",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "evbucket",
+      "x": 100,
+      "y": 340,
+      "width": 200,
+      "height": 40,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "appliance_events",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "dailybucket",
+      "x": 100,
+      "y": 400,
+      "width": 200,
+      "height": 40,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "consumption_daily",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "f_ev_bucket",
+      "x": 480,
+      "y": 365,
+      "width": -180,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -180,
+          0
+        ]
+      ],
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "write",
+        "fontSize": 14
+      },
+      "lastCommittedPoint": null
+    },
+    {
+      "type": "arrow",
+      "id": "f_daily_bucket",
+      "x": 480,
+      "y": 525,
+      "width": -180,
+      "height": -105,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -180,
+          -105
+        ]
+      ],
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "write",
+        "fontSize": 14
+      },
+      "lastCommittedPoint": null
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}

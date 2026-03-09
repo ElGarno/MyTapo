@@ -1,0 +1,623 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "type": "text",
+      "id": "t3",
+      "x": 220,
+      "y": 5,
+      "text": "MyTapo - Event Detection & Alerts",
+      "fontSize": 24,
+      "strokeColor": "#1e1e1e"
+    },
+    {
+      "type": "text",
+      "id": "s3",
+      "x": 260,
+      "y": 35,
+      "text": "Automatische Geraeteerkennung",
+      "fontSize": 16,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_sm",
+      "x": 0,
+      "y": 75,
+      "width": 480,
+      "height": 350,
+      "backgroundColor": "#e5dbff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 1,
+      "opacity": 25
+    },
+    {
+      "type": "text",
+      "id": "zone_sm_l",
+      "x": 15,
+      "y": 83,
+      "text": "Zustandsmaschine (pro Geraet)",
+      "fontSize": 18,
+      "strokeColor": "#6d28d9"
+    },
+    {
+      "type": "ellipse",
+      "id": "idle",
+      "x": 30,
+      "y": 140,
+      "width": 130,
+      "height": 60,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "label": {
+        "text": "IDLE",
+        "fontSize": 20
+      }
+    },
+    {
+      "type": "ellipse",
+      "id": "active",
+      "x": 240,
+      "y": 140,
+      "width": 130,
+      "height": 60,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "label": {
+        "text": "ACTIVE",
+        "fontSize": 20
+      }
+    },
+    {
+      "type": "ellipse",
+      "id": "cooldown",
+      "x": 240,
+      "y": 270,
+      "width": 140,
+      "height": 60,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "strokeColor": "#f59e0b",
+      "strokeWidth": 2,
+      "label": {
+        "text": "COOLDOWN",
+        "fontSize": 18
+      }
+    },
+    {
+      "type": "ellipse",
+      "id": "done",
+      "x": 30,
+      "y": 270,
+      "width": 130,
+      "height": 60,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "label": {
+        "text": "EVENT!",
+        "fontSize": 20
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "sm1",
+      "x": 160,
+      "y": 160,
+      "width": 80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          80,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "P >= ON",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "sm2",
+      "x": 305,
+      "y": 200,
+      "width": 0,
+      "height": 70,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          70
+        ]
+      ],
+      "strokeColor": "#f59e0b",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "P < OFF",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "sm3",
+      "x": 240,
+      "y": 300,
+      "width": -80,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -80,
+          0
+        ]
+      ],
+      "strokeColor": "#8b5cf6",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "30s",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "sm4",
+      "x": 95,
+      "y": 270,
+      "width": 0,
+      "height": -70,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          -70
+        ]
+      ],
+      "strokeColor": "#22c55e",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow",
+      "id": "sm5",
+      "x": 380,
+      "y": 280,
+      "width": 40,
+      "height": -100,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          40,
+          -50
+        ],
+        [
+          0,
+          -100
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow",
+      "label": {
+        "text": "P >= OFF\n(Fehlalarm)",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_profiles",
+      "x": 520,
+      "y": 75,
+      "width": 600,
+      "height": 350,
+      "backgroundColor": "#d3f9d8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "strokeWidth": 1,
+      "opacity": 25
+    },
+    {
+      "type": "text",
+      "id": "zone_prof_l",
+      "x": 535,
+      "y": 83,
+      "text": "Konfigurierte Geraeteprofile",
+      "fontSize": 18,
+      "strokeColor": "#15803d"
+    },
+    {
+      "type": "rectangle",
+      "id": "p_espresso",
+      "x": 540,
+      "y": 120,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Espresso 800W/50W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_tv",
+      "x": 540,
+      "y": 170,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "TV-Session 30W/20W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_ebike",
+      "x": 540,
+      "y": 220,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "E-Bike 100W/20W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_foehn",
+      "x": 540,
+      "y": 270,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "label": {
+        "text": "Foehn 1000W/50W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_airfryer",
+      "x": 740,
+      "y": 120,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Airfryer 1000W/100W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_wash",
+      "x": 740,
+      "y": 170,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Waschgang 100W/10W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_dry",
+      "x": 740,
+      "y": 220,
+      "width": 170,
+      "height": 40,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Trockengang 40W/10W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "metrics",
+      "x": 540,
+      "y": 330,
+      "width": 370,
+      "height": 80,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Gespeicherte Metriken:\nDauer | Energie (Wh) | Peak (W) | Avg (W)",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_alert",
+      "x": 0,
+      "y": 460,
+      "width": 1120,
+      "height": 230,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "strokeWidth": 1,
+      "opacity": 20
+    },
+    {
+      "type": "text",
+      "id": "zone_alert_l",
+      "x": 15,
+      "y": 468,
+      "text": "Benachrichtigungen",
+      "fontSize": 18,
+      "strokeColor": "#dc2626"
+    },
+    {
+      "type": "rectangle",
+      "id": "wash_done",
+      "x": 20,
+      "y": 510,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Waschmaschine fertig!\nP>50W dann <10W 5min",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "dry_done",
+      "x": 20,
+      "y": 585,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Trockner fertig!\nP>40W dann <10W 3min",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "a_wash_push",
+      "x": 260,
+      "y": 537,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "arrow",
+      "id": "a_dry_push",
+      "x": 260,
+      "y": 612,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "strokeColor": "#ef4444",
+      "strokeWidth": 2,
+      "endArrowhead": "arrow"
+    },
+    {
+      "type": "rectangle",
+      "id": "push_alert",
+      "x": 380,
+      "y": 510,
+      "width": 160,
+      "height": 55,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "label": {
+        "text": "Pushover\n+ Klingelton",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "awtrix_alert",
+      "x": 380,
+      "y": 585,
+      "width": 160,
+      "height": 55,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "Awtrix\n+ Loop Sound",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "daily_summary",
+      "x": 620,
+      "y": 510,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Tages-Zusammenfassung\n21:05 via Pushover",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "solar_rep",
+      "x": 620,
+      "y": 585,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Solar-Tagesbericht\n20-21 Uhr via Pushover",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "weekly",
+      "x": 890,
+      "y": 510,
+      "width": 210,
+      "height": 55,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Wochenbericht\nSa 20:05 + Diagramm",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "monthly",
+      "x": 890,
+      "y": 585,
+      "width": 210,
+      "height": 55,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Monatsbericht\n1. des Monats",
+        "fontSize": 14
+      }
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}

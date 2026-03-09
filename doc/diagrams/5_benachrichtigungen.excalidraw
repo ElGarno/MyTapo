@@ -1,0 +1,430 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "type": "text",
+      "id": "t5",
+      "x": 215,
+      "y": 5,
+      "text": "MyTapo - Benachrichtigungen",
+      "fontSize": 24,
+      "strokeColor": "#1e1e1e"
+    },
+    {
+      "type": "text",
+      "id": "s5",
+      "x": 240,
+      "y": 35,
+      "text": "Awtrix Pixel Clock & Pushover",
+      "fontSize": 16,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_awtrix",
+      "x": 0,
+      "y": 75,
+      "width": 530,
+      "height": 600,
+      "backgroundColor": "#d3f9d8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "strokeWidth": 1,
+      "opacity": 25
+    },
+    {
+      "type": "text",
+      "id": "za_l",
+      "x": 15,
+      "y": 83,
+      "text": "Awtrix / Ulanzi Smart Pixel Clock",
+      "fontSize": 20,
+      "strokeColor": "#15803d"
+    },
+    {
+      "type": "text",
+      "id": "za_ip",
+      "x": 15,
+      "y": 108,
+      "text": "192.168.178.108 - POST /api/notify",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "carousel",
+      "x": 20,
+      "y": 140,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "Geraete-Karussell\nAlle 10 Min (xx:x0)\n14 Geraete, 8s je Geraet",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "carousel_colors",
+      "x": 270,
+      "y": 140,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Farbkodierung:\nGruen <50W | Gelb <200W\nOrange <1000W | Rot >=1000W",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "energy_alert",
+      "x": 20,
+      "y": 240,
+      "width": 240,
+      "height": 65,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Energie-Alert\n>1000W Verbrauch erkannt\nMax 1x / 10 Min pro Geraet",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "appliance_done",
+      "x": 270,
+      "y": 240,
+      "width": 240,
+      "height": 65,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Geraet fertig!\nKlingelton x3 (15s Loop)\nWaschmaschine / Trockner",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "solar_display",
+      "x": 20,
+      "y": 325,
+      "width": 240,
+      "height": 80,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Solar-Anzeige (7-19 Uhr)\n>1000W: Sonne (gold)\n>500W: Teils sonnig\n>100W: Bewoelkt",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "event_sum",
+      "x": 270,
+      "y": 325,
+      "width": 240,
+      "height": 65,
+      "backgroundColor": "#c3fae8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "Event-Zusammenfassung\nTaeglich 21:05\n3x Espresso, 1x TV...",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "awtrix_report",
+      "x": 20,
+      "y": 420,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Wochen-/Monatsbericht\nTop 3 Verbraucher",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "n8n_awtrix",
+      "x": 270,
+      "y": 420,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "n8n AI-Analyse\nKompakte Antwort <200 Zeichen",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "text",
+      "id": "safe_window",
+      "x": 20,
+      "y": 495,
+      "text": "Safe Window: Events xx:03-09 (vermeidet Karussell-Kollision)",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "zone_push",
+      "x": 570,
+      "y": 75,
+      "width": 530,
+      "height": 600,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "strokeWidth": 1,
+      "opacity": 20
+    },
+    {
+      "type": "text",
+      "id": "zp_l",
+      "x": 585,
+      "y": 83,
+      "text": "Pushover (Push-Nachrichten)",
+      "fontSize": 20,
+      "strokeColor": "#dc2626"
+    },
+    {
+      "type": "text",
+      "id": "zp_info",
+      "x": 585,
+      "y": 108,
+      "text": "App-Token + User/Group Key",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "rectangle",
+      "id": "p_wash",
+      "x": 590,
+      "y": 145,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "label": {
+        "text": "Waschmaschine fertig!\nPro Waschgang",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_dry",
+      "x": 840,
+      "y": 145,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#ffc9c9",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#ef4444",
+      "label": {
+        "text": "Trockner fertig!\nPro Trockengang",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_solar",
+      "x": 590,
+      "y": 220,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#fff3bf",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Solar-Tagesbericht\nTaeglich 20-21 Uhr",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_events",
+      "x": 840,
+      "y": 220,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#ffd8a8",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#f59e0b",
+      "label": {
+        "text": "Event-Zusammenfassung\nTaeglich 21:05",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_weekly",
+      "x": 590,
+      "y": 300,
+      "width": 240,
+      "height": 70,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Wochenbericht\nSamstag 20:05\nDiagramm + Top 5 + Trend",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_monthly",
+      "x": 840,
+      "y": 300,
+      "width": 240,
+      "height": 70,
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#4a9eed",
+      "label": {
+        "text": "Monatsbericht\n1. des Monats 20:05\nDiagramm + Vergleich",
+        "fontSize": 14
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_ai",
+      "x": 590,
+      "y": 395,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "AI-Analyse (n8n)\nOn-Demand per Webhook",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_weekly_ai",
+      "x": 840,
+      "y": 395,
+      "width": 240,
+      "height": 55,
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#8b5cf6",
+      "label": {
+        "text": "Weekly AI Summary\nSonntag 20:00",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "rectangle",
+      "id": "p_ondemand",
+      "x": 590,
+      "y": 475,
+      "width": 490,
+      "height": 55,
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "strokeColor": "#22c55e",
+      "label": {
+        "text": "On-Demand Reports (n8n Workflow 1)\ntoday | top-devices | events | solar | comparison",
+        "fontSize": 16
+      }
+    },
+    {
+      "type": "text",
+      "id": "p_chart_info",
+      "x": 590,
+      "y": 555,
+      "text": "Wochen-/Monatsberichte enthalten matplotlib-Diagramme als Bild-Anhang",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    },
+    {
+      "type": "text",
+      "id": "cost_info",
+      "x": 590,
+      "y": 580,
+      "text": "Kostenberechnung: 0,28 EUR/kWh",
+      "fontSize": 14,
+      "strokeColor": "#757575"
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
