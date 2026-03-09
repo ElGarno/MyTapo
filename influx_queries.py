@@ -303,3 +303,369 @@ class InfluxQueries:
             "solar": solar,
             "weekly_comparison": comparison
         }
+
+    # --- Tool-based query methods for AI agent ---
+
+    def query_device_consumption(
+        self, device: Optional[str] = None,
+        start: Optional[str] = None, end: Optional[str] = None,
+        days: Optional[int] = None
+    ) -> Dict[str, Any]:
+        """
+        Query consumption for a specific device or all devices over a flexible time range.
+
+        Args:
+            device: Device name filter (optional, all devices if omitted)
+            start: ISO date/datetime string for range start
+            end: ISO date/datetime string for range end (default: now)
+            days: Alternative to start/end - number of days back from now
+        """
+        now = datetime.utcnow()
+
+        if days is not None:
+            dt_start = now - timedelta(days=days)
+            dt_end = now
+        elif start:
+            dt_start = self._parse_datetime(start)
+            dt_end = self._parse_datetime(end) if end else now
+        else:
+            dt_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            dt_end = now
+
+        consumption = self.query_consumption_for_period(dt_start, dt_end)
+
+        if device:
+            device_lower = device.lower()
+            consumption = {
+                k: v for k, v in consumption.items()
+                if device_lower in k.lower()
+            }
+
+        total = sum(consumption.values())
+        return {
+            "period": {
+                "start": dt_start.isoformat(),
+                "end": dt_end.isoformat(),
+                "hours": round((dt_end - dt_start).total_seconds() / 3600, 1)
+            },
+            "total_kwh": round(total, 3),
+            "cost_eur": round(total * self.cost_per_kwh, 2),
+            "devices": {k: round(v, 3) for k, v in sorted(
+                consumption.items(), key=lambda x: x[1], reverse=True
+            )}
+        }
+
+    def query_hourly_consumption(
+        self, date: Optional[str] = None, device: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Query consumption broken down by hour for a given day.
+
+        Args:
+            date: ISO date string (default: today)
+            device: Optional device name filter
+        """
+        if date:
+            day_start = self._parse_datetime(date).replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+        else:
+            day_start = datetime.utcnow().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+
+        now = datetime.utcnow()
+        day_end = min(
+            day_start.replace(hour=23, minute=59, second=59),
+            now
+        )
+
+        start_str = day_start.strftime("%Y-%m-%dT%H:%M:%SZ")
+        stop_str = day_end.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        device_filter = ""
+        if device:
+            device_filter = f'|> filter(fn: (r) => r["device"] =~ /(?i){device}/)'
+
+        query = f'''
+        from(bucket: "{self.power_bucket}")
+            |> range(start: {start_str}, stop: {stop_str})
+            |> filter(fn: (r) => r["_measurement"] == "power_consumption")
+            |> filter(fn: (r) => r["_field"] == "power")
+            {device_filter}
+            |> aggregateWindow(every: 1h, fn: mean, createEmpty: true)
+            |> group(columns: ["_time"])
+            |> sum()
+        '''
+
+        hourly = {}
+        try:
+            with self._get_client() as client:
+                tables = client.query_api().query(query)
+                for table in tables:
+                    for record in table.records:
+                        hour = record.get_time().strftime("%H:00")
+                        mean_power = record.get_value() or 0
+                        kwh = mean_power / 1000  # 1h window
+                        hourly[hour] = round(kwh, 3)
+        except Exception as e:
+            logger.error(f"Failed to query hourly consumption: {e}")
+
+        total = sum(hourly.values())
+        peak_hour = max(hourly, key=hourly.get) if hourly else None
+
+        return {
+            "date": day_start.strftime("%Y-%m-%d"),
+            "device": device or "all",
+            "total_kwh": round(total, 3),
+            "cost_eur": round(total * self.cost_per_kwh, 2),
+            "peak_hour": peak_hour,
+            "peak_kwh": hourly.get(peak_hour, 0) if peak_hour else 0,
+            "hourly_kwh": hourly
+        }
+
+    def query_device_events_flexible(
+        self, device: Optional[str] = None, days: int = 7,
+        start: Optional[str] = None, end: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Query appliance events with flexible filtering.
+
+        Args:
+            device: Filter by event_type/device name (optional)
+            days: Number of days back (default 7, ignored if start is set)
+            start: ISO date string for range start
+            end: ISO date string for range end
+        """
+        if start:
+            dt_start = self._parse_datetime(start)
+            dt_end = self._parse_datetime(end) if end else datetime.utcnow()
+            range_str = f"start: {dt_start.strftime('%Y-%m-%dT%H:%M:%SZ')}, stop: {dt_end.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+            period_label = f"{dt_start.strftime('%Y-%m-%d')} to {dt_end.strftime('%Y-%m-%d')}"
+        else:
+            range_str = f"start: -{days}d"
+            dt_start = datetime.utcnow() - timedelta(days=days)
+            dt_end = datetime.utcnow()
+            period_label = f"last {days} days"
+
+        device_filter = ""
+        if device:
+            device_filter = f'|> filter(fn: (r) => r["event_type"] =~ /(?i){device}/)'
+
+        duration_query = f'''
+        from(bucket: "{self.events_bucket}")
+            |> range({range_str})
+            |> filter(fn: (r) => r["_measurement"] == "event")
+            |> filter(fn: (r) => r["_field"] == "duration_seconds")
+            {device_filter}
+            |> group(columns: ["event_type"])
+        '''
+
+        energy_query = f'''
+        from(bucket: "{self.events_bucket}")
+            |> range({range_str})
+            |> filter(fn: (r) => r["_measurement"] == "event")
+            |> filter(fn: (r) => r["_field"] == "energy_wh")
+            {device_filter}
+            |> group(columns: ["event_type"])
+        '''
+
+        results: Dict[str, Dict[str, Any]] = {}
+        try:
+            with self._get_client() as client:
+                query_api = client.query_api()
+
+                tables = query_api.query(duration_query)
+                for table in tables:
+                    event_type = None
+                    count = 0
+                    total_duration = 0.0
+                    for record in table.records:
+                        event_type = record.values.get("event_type")
+                        count += 1
+                        total_duration += record.get_value() or 0
+                    if event_type:
+                        results[event_type] = {
+                            "count": count,
+                            "total_duration_minutes": round(total_duration / 60, 1),
+                            "avg_duration_minutes": round(total_duration / 60 / count, 1) if count > 0 else 0,
+                            "total_energy_wh": 0.0,
+                            "cost_eur": 0.0
+                        }
+
+                tables = query_api.query(energy_query)
+                for table in tables:
+                    event_type = None
+                    total_energy = 0.0
+                    for record in table.records:
+                        event_type = record.values.get("event_type")
+                        total_energy += record.get_value() or 0
+                    if event_type and event_type in results:
+                        results[event_type]["total_energy_wh"] = round(total_energy, 1)
+                        results[event_type]["cost_eur"] = round(
+                            (total_energy / 1000) * self.cost_per_kwh, 2
+                        )
+        except Exception as e:
+            logger.error(f"Failed to query device events: {e}")
+
+        return {
+            "period": period_label,
+            "start": dt_start.isoformat(),
+            "end": dt_end.isoformat(),
+            "events": results,
+            "total_events": sum(e["count"] for e in results.values())
+        }
+
+    def query_compare_periods(
+        self, period_a_start: str, period_a_end: str,
+        period_b_start: str, period_b_end: str,
+        device: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Compare two arbitrary time periods.
+
+        Args:
+            period_a_start/end: ISO date strings for period A
+            period_b_start/end: ISO date strings for period B
+            device: Optional device filter
+        """
+        a_start = self._parse_datetime(period_a_start)
+        a_end = self._parse_datetime(period_a_end)
+        b_start = self._parse_datetime(period_b_start)
+        b_end = self._parse_datetime(period_b_end)
+
+        consumption_a = self.query_consumption_for_period(a_start, a_end)
+        consumption_b = self.query_consumption_for_period(b_start, b_end)
+
+        if device:
+            device_lower = device.lower()
+            consumption_a = {k: v for k, v in consumption_a.items() if device_lower in k.lower()}
+            consumption_b = {k: v for k, v in consumption_b.items() if device_lower in k.lower()}
+
+        total_a = sum(consumption_a.values())
+        total_b = sum(consumption_b.values())
+
+        if total_a > 0:
+            change_pct = ((total_b - total_a) / total_a) * 100
+        else:
+            change_pct = 0.0
+
+        return {
+            "period_a": {
+                "label": f"{a_start.strftime('%Y-%m-%d')} to {a_end.strftime('%Y-%m-%d')}",
+                "total_kwh": round(total_a, 3),
+                "cost_eur": round(total_a * self.cost_per_kwh, 2),
+                "devices": {k: round(v, 3) for k, v in consumption_a.items()}
+            },
+            "period_b": {
+                "label": f"{b_start.strftime('%Y-%m-%d')} to {b_end.strftime('%Y-%m-%d')}",
+                "total_kwh": round(total_b, 3),
+                "cost_eur": round(total_b * self.cost_per_kwh, 2),
+                "devices": {k: round(v, 3) for k, v in consumption_b.items()}
+            },
+            "change_percent": round(change_pct, 1),
+            "trend": f"+{change_pct:.1f}%" if change_pct > 0 else f"{change_pct:.1f}%",
+            "device_filter": device or "all"
+        }
+
+    def query_solar_history(
+        self, start: Optional[str] = None, end: Optional[str] = None,
+        days: Optional[int] = None
+    ) -> Dict[str, Any]:
+        """
+        Query solar generation over a flexible time range with daily breakdown.
+
+        Args:
+            start: ISO date string for range start
+            end: ISO date string for range end
+            days: Alternative - number of days back from now
+        """
+        now = datetime.utcnow()
+
+        if days is not None:
+            dt_start = now - timedelta(days=days)
+            dt_end = now
+        elif start:
+            dt_start = self._parse_datetime(start)
+            dt_end = self._parse_datetime(end) if end else now
+        else:
+            dt_start = now - timedelta(days=7)
+            dt_end = now
+
+        start_str = dt_start.strftime("%Y-%m-%dT%H:%M:%SZ")
+        stop_str = dt_end.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        query = f'''
+        from(bucket: "{self.power_bucket}")
+            |> range(start: {start_str}, stop: {stop_str})
+            |> filter(fn: (r) => r["_measurement"] == "power_consumption")
+            |> filter(fn: (r) => r["_field"] == "power")
+            |> filter(fn: (r) => r["device"] == "solar")
+            |> aggregateWindow(every: 1d, fn: mean, createEmpty: true)
+        '''
+
+        daily = {}
+        try:
+            with self._get_client() as client:
+                tables = client.query_api().query(query)
+                for table in tables:
+                    for record in table.records:
+                        day = record.get_time().strftime("%Y-%m-%d")
+                        mean_power = record.get_value() or 0
+                        kwh = (mean_power * 24) / 1000
+                        daily[day] = round(kwh, 3)
+        except Exception as e:
+            logger.error(f"Failed to query solar history: {e}")
+
+        total = sum(daily.values())
+        return {
+            "period": {
+                "start": dt_start.strftime("%Y-%m-%d"),
+                "end": dt_end.strftime("%Y-%m-%d"),
+                "days": len(daily)
+            },
+            "total_kwh": round(total, 3),
+            "total_savings_eur": round(total * self.cost_per_kwh, 2),
+            "avg_daily_kwh": round(total / len(daily), 3) if daily else 0,
+            "best_day": max(daily, key=daily.get) if daily else None,
+            "best_day_kwh": max(daily.values()) if daily else 0,
+            "daily_kwh": daily
+        }
+
+    def list_devices(self) -> Dict[str, Any]:
+        """List all monitored devices with their current status."""
+        import json as json_mod
+        devices_file = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "config", "devices.json"
+        )
+        devices = {}
+        try:
+            with open(devices_file) as f:
+                config = json_mod.load(f)
+                devices = config.get("devices", {})
+        except Exception as e:
+            logger.error(f"Failed to load devices config: {e}")
+
+        return {
+            "total_devices": len(devices),
+            "enabled": sum(1 for d in devices.values() if d.get("enabled")),
+            "disabled": sum(1 for d in devices.values() if not d.get("enabled")),
+            "devices": {
+                name: {
+                    "description": info.get("description", ""),
+                    "enabled": info.get("enabled", False),
+                    "ip": info.get("ip", "")
+                }
+                for name, info in devices.items()
+            }
+        }
+
+    @staticmethod
+    def _parse_datetime(value: str) -> datetime:
+        """Parse flexible date/datetime strings."""
+        for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d", "%d.%m.%Y"):
+            try:
+                return datetime.strptime(value, fmt)
+            except ValueError:
+                continue
+        raise ValueError(f"Cannot parse datetime: {value}")

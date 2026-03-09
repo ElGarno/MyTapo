@@ -233,6 +233,94 @@ class ReportAPI:
             "awtrix_text": ""
         })
 
+    # --- Tool endpoints for AI agent ---
+
+    async def tool_device_consumption(self, request: web.Request) -> web.Response:
+        """GET /tools/device-consumption - Query consumption for device/period."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        device = request.query.get("device")
+        start = request.query.get("start")
+        end = request.query.get("end")
+        days = request.query.get("days")
+
+        data = self.queries.query_device_consumption(
+            device=device, start=start, end=end,
+            days=int(days) if days else None
+        )
+        return web.json_response(data)
+
+    async def tool_hourly_consumption(self, request: web.Request) -> web.Response:
+        """GET /tools/hourly-consumption - Hourly breakdown for a day."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        date = request.query.get("date")
+        device = request.query.get("device")
+
+        data = self.queries.query_hourly_consumption(date=date, device=device)
+        return web.json_response(data)
+
+    async def tool_device_events(self, request: web.Request) -> web.Response:
+        """GET /tools/device-events - Query appliance events."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        device = request.query.get("device")
+        days = request.query.get("days", "7")
+        start = request.query.get("start")
+        end = request.query.get("end")
+
+        data = self.queries.query_device_events_flexible(
+            device=device, days=int(days), start=start, end=end
+        )
+        return web.json_response(data)
+
+    async def tool_compare_periods(self, request: web.Request) -> web.Response:
+        """GET /tools/compare-periods - Compare two time periods."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        a_start = request.query.get("period_a_start")
+        a_end = request.query.get("period_a_end")
+        b_start = request.query.get("period_b_start")
+        b_end = request.query.get("period_b_end")
+        device = request.query.get("device")
+
+        if not all([a_start, a_end, b_start, b_end]):
+            return web.json_response(
+                {"error": "Required: period_a_start, period_a_end, period_b_start, period_b_end"},
+                status=400
+            )
+
+        data = self.queries.query_compare_periods(
+            a_start, a_end, b_start, b_end, device=device
+        )
+        return web.json_response(data)
+
+    async def tool_solar_history(self, request: web.Request) -> web.Response:
+        """GET /tools/solar-history - Solar generation history."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        start = request.query.get("start")
+        end = request.query.get("end")
+        days = request.query.get("days")
+
+        data = self.queries.query_solar_history(
+            start=start, end=end, days=int(days) if days else None
+        )
+        return web.json_response(data)
+
+    async def tool_list_devices(self, request: web.Request) -> web.Response:
+        """GET /tools/list-devices - List all monitored devices."""
+        if not self._check_auth(request):
+            return web.json_response({"error": "unauthorized"}, status=401)
+
+        data = self.queries.list_devices()
+        return web.json_response(data)
+
 
 def create_app() -> web.Application:
     """Create and configure the aiohttp application."""
@@ -247,6 +335,14 @@ def create_app() -> web.Application:
     app.router.add_get("/reports/solar", api.report_solar)
     app.router.add_get("/reports/comparison", api.report_comparison)
     app.router.add_post("/reports/custom", api.report_custom)
+
+    # Tool endpoints for AI agent
+    app.router.add_get("/tools/device-consumption", api.tool_device_consumption)
+    app.router.add_get("/tools/hourly-consumption", api.tool_hourly_consumption)
+    app.router.add_get("/tools/device-events", api.tool_device_events)
+    app.router.add_get("/tools/compare-periods", api.tool_compare_periods)
+    app.router.add_get("/tools/solar-history", api.tool_solar_history)
+    app.router.add_get("/tools/list-devices", api.tool_list_devices)
 
     return app
 
