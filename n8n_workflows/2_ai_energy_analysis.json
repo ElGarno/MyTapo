@@ -22,7 +22,7 @@
             {
               "id": "chatInput-field",
               "name": "chatInput",
-              "value": "={{ $json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}",
+              "value": "={{ ($json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.') + ($json.body.output === 'awtrix' ? ' [AUSGABEFORMAT: Awtrix LED-Display, maximal 100 Zeichen, kein Markdown, nur Klartext]' : '') }}",
               "type": "string"
             },
             {
@@ -44,7 +44,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter.\n\nDir stehen Tools zur Verfuegung, um Energiedaten aus der InfluxDB abzufragen. Waehle das passende Tool basierend auf der Frage des Nutzers. Du kannst mehrere Tools nacheinander aufrufen, um komplexe Fragen zu beantworten.\n\nVerfuegbare Geraete: solar, washing_machine, washing_dryer, cooler, living_room_window, kitchen, bedroom, television, office, office2, bathroom, hwr_charger, kaffe_bar, network_nas\n\nHeutiges Datum: {{$now.format('yyyy-MM-dd')}}"
+          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh.\n\nDir stehen Tools zur Verfuegung, um Energiedaten aus der InfluxDB abzufragen. Waehle das passende Tool basierend auf der Frage des Nutzers. Du kannst mehrere Tools nacheinander aufrufen, um komplexe Fragen zu beantworten.\n\nVerfuegbare Geraete: solar, washing_machine, washing_dryer, cooler, living_room_window, kitchen, bedroom, television, office, office2, bathroom, hwr_charger, kaffe_bar, network_nas\n\nHeutiges Datum: {{$now.format('yyyy-MM-dd')}}\n\nWICHTIG - Ausgabeformat beachten:\n- Wenn im Prompt '[AUSGABEFORMAT: Awtrix' steht: Antworte in maximal 100 Zeichen reinem Klartext. KEIN Markdown, KEINE Sterne, KEINE Aufzaehlungen, KEINE Zeilenumbrueche. Nur ein kurzer Satz mit den wichtigsten Zahlen. Beispiel: 'Heute 4.2 kWh, 1.18 EUR. Solar 1.8 kWh. Top: Cooler 0.9 kWh'\n- Sonst: Maximal 300 Woerter, Markdown-Formatierung erlaubt."
         }
       },
       "name": "AI Agent",
@@ -344,7 +344,7 @@
           "parameters": [
             {
               "name": "text",
-              "value": "={{ $('AI Agent').item.json.output }}"
+              "value": "={{ $('AI Agent').item.json.output.replace(/\\*\\*/g, '').replace(/\\n/g, ' ').replace(/- /g, '').replace(/  +/g, ' ').trim().slice(0, 200) }}"
             },
             {
               "name": "icon",
