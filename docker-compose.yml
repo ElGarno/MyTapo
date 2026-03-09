@@ -122,6 +122,31 @@ services:
       - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
       - PUSHOVER_TAPO_API_TOKEN=${PUSHOVER_TAPO_API_TOKEN}
 
+  report_api:
+    build:
+      context: .
+      dockerfile: Dockerfile.report_api
+      args:
+        PLATFORM: linux/amd64
+    platform: linux/amd64
+    network_mode: "bridge"
+    restart: unless-stopped
+    ports:
+      - "8099:8099"
+    environment:
+      - INFLUXDB_HOST=${INFLUXDB_HOST}
+      - INFLUXDB_PORT=${INFLUXDB_PORT}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - INFLUXDB_EVENTS_BUCKET=${INFLUXDB_EVENTS_BUCKET}
+      - INFLUXDB_CONSUMPTION_BUCKET=${INFLUXDB_CONSUMPTION_BUCKET}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - AWTRIX_HOST=${AWTRIX_HOST}
+      - AWTRIX_PORT=${AWTRIX_PORT}
+      - PUSHOVER_USER_GROUP_WOERIS=${PUSHOVER_USER_GROUP_WOERIS}
+      - PUSHOVER_TAPO_API_TOKEN=${PUSHOVER_TAPO_API_TOKEN}
+      - REPORT_API_TOKEN=${REPORT_API_TOKEN:-}
+      - REPORT_API_PORT=8099
+
   # One-time backfill job - run manually with:
   # docker-compose run --rm backfill_events
   # or: docker-compose run --rm backfill_events --days 30
