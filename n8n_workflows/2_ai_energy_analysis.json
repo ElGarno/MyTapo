@@ -136,7 +136,7 @@
           ]
         }
       },
-      "name": "Tool: Device Consumption",
+      "name": "get_device_consumption",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [450, 700]
@@ -183,7 +183,7 @@
           ]
         }
       },
-      "name": "Tool: Hourly Consumption",
+      "name": "get_hourly_consumption",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [600, 700]
@@ -246,7 +246,7 @@
           ]
         }
       },
-      "name": "Tool: Device Events",
+      "name": "get_device_events",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [750, 700]
@@ -317,7 +317,7 @@
           ]
         }
       },
-      "name": "Tool: Compare Periods",
+      "name": "compare_periods",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [900, 700]
@@ -372,7 +372,7 @@
           ]
         }
       },
-      "name": "Tool: Solar History",
+      "name": "get_solar_history",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [1050, 700]
@@ -396,7 +396,7 @@
           "values": []
         }
       },
-      "name": "Tool: List Devices",
+      "name": "list_devices",
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [1200, 700]
@@ -546,7 +546,7 @@
         ]
       ]
     },
-    "Tool: Device Consumption": {
+    "get_device_consumption": {
       "ai_tool": [
         [
           {
@@ -557,7 +557,7 @@
         ]
       ]
     },
-    "Tool: Hourly Consumption": {
+    "get_hourly_consumption": {
       "ai_tool": [
         [
           {
@@ -568,7 +568,7 @@
         ]
       ]
     },
-    "Tool: Device Events": {
+    "get_device_events": {
       "ai_tool": [
         [
           {
@@ -579,7 +579,7 @@
         ]
       ]
     },
-    "Tool: Compare Periods": {
+    "compare_periods": {
       "ai_tool": [
         [
           {
@@ -590,7 +590,7 @@
         ]
       ]
     },
-    "Tool: Solar History": {
+    "get_solar_history": {
       "ai_tool": [
         [
           {
@@ -601,7 +601,7 @@
         ]
       ]
     },
-    "Tool: List Devices": {
+    "list_devices": {
       "ai_tool": [
         [
           {
