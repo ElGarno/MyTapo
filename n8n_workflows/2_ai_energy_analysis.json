@@ -54,7 +54,7 @@
             {
               "id": "chatInput-field",
               "name": "chatInput",
-              "value": "={{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\n\nAktuelle Daten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
+              "value": "={{ $('Webhook').item.json.body.question || 'Gib mir eine kurze Zusammenfassung des heutigen Energieverbrauchs.' }}\n\nAusgabeziel: {{ $('Webhook').item.json.body.output || 'pushover' }}. Falls Ausgabeziel 'awtrix': Antworte in maximal 2 kurzen Saetzen (unter 200 Zeichen), da der Text auf einem kleinen LED-Lauftext angezeigt wird.\n\nAktuelle Daten:\n{{ JSON.stringify($json.data).substring(0, 3000) }}",
               "type": "string"
             },
             {
@@ -75,7 +75,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter."
+          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Antworte kurz und praegnant auf Deutsch. Benutze keine Emojis. Gib konkrete Zahlen und Handlungsempfehlungen. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter. Formatiere die Antwort als reinen Text ohne Markdown (keine Ueberschriften mit #, kein **fett**, keine Listen mit -)."
         }
       },
       "name": "AI Agent",
@@ -145,7 +145,7 @@
         "url": "http://192.168.178.108/api/notify",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"text\": \"{{ $('AI Agent').item.json.output }}\",\n  \"icon\": \"2709\",\n  \"color\": \"#00BFFF\",\n  \"duration\": 30,\n  \"repeat\": 3\n}",
+        "jsonBody": "={{ JSON.stringify({text: $('AI Agent').item.json.output, icon: '2709', color: '#00BFFF', duration: 30, repeat: 2}) }}",
         "options": {}
       },
       "name": "Send to Awtrix",

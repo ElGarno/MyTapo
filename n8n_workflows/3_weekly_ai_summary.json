@@ -72,7 +72,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter."
+          "systemMessage": "Du bist ein Energieanalyst fuer einen Haushalt mit 13 ueberwachten Geraeten (Tapo P110 Smart Plugs). Erstelle eine kurze Wochenzusammenfassung auf Deutsch. Keine Emojis. Vergleiche mit der Vorwoche, nenne Auffaelligkeiten und gib eine Handlungsempfehlung. Waehrung: EUR, Strompreis: 0.28 EUR/kWh. Maximal 300 Woerter. Formatiere die Antwort als reinen Text ohne Markdown (keine Ueberschriften mit #, kein **fett**, keine Listen mit -)."
         }
       },
       "name": "AI Agent",

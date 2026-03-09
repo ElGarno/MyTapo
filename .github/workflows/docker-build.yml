@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_BASE: woerenkaemper/mytapo
+  IMAGE_BASE: faffi86/mytapo
 
 jobs:
   build:
