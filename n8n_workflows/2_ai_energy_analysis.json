@@ -28,7 +28,7 @@
             {
               "id": "sessionId-field",
               "name": "sessionId",
-              "value": "energy-analysis",
+              "value": "={{ 'energy-' + $now.toMillis() }}",
               "type": "string"
             }
           ]
