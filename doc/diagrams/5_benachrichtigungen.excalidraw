@@ -10,7 +10,21 @@
       "y": 5,
       "text": "MyTapo - Benachrichtigungen",
       "fontSize": 24,
-      "strokeColor": "#1e1e1e"
+      "strokeColor": "#1e1e1e",
+      "width": 388.8,
+      "height": 32.400000000000006,
+      "angle": 0,
+      "seed": 118424817,
+      "versionNonce": 1521340562,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "text",
@@ -19,7 +33,21 @@
       "y": 35,
       "text": "Awtrix Pixel Clock & Pushover",
       "fontSize": 16,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 278.4,
+      "height": 21.6,
+      "angle": 0,
+      "seed": 1419604784,
+      "versionNonce": 503604628,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -35,7 +63,15 @@
       },
       "strokeColor": "#22c55e",
       "strokeWidth": 1,
-      "opacity": 25
+      "opacity": 25,
+      "angle": 0,
+      "seed": 1073381477,
+      "versionNonce": 1082101693,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -44,7 +80,21 @@
       "y": 83,
       "text": "Awtrix / Ulanzi Smart Pixel Clock",
       "fontSize": 20,
-      "strokeColor": "#15803d"
+      "strokeColor": "#15803d",
+      "width": 396.0,
+      "height": 27.0,
+      "angle": 0,
+      "seed": 1093056733,
+      "versionNonce": 1176615146,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "text",
@@ -53,7 +103,21 @@
       "y": 108,
       "text": "192.168.178.108 - POST /api/notify",
       "fontSize": 14,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 285.59999999999997,
+      "height": 18.900000000000002,
+      "angle": 0,
+      "seed": 491574195,
+      "versionNonce": 105707229,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -68,10 +132,52 @@
         "type": 3
       },
       "strokeColor": "#22c55e",
-      "label": {
-        "text": "Geraete-Karussell\nAlle 10 Min (xx:x0)\n14 Geraete, 8s je Geraet",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 506050083,
+      "versionNonce": 1916439469,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "nKLZ3ATQ"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "nKLZ3ATQ",
+      "x": 39.2,
+      "y": 151.65,
+      "width": 201.6,
+      "height": 56.7,
+      "text": "Geraete-Karussell\nAlle 10 Min (xx:x0)\n14 Geraete, 8s je Geraet",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "carousel",
+      "originalText": "Geraete-Karussell\nAlle 10 Min (xx:x0)\n14 Geraete, 8s je Geraet",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 339453573,
+      "versionNonce": 365098952,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -86,10 +192,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Farbkodierung:\nGruen <50W | Gelb <200W\nOrange <1000W | Rot >=1000W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1194324531,
+      "versionNonce": 1271797306,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "naRwZ2SU"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "naRwZ2SU",
+      "x": 276.6,
+      "y": 151.65,
+      "width": 226.79999999999998,
+      "height": 56.7,
+      "text": "Farbkodierung:\nGruen <50W | Gelb <200W\nOrange <1000W | Rot >=1000W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "carousel_colors",
+      "originalText": "Farbkodierung:\nGruen <50W | Gelb <200W\nOrange <1000W | Rot >=1000W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1556946698,
+      "versionNonce": 95601479,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -104,10 +252,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Energie-Alert\n>1000W Verbrauch erkannt\nMax 1x / 10 Min pro Geraet",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1537023811,
+      "versionNonce": 172416113,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "BhQEvcTT"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "BhQEvcTT",
+      "x": 30.799999999999997,
+      "y": 244.15,
+      "width": 218.4,
+      "height": 56.7,
+      "text": "Energie-Alert\n>1000W Verbrauch erkannt\nMax 1x / 10 Min pro Geraet",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "energy_alert",
+      "originalText": "Energie-Alert\n>1000W Verbrauch erkannt\nMax 1x / 10 Min pro Geraet",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 962740023,
+      "versionNonce": 1181725919,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -122,10 +312,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Geraet fertig!\nKlingelton x3 (15s Loop)\nWaschmaschine / Trockner",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 617346192,
+      "versionNonce": 759273286,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "pgqKOaei"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pgqKOaei",
+      "x": 289.2,
+      "y": 244.15,
+      "width": 201.6,
+      "height": 56.7,
+      "text": "Geraet fertig!\nKlingelton x3 (15s Loop)\nWaschmaschine / Trockner",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "appliance_done",
+      "originalText": "Geraet fertig!\nKlingelton x3 (15s Loop)\nWaschmaschine / Trockner",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1537104364,
+      "versionNonce": 1057696609,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -140,10 +372,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Solar-Anzeige (7-19 Uhr)\n>1000W: Sonne (gold)\n>500W: Teils sonnig\n>100W: Bewoelkt",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 10543829,
+      "versionNonce": 891020022,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "du7mUGXR"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "du7mUGXR",
+      "x": 39.2,
+      "y": 327.2,
+      "width": 201.6,
+      "height": 75.60000000000001,
+      "text": "Solar-Anzeige (7-19 Uhr)\n>1000W: Sonne (gold)\n>500W: Teils sonnig\n>100W: Bewoelkt",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "solar_display",
+      "originalText": "Solar-Anzeige (7-19 Uhr)\n>1000W: Sonne (gold)\n>500W: Teils sonnig\n>100W: Bewoelkt",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 592495691,
+      "versionNonce": 644281759,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -158,10 +432,52 @@
         "type": 3
       },
       "strokeColor": "#22c55e",
-      "label": {
-        "text": "Event-Zusammenfassung\nTaeglich 21:05\n3x Espresso, 1x TV...",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 717419827,
+      "versionNonce": 1148766409,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "N99VFqbk"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "N99VFqbk",
+      "x": 301.8,
+      "y": 329.15,
+      "width": 176.4,
+      "height": 56.7,
+      "text": "Event-Zusammenfassung\nTaeglich 21:05\n3x Espresso, 1x TV...",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "event_sum",
+      "originalText": "Event-Zusammenfassung\nTaeglich 21:05\n3x Espresso, 1x TV...",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 546788264,
+      "versionNonce": 1828938907,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -176,10 +492,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "Wochen-/Monatsbericht\nTop 3 Verbraucher",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1037780948,
+      "versionNonce": 417739034,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "YhK7b2bD"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "YhK7b2bD",
+      "x": 51.8,
+      "y": 428.6,
+      "width": 176.4,
+      "height": 37.800000000000004,
+      "text": "Wochen-/Monatsbericht\nTop 3 Verbraucher",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "awtrix_report",
+      "originalText": "Wochen-/Monatsbericht\nTop 3 Verbraucher",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1124051580,
+      "versionNonce": 1116948935,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -194,10 +552,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "n8n AI-Analyse\nKompakte Antwort <200 Zeichen",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 670459916,
+      "versionNonce": 1800142755,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "G03SXALD"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "G03SXALD",
+      "x": 268.2,
+      "y": 428.6,
+      "width": 243.6,
+      "height": 37.800000000000004,
+      "text": "n8n AI-Analyse\nKompakte Antwort <200 Zeichen",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "n8n_awtrix",
+      "originalText": "n8n AI-Analyse\nKompakte Antwort <200 Zeichen",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1102794861,
+      "versionNonce": 373182120,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "text",
@@ -206,7 +606,21 @@
       "y": 495,
       "text": "Safe Window: Events xx:03-09 (vermeidet Karussell-Kollision)",
       "fontSize": 14,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 504.0,
+      "height": 18.900000000000002,
+      "angle": 0,
+      "seed": 1043446537,
+      "versionNonce": 469924147,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -222,7 +636,15 @@
       },
       "strokeColor": "#ef4444",
       "strokeWidth": 1,
-      "opacity": 20
+      "opacity": 20,
+      "angle": 0,
+      "seed": 1777841478,
+      "versionNonce": 624657726,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -231,7 +653,21 @@
       "y": 83,
       "text": "Pushover (Push-Nachrichten)",
       "fontSize": 20,
-      "strokeColor": "#dc2626"
+      "strokeColor": "#dc2626",
+      "width": 324.0,
+      "height": 27.0,
+      "angle": 0,
+      "seed": 893724408,
+      "versionNonce": 1359620509,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "text",
@@ -240,7 +676,21 @@
       "y": 108,
       "text": "App-Token + User/Group Key",
       "fontSize": 14,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 218.4,
+      "height": 18.900000000000002,
+      "angle": 0,
+      "seed": 1772875384,
+      "versionNonce": 816421781,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -255,10 +705,52 @@
         "type": 3
       },
       "strokeColor": "#ef4444",
-      "label": {
-        "text": "Waschmaschine fertig!\nPro Waschgang",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1718534801,
+      "versionNonce": 71142444,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "fRBjfQ7D"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "fRBjfQ7D",
+      "x": 609.2,
+      "y": 150.9,
+      "width": 201.6,
+      "height": 43.2,
+      "text": "Waschmaschine fertig!\nPro Waschgang",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_wash",
+      "originalText": "Waschmaschine fertig!\nPro Waschgang",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1411905046,
+      "versionNonce": 1149320243,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -273,10 +765,52 @@
         "type": 3
       },
       "strokeColor": "#ef4444",
-      "label": {
-        "text": "Trockner fertig!\nPro Trockengang",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 527181294,
+      "versionNonce": 1199648252,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "igI1zeOP"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "igI1zeOP",
+      "x": 883.2,
+      "y": 150.9,
+      "width": 153.6,
+      "height": 43.2,
+      "text": "Trockner fertig!\nPro Trockengang",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_dry",
+      "originalText": "Trockner fertig!\nPro Trockengang",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 826064642,
+      "versionNonce": 1920105031,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -291,10 +825,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Solar-Tagesbericht\nTaeglich 20-21 Uhr",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1967146971,
+      "versionNonce": 1296372202,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "wXcR5Zmx"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "wXcR5Zmx",
+      "x": 623.6,
+      "y": 225.9,
+      "width": 172.79999999999998,
+      "height": 43.2,
+      "text": "Solar-Tagesbericht\nTaeglich 20-21 Uhr",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_solar",
+      "originalText": "Solar-Tagesbericht\nTaeglich 20-21 Uhr",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 158026524,
+      "versionNonce": 45490013,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -309,10 +885,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Event-Zusammenfassung\nTaeglich 21:05",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1663079168,
+      "versionNonce": 246650826,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "8snA5dAt"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "8snA5dAt",
+      "x": 859.2,
+      "y": 225.9,
+      "width": 201.6,
+      "height": 43.2,
+      "text": "Event-Zusammenfassung\nTaeglich 21:05",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_events",
+      "originalText": "Event-Zusammenfassung\nTaeglich 21:05",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1105975493,
+      "versionNonce": 64092047,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -327,10 +945,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "Wochenbericht\nSamstag 20:05\nDiagramm + Top 5 + Trend",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1063636479,
+      "versionNonce": 604405937,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "FfAr877C"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "FfAr877C",
+      "x": 609.2,
+      "y": 306.65,
+      "width": 201.6,
+      "height": 56.7,
+      "text": "Wochenbericht\nSamstag 20:05\nDiagramm + Top 5 + Trend",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_weekly",
+      "originalText": "Wochenbericht\nSamstag 20:05\nDiagramm + Top 5 + Trend",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1121027225,
+      "versionNonce": 1821050138,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -345,10 +1005,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "Monatsbericht\n1. des Monats 20:05\nDiagramm + Vergleich",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1541528308,
+      "versionNonce": 1335768915,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "yjHmlHlJ"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "yjHmlHlJ",
+      "x": 876.0,
+      "y": 306.65,
+      "width": 168.0,
+      "height": 56.7,
+      "text": "Monatsbericht\n1. des Monats 20:05\nDiagramm + Vergleich",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_monthly",
+      "originalText": "Monatsbericht\n1. des Monats 20:05\nDiagramm + Vergleich",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 687272920,
+      "versionNonce": 1109542914,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -363,10 +1065,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "AI-Analyse (n8n)\nOn-Demand per Webhook",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 24702966,
+      "versionNonce": 605858765,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "4kYVoupv"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "4kYVoupv",
+      "x": 609.2,
+      "y": 400.9,
+      "width": 201.6,
+      "height": 43.2,
+      "text": "AI-Analyse (n8n)\nOn-Demand per Webhook",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_ai",
+      "originalText": "AI-Analyse (n8n)\nOn-Demand per Webhook",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1633361099,
+      "versionNonce": 1286331838,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -381,10 +1125,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Weekly AI Summary\nSonntag 20:00",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1627115906,
+      "versionNonce": 562899889,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "0Jpx6WOj"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "0Jpx6WOj",
+      "x": 878.4,
+      "y": 400.9,
+      "width": 163.2,
+      "height": 43.2,
+      "text": "Weekly AI Summary\nSonntag 20:00",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_weekly_ai",
+      "originalText": "Weekly AI Summary\nSonntag 20:00",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1451898105,
+      "versionNonce": 614112108,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -399,10 +1185,52 @@
         "type": 3
       },
       "strokeColor": "#22c55e",
-      "label": {
-        "text": "On-Demand Reports (n8n Workflow 1)\ntoday | top-devices | events | solar | comparison",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 867868656,
+      "versionNonce": 179131894,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "oxXUPXsd"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "oxXUPXsd",
+      "x": 599.8,
+      "y": 480.9,
+      "width": 470.4,
+      "height": 43.2,
+      "text": "On-Demand Reports (n8n Workflow 1)\ntoday | top-devices | events | solar | comparison",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_ondemand",
+      "originalText": "On-Demand Reports (n8n Workflow 1)\ntoday | top-devices | events | solar | comparison",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 539823427,
+      "versionNonce": 263261782,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "text",
@@ -411,7 +1239,21 @@
       "y": 555,
       "text": "Wochen-/Monatsberichte enthalten matplotlib-Diagramme als Bild-Anhang",
       "fontSize": 14,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 579.6,
+      "height": 18.900000000000002,
+      "angle": 0,
+      "seed": 1599641665,
+      "versionNonce": 1832604871,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "text",
@@ -420,7 +1262,21 @@
       "y": 580,
       "text": "Kostenberechnung: 0,28 EUR/kWh",
       "fontSize": 14,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 252.0,
+      "height": 18.900000000000002,
+      "angle": 0,
+      "seed": 1878492310,
+      "versionNonce": 1422405277,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433956,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     }
   ],
   "appState": {

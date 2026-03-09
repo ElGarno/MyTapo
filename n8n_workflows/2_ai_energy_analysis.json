@@ -83,7 +83,7 @@
         "name": "get_device_consumption",
         "description": "Stromverbrauch abfragen fuer ein bestimmtes Geraet oder alle Geraete in einem flexiblen Zeitraum. Parameter: device (optional, z.B. 'washing_machine', 'dryer', 'solar'), start (ISO-Datum, z.B. '2025-02-01'), end (ISO-Datum, optional), days (Anzahl Tage zurueck, Alternative zu start/end). Ohne Parameter: heutiger Verbrauch aller Geraete.",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/device-consumption",
+        "url": "http://192.168.178.114:8099/tools/device_consumption",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -146,7 +146,7 @@
         "name": "get_hourly_consumption",
         "description": "Stuendlichen Stromverbrauch abfragen fuer einen bestimmten Tag. Zeigt welche Stunde am meisten verbraucht hat. Parameter: date (ISO-Datum, z.B. '2025-03-08', Standard: heute), device (optional, Geraetefilter).",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/hourly-consumption",
+        "url": "http://192.168.178.114:8099/tools/hourly_consumption",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -193,7 +193,7 @@
         "name": "get_device_events",
         "description": "Geraete-Events abfragen (Waschmaschine, Trockner etc.) mit Anzahl, Dauer und Energieverbrauch pro Event. Parameter: device (optional, z.B. 'washing', 'dryer'), days (Standard: 7), start/end (ISO-Datum, Alternative zu days).",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/device-events",
+        "url": "http://192.168.178.114:8099/tools/device_events",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -256,7 +256,7 @@
         "name": "compare_periods",
         "description": "Zwei beliebige Zeitraeume vergleichen. Zeigt Verbrauch, Kosten und prozentuale Aenderung. Parameter: period_a_start, period_a_end, period_b_start, period_b_end (alle ISO-Datum), device (optional).",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/compare-periods",
+        "url": "http://192.168.178.114:8099/tools/compare_periods",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -327,7 +327,7 @@
         "name": "get_solar_history",
         "description": "Solar-Erzeugungshistorie mit taeglicher Aufschluesselung. Zeigt Gesamterzeugung, Ersparnis, besten Tag und Tagesdurchschnitt. Parameter: start/end (ISO-Datum) oder days (Anzahl Tage zurueck, Standard: 7).",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/solar-history",
+        "url": "http://192.168.178.114:8099/tools/solar_history",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -382,7 +382,7 @@
         "name": "list_devices",
         "description": "Alle ueberwachten Geraete auflisten mit Namen, Beschreibung und Status (aktiviert/deaktiviert). Keine Parameter noetig.",
         "method": "GET",
-        "url": "http://192.168.178.114:8099/tools/list-devices",
+        "url": "http://192.168.178.114:8099/tools/list_devices",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [

@@ -10,7 +10,21 @@
       "y": 5,
       "text": "MyTapo - Event Detection & Alerts",
       "fontSize": 24,
-      "strokeColor": "#1e1e1e"
+      "strokeColor": "#1e1e1e",
+      "width": 475.2,
+      "height": 32.400000000000006,
+      "angle": 0,
+      "seed": 506961611,
+      "versionNonce": 1976563695,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "text",
@@ -19,7 +33,21 @@
       "y": 35,
       "text": "Automatische Geraeteerkennung",
       "fontSize": 16,
-      "strokeColor": "#757575"
+      "strokeColor": "#757575",
+      "width": 278.4,
+      "height": 21.6,
+      "angle": 0,
+      "seed": 19669453,
+      "versionNonce": 1841718562,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -35,7 +63,15 @@
       },
       "strokeColor": "#8b5cf6",
       "strokeWidth": 1,
-      "opacity": 25
+      "opacity": 25,
+      "angle": 0,
+      "seed": 283998110,
+      "versionNonce": 68778654,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -44,7 +80,21 @@
       "y": 83,
       "text": "Zustandsmaschine (pro Geraet)",
       "fontSize": 18,
-      "strokeColor": "#6d28d9"
+      "strokeColor": "#6d28d9",
+      "width": 313.2,
+      "height": 24.3,
+      "angle": 0,
+      "seed": 1578483561,
+      "versionNonce": 1282929003,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "ellipse",
@@ -57,10 +107,52 @@
       "fillStyle": "solid",
       "strokeColor": "#22c55e",
       "strokeWidth": 2,
-      "label": {
-        "text": "IDLE",
-        "fontSize": 20
-      }
+      "angle": 0,
+      "seed": 838291236,
+      "versionNonce": 1100761221,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "DELzAPqM"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "DELzAPqM",
+      "x": 71.0,
+      "y": 156.5,
+      "width": 48.0,
+      "height": 27.0,
+      "text": "IDLE",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "idle",
+      "originalText": "IDLE",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1546169471,
+      "versionNonce": 1707280614,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "ellipse",
@@ -73,10 +165,52 @@
       "fillStyle": "solid",
       "strokeColor": "#ef4444",
       "strokeWidth": 2,
-      "label": {
-        "text": "ACTIVE",
-        "fontSize": 20
-      }
+      "angle": 0,
+      "seed": 1935456497,
+      "versionNonce": 458531600,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "MHV7PuGU"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "MHV7PuGU",
+      "x": 269.0,
+      "y": 156.5,
+      "width": 72.0,
+      "height": 27.0,
+      "text": "ACTIVE",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "active",
+      "originalText": "ACTIVE",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1644949016,
+      "versionNonce": 814725828,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "ellipse",
@@ -89,10 +223,52 @@
       "fillStyle": "solid",
       "strokeColor": "#f59e0b",
       "strokeWidth": 2,
-      "label": {
-        "text": "COOLDOWN",
-        "fontSize": 18
-      }
+      "angle": 0,
+      "seed": 1534212149,
+      "versionNonce": 1834849247,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "24G1u6q4"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "24G1u6q4",
+      "x": 266.8,
+      "y": 287.85,
+      "width": 86.39999999999999,
+      "height": 24.3,
+      "text": "COOLDOWN",
+      "fontSize": 18,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "cooldown",
+      "originalText": "COOLDOWN",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 844518830,
+      "versionNonce": 1007606553,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "ellipse",
@@ -105,10 +281,52 @@
       "fillStyle": "solid",
       "strokeColor": "#8b5cf6",
       "strokeWidth": 2,
-      "label": {
-        "text": "EVENT!",
-        "fontSize": 20
-      }
+      "angle": 0,
+      "seed": 168079313,
+      "versionNonce": 1716075800,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "bkucQAFR"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "bkucQAFR",
+      "x": 59.0,
+      "y": 286.5,
+      "width": 72.0,
+      "height": 27.0,
+      "text": "EVENT!",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "done",
+      "originalText": "EVENT!",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1255055788,
+      "versionNonce": 1675006422,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "arrow",
@@ -130,10 +348,55 @@
       "strokeColor": "#ef4444",
       "strokeWidth": 2,
       "endArrowhead": "arrow",
-      "label": {
-        "text": "P >= ON",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 809266396,
+      "versionNonce": 1047517262,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "AjyzBNE6"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "AjyzBNE6",
+      "x": 170.6,
+      "y": 150.55,
+      "width": 58.8,
+      "height": 18.900000000000002,
+      "text": "P >= ON",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "sm1",
+      "originalText": "P >= ON",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 288072836,
+      "versionNonce": 224555060,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "arrow",
@@ -155,10 +418,55 @@
       "strokeColor": "#f59e0b",
       "strokeWidth": 2,
       "endArrowhead": "arrow",
-      "label": {
-        "text": "P < OFF",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1535221145,
+      "versionNonce": 1993621828,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "A0i5GNwX"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "A0i5GNwX",
+      "x": 275.6,
+      "y": 225.55,
+      "width": 58.8,
+      "height": 18.900000000000002,
+      "text": "P < OFF",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "sm2",
+      "originalText": "P < OFF",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 331223136,
+      "versionNonce": 1009698349,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "arrow",
@@ -180,10 +488,55 @@
       "strokeColor": "#8b5cf6",
       "strokeWidth": 2,
       "endArrowhead": "arrow",
-      "label": {
-        "text": "30s",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1498193822,
+      "versionNonce": 720616352,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "i1xGHys9"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "i1xGHys9",
+      "x": 187.4,
+      "y": 290.55,
+      "width": 25.2,
+      "height": 18.900000000000002,
+      "text": "30s",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "sm3",
+      "originalText": "30s",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1869510959,
+      "versionNonce": 1297382648,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "arrow",
@@ -204,7 +557,18 @@
       ],
       "strokeColor": "#22c55e",
       "strokeWidth": 2,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "angle": 0,
+      "seed": 1080221989,
+      "versionNonce": 265952379,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "type": "arrow",
@@ -230,10 +594,55 @@
       "strokeColor": "#ef4444",
       "strokeWidth": 2,
       "endArrowhead": "arrow",
-      "label": {
-        "text": "P >= OFF\n(Fehlalarm)",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 441808971,
+      "versionNonce": 1047237375,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "Z0nB6aED"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "Z0nB6aED",
+      "x": 353.8,
+      "y": 211.1,
+      "width": 92.39999999999999,
+      "height": 37.800000000000004,
+      "text": "P >= OFF\n(Fehlalarm)",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "sm5",
+      "originalText": "P >= OFF\n(Fehlalarm)",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 18101423,
+      "versionNonce": 1667127756,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -249,7 +658,15 @@
       },
       "strokeColor": "#22c55e",
       "strokeWidth": 1,
-      "opacity": 25
+      "opacity": 25,
+      "angle": 0,
+      "seed": 1198840331,
+      "versionNonce": 1193130746,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -258,7 +675,21 @@
       "y": 83,
       "text": "Konfigurierte Geraeteprofile",
       "fontSize": 18,
-      "strokeColor": "#15803d"
+      "strokeColor": "#15803d",
+      "width": 302.4,
+      "height": 24.3,
+      "angle": 0,
+      "seed": 604607608,
+      "versionNonce": 1805855191,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -273,10 +704,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Espresso 800W/50W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1984225282,
+      "versionNonce": 585386174,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "UjdAj0tv"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "UjdAj0tv",
+      "x": 553.6,
+      "y": 130.55,
+      "width": 142.79999999999998,
+      "height": 18.900000000000002,
+      "text": "Espresso 800W/50W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_espresso",
+      "originalText": "Espresso 800W/50W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 144641155,
+      "versionNonce": 334714514,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -291,10 +764,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "TV-Session 30W/20W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1111550252,
+      "versionNonce": 1596121937,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "TImeVT2V"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "TImeVT2V",
+      "x": 549.4,
+      "y": 180.55,
+      "width": 151.2,
+      "height": 18.900000000000002,
+      "text": "TV-Session 30W/20W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_tv",
+      "originalText": "TV-Session 30W/20W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 792990771,
+      "versionNonce": 41817298,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -309,10 +824,52 @@
         "type": 3
       },
       "strokeColor": "#22c55e",
-      "label": {
-        "text": "E-Bike 100W/20W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 661931924,
+      "versionNonce": 766008879,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "K3r9sASj"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "K3r9sASj",
+      "x": 562.0,
+      "y": 230.55,
+      "width": 126.0,
+      "height": 18.900000000000002,
+      "text": "E-Bike 100W/20W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_ebike",
+      "originalText": "E-Bike 100W/20W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1032976746,
+      "versionNonce": 1991060679,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -327,10 +884,52 @@
         "type": 3
       },
       "strokeColor": "#ef4444",
-      "label": {
-        "text": "Foehn 1000W/50W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1131063794,
+      "versionNonce": 801921049,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "1j2DvJ4P"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "1j2DvJ4P",
+      "x": 562.0,
+      "y": 280.55,
+      "width": 126.0,
+      "height": 18.900000000000002,
+      "text": "Foehn 1000W/50W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_foehn",
+      "originalText": "Foehn 1000W/50W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 610811185,
+      "versionNonce": 497900553,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -345,10 +944,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Airfryer 1000W/100W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1809144733,
+      "versionNonce": 472498713,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "GDPb85aQ"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "GDPb85aQ",
+      "x": 745.2,
+      "y": 130.55,
+      "width": 159.6,
+      "height": 18.900000000000002,
+      "text": "Airfryer 1000W/100W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_airfryer",
+      "originalText": "Airfryer 1000W/100W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 962139483,
+      "versionNonce": 1035194672,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -363,10 +1004,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Waschgang 100W/10W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 423658296,
+      "versionNonce": 116648157,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "BpjqTt5W"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "BpjqTt5W",
+      "x": 749.4,
+      "y": 180.55,
+      "width": 151.2,
+      "height": 18.900000000000002,
+      "text": "Waschgang 100W/10W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_wash",
+      "originalText": "Waschgang 100W/10W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1544363957,
+      "versionNonce": 1771346585,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -381,10 +1064,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Trockengang 40W/10W",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 147446735,
+      "versionNonce": 118818307,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "eEm2XYW7"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eEm2XYW7",
+      "x": 745.2,
+      "y": 230.55,
+      "width": 159.6,
+      "height": 18.900000000000002,
+      "text": "Trockengang 40W/10W",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "p_dry",
+      "originalText": "Trockengang 40W/10W",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 642035696,
+      "versionNonce": 22288893,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -399,10 +1124,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Gespeicherte Metriken:\nDauer | Energie (Wh) | Peak (W) | Avg (W)",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 972208597,
+      "versionNonce": 1932056477,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "jOJUkO7R"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "jOJUkO7R",
+      "x": 528.2,
+      "y": 348.4,
+      "width": 393.59999999999997,
+      "height": 43.2,
+      "text": "Gespeicherte Metriken:\nDauer | Energie (Wh) | Peak (W) | Avg (W)",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "metrics",
+      "originalText": "Gespeicherte Metriken:\nDauer | Energie (Wh) | Peak (W) | Avg (W)",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1999372879,
+      "versionNonce": 1670274177,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -418,7 +1185,15 @@
       },
       "strokeColor": "#ef4444",
       "strokeWidth": 1,
-      "opacity": 20
+      "opacity": 20,
+      "angle": 0,
+      "seed": 1203322986,
+      "versionNonce": 75556508,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false
     },
     {
       "type": "text",
@@ -427,7 +1202,21 @@
       "y": 468,
       "text": "Benachrichtigungen",
       "fontSize": 18,
-      "strokeColor": "#dc2626"
+      "strokeColor": "#dc2626",
+      "width": 194.4,
+      "height": 24.3,
+      "angle": 0,
+      "seed": 152517152,
+      "versionNonce": 1725276253,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -442,10 +1231,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Waschmaschine fertig!\nP>50W dann <10W 5min",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1869469861,
+      "versionNonce": 237175103,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ylMJ5ZWW"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "ylMJ5ZWW",
+      "x": 51.8,
+      "y": 518.6,
+      "width": 176.4,
+      "height": 37.800000000000004,
+      "text": "Waschmaschine fertig!\nP>50W dann <10W 5min",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "wash_done",
+      "originalText": "Waschmaschine fertig!\nP>50W dann <10W 5min",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1762009910,
+      "versionNonce": 295307793,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -460,10 +1291,52 @@
         "type": 3
       },
       "strokeColor": "#8b5cf6",
-      "label": {
-        "text": "Trockner fertig!\nP>40W dann <10W 3min",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 268592784,
+      "versionNonce": 1144257541,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "Hss9sUAo"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "Hss9sUAo",
+      "x": 56.0,
+      "y": 593.6,
+      "width": 168.0,
+      "height": 37.800000000000004,
+      "text": "Trockner fertig!\nP>40W dann <10W 3min",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#8b5cf6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "dry_done",
+      "originalText": "Trockner fertig!\nP>40W dann <10W 3min",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 352609722,
+      "versionNonce": 1504583230,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "arrow",
@@ -484,7 +1357,18 @@
       ],
       "strokeColor": "#ef4444",
       "strokeWidth": 2,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "angle": 0,
+      "seed": 153675668,
+      "versionNonce": 1295204257,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "type": "arrow",
@@ -505,7 +1389,18 @@
       ],
       "strokeColor": "#ef4444",
       "strokeWidth": 2,
-      "endArrowhead": "arrow"
+      "endArrowhead": "arrow",
+      "angle": 0,
+      "seed": 1623684167,
+      "versionNonce": 1157544177,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "fillStyle": "solid",
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "type": "rectangle",
@@ -520,10 +1415,52 @@
         "type": 3
       },
       "strokeColor": "#ef4444",
-      "label": {
-        "text": "Pushover\n+ Klingelton",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1184487509,
+      "versionNonce": 815415169,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "vW1JdLys"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "vW1JdLys",
+      "x": 402.4,
+      "y": 515.9,
+      "width": 115.19999999999999,
+      "height": 43.2,
+      "text": "Pushover\n+ Klingelton",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#ef4444",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "push_alert",
+      "originalText": "Pushover\n+ Klingelton",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1471766244,
+      "versionNonce": 1532421157,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -538,10 +1475,52 @@
         "type": 3
       },
       "strokeColor": "#22c55e",
-      "label": {
-        "text": "Awtrix\n+ Loop Sound",
-        "fontSize": 16
-      }
+      "angle": 0,
+      "seed": 1187676593,
+      "versionNonce": 29347255,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "86xQ35NR"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "86xQ35NR",
+      "x": 402.4,
+      "y": 590.9,
+      "width": 115.19999999999999,
+      "height": 43.2,
+      "text": "Awtrix\n+ Loop Sound",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#22c55e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "awtrix_alert",
+      "originalText": "Awtrix\n+ Loop Sound",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1102108925,
+      "versionNonce": 1110620680,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -556,10 +1535,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Tages-Zusammenfassung\n21:05 via Pushover",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 708473212,
+      "versionNonce": 1787029193,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "kwecwsGI"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "kwecwsGI",
+      "x": 651.8,
+      "y": 518.6,
+      "width": 176.4,
+      "height": 37.800000000000004,
+      "text": "Tages-Zusammenfassung\n21:05 via Pushover",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "daily_summary",
+      "originalText": "Tages-Zusammenfassung\n21:05 via Pushover",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1597824916,
+      "versionNonce": 721512349,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -574,10 +1595,52 @@
         "type": 3
       },
       "strokeColor": "#f59e0b",
-      "label": {
-        "text": "Solar-Tagesbericht\n20-21 Uhr via Pushover",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 948276631,
+      "versionNonce": 1376186432,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "kiW0sPG2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "kiW0sPG2",
+      "x": 647.6,
+      "y": 593.6,
+      "width": 184.79999999999998,
+      "height": 37.800000000000004,
+      "text": "Solar-Tagesbericht\n20-21 Uhr via Pushover",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#f59e0b",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "solar_rep",
+      "originalText": "Solar-Tagesbericht\n20-21 Uhr via Pushover",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 839863888,
+      "versionNonce": 842818609,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -592,10 +1655,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "Wochenbericht\nSa 20:05 + Diagramm",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1314941313,
+      "versionNonce": 1596446373,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "hjgIVoUR"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "hjgIVoUR",
+      "x": 915.2,
+      "y": 518.6,
+      "width": 159.6,
+      "height": 37.800000000000004,
+      "text": "Wochenbericht\nSa 20:05 + Diagramm",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "weekly",
+      "originalText": "Wochenbericht\nSa 20:05 + Diagramm",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 957872497,
+      "versionNonce": 1306846700,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     },
     {
       "type": "rectangle",
@@ -610,10 +1715,52 @@
         "type": 3
       },
       "strokeColor": "#4a9eed",
-      "label": {
-        "text": "Monatsbericht\n1. des Monats",
-        "fontSize": 14
-      }
+      "angle": 0,
+      "seed": 1212281454,
+      "versionNonce": 251788299,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "E21ldB2O"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "E21ldB2O",
+      "x": 940.4,
+      "y": 593.6,
+      "width": 109.2,
+      "height": 37.800000000000004,
+      "text": "Monatsbericht\n1. des Monats",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#4a9eed",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "monthly",
+      "originalText": "Monatsbericht\n1. des Monats",
+      "lineHeight": 1.35,
+      "angle": 0,
+      "seed": 1747209154,
+      "versionNonce": 1318006358,
+      "isDeleted": false,
+      "groupIds": [],
+      "updated": 1773054433952,
+      "link": null,
+      "locked": false,
+      "baseline": 0
     }
   ],
   "appState": {

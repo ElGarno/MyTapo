@@ -236,7 +236,7 @@ class ReportAPI:
     # --- Tool endpoints for AI agent ---
 
     async def tool_device_consumption(self, request: web.Request) -> web.Response:
-        """GET /tools/device-consumption - Query consumption for device/period."""
+        """GET /tools/device_consumption - Query consumption for device/period."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -252,7 +252,7 @@ class ReportAPI:
         return web.json_response(data)
 
     async def tool_hourly_consumption(self, request: web.Request) -> web.Response:
-        """GET /tools/hourly-consumption - Hourly breakdown for a day."""
+        """GET /tools/hourly_consumption - Hourly breakdown for a day."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -263,7 +263,7 @@ class ReportAPI:
         return web.json_response(data)
 
     async def tool_device_events(self, request: web.Request) -> web.Response:
-        """GET /tools/device-events - Query appliance events."""
+        """GET /tools/device_events - Query appliance events."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -278,7 +278,7 @@ class ReportAPI:
         return web.json_response(data)
 
     async def tool_compare_periods(self, request: web.Request) -> web.Response:
-        """GET /tools/compare-periods - Compare two time periods."""
+        """GET /tools/compare_periods - Compare two time periods."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -300,7 +300,7 @@ class ReportAPI:
         return web.json_response(data)
 
     async def tool_solar_history(self, request: web.Request) -> web.Response:
-        """GET /tools/solar-history - Solar generation history."""
+        """GET /tools/solar_history - Solar generation history."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -314,7 +314,7 @@ class ReportAPI:
         return web.json_response(data)
 
     async def tool_list_devices(self, request: web.Request) -> web.Response:
-        """GET /tools/list-devices - List all monitored devices."""
+        """GET /tools/list_devices - List all monitored devices."""
         if not self._check_auth(request):
             return web.json_response({"error": "unauthorized"}, status=401)
 
@@ -337,12 +337,12 @@ def create_app() -> web.Application:
     app.router.add_post("/reports/custom", api.report_custom)
 
     # Tool endpoints for AI agent
-    app.router.add_get("/tools/device-consumption", api.tool_device_consumption)
-    app.router.add_get("/tools/hourly-consumption", api.tool_hourly_consumption)
-    app.router.add_get("/tools/device-events", api.tool_device_events)
-    app.router.add_get("/tools/compare-periods", api.tool_compare_periods)
-    app.router.add_get("/tools/solar-history", api.tool_solar_history)
-    app.router.add_get("/tools/list-devices", api.tool_list_devices)
+    app.router.add_get("/tools/device_consumption", api.tool_device_consumption)
+    app.router.add_get("/tools/hourly_consumption", api.tool_hourly_consumption)
+    app.router.add_get("/tools/device_events", api.tool_device_events)
+    app.router.add_get("/tools/compare_periods", api.tool_compare_periods)
+    app.router.add_get("/tools/solar_history", api.tool_solar_history)
+    app.router.add_get("/tools/list_devices", api.tool_list_devices)
 
     return app
 

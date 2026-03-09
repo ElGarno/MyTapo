@@ -23,12 +23,12 @@ Flexible Zeitraum-Abfragen, die der AI Agent dynamisch aufrufen kann.
 
 | Endpoint | Methode | Parameter | Beschreibung |
 |----------|---------|-----------|--------------|
-| `/tools/device-consumption` | GET | `?device=`, `?start=`, `?end=`, `?days=` | Verbrauch pro Geraet/Zeitraum |
-| `/tools/hourly-consumption` | GET | `?date=`, `?device=` | Stuendliche Aufschluesselung |
-| `/tools/device-events` | GET | `?device=`, `?days=`, `?start=`, `?end=` | Geraete-Events (Waschgaenge etc.) |
-| `/tools/compare-periods` | GET | `?period_a_start=`, `?period_a_end=`, `?period_b_start=`, `?period_b_end=`, `?device=` | Zwei Zeitraeume vergleichen |
-| `/tools/solar-history` | GET | `?start=`, `?end=`, `?days=` | Solar-Erzeugung historisch |
-| `/tools/list-devices` | GET | - | Alle ueberwachten Geraete auflisten |
+| `/tools/device_consumption` | GET | `?device=`, `?start=`, `?end=`, `?days=` | Verbrauch pro Geraet/Zeitraum |
+| `/tools/hourly_consumption` | GET | `?date=`, `?device=` | Stuendliche Aufschluesselung |
+| `/tools/device_events` | GET | `?device=`, `?days=`, `?start=`, `?end=` | Geraete-Events (Waschgaenge etc.) |
+| `/tools/compare_periods` | GET | `?period_a_start=`, `?period_a_end=`, `?period_b_start=`, `?period_b_end=`, `?device=` | Zwei Zeitraeume vergleichen |
+| `/tools/solar_history` | GET | `?start=`, `?end=`, `?days=` | Solar-Erzeugung historisch |
+| `/tools/list_devices` | GET | - | Alle ueberwachten Geraete auflisten |
 
 ### Parameter-Details
 

@@ -270,12 +270,12 @@ HTTP-Server (Port 8099) fuer On-Demand-Abfragen, genutzt von n8n-Workflows.
 
 | Endpoint | Parameter | Beschreibung |
 |----------|-----------|--------------|
-| `GET /tools/device-consumption` | `?device=`, `?start=`, `?end=`, `?days=` | Verbrauch pro Geraet/Zeitraum |
-| `GET /tools/hourly-consumption` | `?date=`, `?device=` | Stuendliche Aufschluesselung |
-| `GET /tools/device-events` | `?device=`, `?days=`, `?start=`, `?end=` | Geraete-Events flexibel |
-| `GET /tools/compare-periods` | `?period_a_start=`, `?period_a_end=`, `?period_b_start=`, `?period_b_end=` | Zwei Zeitraeume vergleichen |
-| `GET /tools/solar-history` | `?start=`, `?end=`, `?days=` | Solar-Historie |
-| `GET /tools/list-devices` | - | Alle Geraete auflisten |
+| `GET /tools/device_consumption` | `?device=`, `?start=`, `?end=`, `?days=` | Verbrauch pro Geraet/Zeitraum |
+| `GET /tools/hourly_consumption` | `?date=`, `?device=` | Stuendliche Aufschluesselung |
+| `GET /tools/device_events` | `?device=`, `?days=`, `?start=`, `?end=` | Geraete-Events flexibel |
+| `GET /tools/compare_periods` | `?period_a_start=`, `?period_a_end=`, `?period_b_start=`, `?period_b_end=` | Zwei Zeitraeume vergleichen |
+| `GET /tools/solar_history` | `?start=`, `?end=`, `?days=` | Solar-Historie |
+| `GET /tools/list_devices` | - | Alle Geraete auflisten |
 
 ### 8. n8n Workflows & AI-Analyse
 
