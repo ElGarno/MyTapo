@@ -82,38 +82,18 @@ Flexible Zeitraum-Abfragen, die der AI Agent dynamisch aufrufen kann.
 
 ---
 
-## Workflow-Diagramme
+## Workflow-Diagramm
 
-### Workflow 2 - ALT: Statische Datenabfrage
-
-```mermaid
-flowchart LR
-    A[Webhook\nPOST /energy-analysis] --> B[Fetch Context Data\nPOST /reports/custom]
-    B --> C[Prepare Prompt\nchatInput + Daten]
-    C --> D[AI Agent\nClaude Sonnet]
-    D --> E{Output Router}
-    E -->|pushover| F[Pushover\nNotification]
-    E -->|awtrix| G[Awtrix\nLED Display]
-    D -.-> H[Memory Buffer]
-    D -.-> I[Anthropic Model]
-
-    style B fill:#f66,color:#fff
-    style D fill:#66f,color:#fff
-```
-
-**Problem:** Der AI Agent bekommt nur heutige Daten vorab geladen. Historische Fragen wie "Verbrauch am 6. Maerz" oder "Vergleich letzte 2 Wochen" kann er nicht beantworten.
-
-### Workflow 2 - NEU: Dynamische Tool-basierte Abfragen
+### Workflow 2: AI Energy Analysis (Tool-basiert)
 
 ```mermaid
 flowchart LR
     A[Webhook\nPOST /energy-analysis] --> C[Prepare Prompt\nchatInput]
-    C --> D[AI Agent\nClaude Sonnet]
+    C --> D[AI Agent\nClaude Sonnet 4.5]
     D --> E{Output Router}
     E -->|pushover| F[Pushover\nNotification]
     E -->|awtrix| G[Awtrix\nLED Display]
-    D -.-> H[Memory Buffer]
-    D -.-> I[Anthropic Model]
+    D -.-> H[Anthropic Model]
     D -.->|Tool Calls| T1[get_device_consumption]
     D -.->|Tool Calls| T2[get_hourly_consumption]
     D -.->|Tool Calls| T3[get_device_events]
@@ -130,4 +110,4 @@ flowchart LR
     style T6 fill:#2a2,color:#fff
 ```
 
-**Vorteil:** Der AI Agent entscheidet selbst, welche Daten er braucht, und kann flexible Zeitraeume abfragen. Historische Fragen, Vergleiche und geraetefokussierte Analysen sind jetzt moeglich.
+Der AI Agent entscheidet selbst, welche Daten er braucht, und kann flexible Zeitraeume abfragen. Tool-Nodes verwenden `httpRequestTool` v4.3 mit `$fromAI()` Expressions. Jede Ausfuehrung bekommt eine eigene Session-ID (kein persistenter Memory-Kontext).
