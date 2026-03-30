@@ -2,6 +2,7 @@ import asyncio
 import os
 import json
 import logging
+import time
 from threading import Lock
 from pathlib import Path
 from datetime import datetime
@@ -79,10 +80,44 @@ class DeviceManager:
 
 # Legacy InfluxWriter class removed - now using InfluxBatchWriter for 90% fewer connections
 
-async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
+class TapoClientManager:
+    """Manages the Tapo ApiClient with automatic re-authentication on failures."""
+
+    # Recreate client if this many or more devices fail in one cycle
+    FAILURE_THRESHOLD = 2
+    # Force client recreation every 30 minutes regardless of errors
+    MAX_CLIENT_AGE_SECONDS = 30 * 60
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.client = ApiClient(username, password)
+        self.created_at = time.monotonic()
+        logger.info("Tapo API client created")
+
+    def recreate(self):
+        """Recreate the ApiClient to force fresh KLAP sessions."""
+        self.client = ApiClient(self.username, self.password)
+        self.created_at = time.monotonic()
+        logger.info("Tapo API client recreated (fresh KLAP sessions)")
+
+    def should_recreate(self, failure_count, total_devices):
+        """Check if client should be recreated based on failures or age."""
+        age = time.monotonic() - self.created_at
+        if age > self.MAX_CLIENT_AGE_SECONDS:
+            logger.info(f"Client age {age:.0f}s exceeds max {self.MAX_CLIENT_AGE_SECONDS}s")
+            return True
+        if failure_count >= self.FAILURE_THRESHOLD:
+            logger.warning(f"{failure_count}/{total_devices} devices failed - triggering re-auth")
+            return True
+        return False
+
+
+async def fetch_and_write_data(device_manager, influx_writer, client_manager):
     """
     Fetch power data from all devices and write to InfluxDB in a single batch.
     This reduces connections from 11/cycle to 1/cycle (90% reduction).
+    Automatically recreates the Tapo client on widespread failures.
     """
     devices = device_manager.get_devices()
     device_power_data = {}
@@ -91,11 +126,13 @@ async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
     tasks = []
     for device_name, device_config in devices.items():
         ip = device_config['ip']
-        task = asyncio.create_task(process_device(device_name, ip, tapo_client))
+        task = asyncio.create_task(process_device(device_name, ip, client_manager.client))
         tasks.append(task)
 
     if tasks:
         results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        failure_count = 0
 
         # Process results: add to batch writer and collect for Awtrix
         for i, (device_name, device_config) in enumerate(devices.items()):
@@ -109,6 +146,14 @@ async def fetch_and_write_data(device_manager, influx_writer, tapo_client):
                     # Add to batch (accumulated, not written yet)
                     influx_writer.add_power_measurement(device_name, power_value, device_group=device_group)
                     device_power_data[device_name] = power_value
+                else:
+                    failure_count += 1
+            else:
+                failure_count += 1
+
+        # Recreate client if too many failures or client is too old
+        if client_manager.should_recreate(failure_count, len(devices)):
+            client_manager.recreate()
 
         # Write all device data in a single batch operation
         if influx_writer.batch_size() > 0:
@@ -254,11 +299,11 @@ async def main():
         logger.exception("Full traceback:")
         return
 
-    # Initialize Tapo client
+    # Initialize Tapo client manager (handles automatic re-authentication)
     logger.info("🔌 Initializing Tapo API client...")
     try:
-        tapo_client = ApiClient(tapo_username, tapo_password)
-        logger.info("✅ Tapo API client initialized")
+        client_manager = TapoClientManager(tapo_username, tapo_password)
+        logger.info("✅ Tapo API client initialized (with auto re-auth)")
     except Exception as e:
         logger.error(f"❌ Failed to initialize Tapo client: {e}")
         logger.exception("Full traceback:")
@@ -291,7 +336,7 @@ async def main():
     try:
         while True:
             # Fetch and write data to InfluxDB
-            device_power_data = await fetch_and_write_data(device_manager, influx_writer, tapo_client)
+            device_power_data = await fetch_and_write_data(device_manager, influx_writer, client_manager)
             logger.debug(f"Fetched power data for {len(device_power_data)} devices")
 
             # Display device carousel at fixed times: xx:00, xx:10, xx:20, xx:30, xx:40, xx:50
