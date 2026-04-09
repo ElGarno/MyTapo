@@ -272,12 +272,17 @@ def get_awtrix_client():
     return AwtrixClient(awtrix_host, awtrix_port)
 
 
-async def monitor_power_and_notify_enhanced(device, user, device_name="Device", threshold_high=50, threshold_low=10,
+async def monitor_power_and_notify_enhanced(client, device_ip, user, device_name="Device", threshold_high=50, threshold_low=10,
                                           duration_minutes=5, message="", high_power_threshold=1000,
                                           max_retries=3, max_delay=60, enable_awtrix=True, loop_sound=False):
-    """Enhanced power monitoring with both Pushover and Awtrix notifications
+    """Enhanced power monitoring with both Pushover and Awtrix notifications.
+
+    Uses client + IP to get a fresh device handle each cycle (like influx_consumption),
+    avoiding stale KLAP sessions.
 
     Args:
+        client: Tapo ApiClient instance
+        device_ip: IP address of the device
         loop_sound: If True, plays completion sound in a loop for ~15 seconds (3 repeats)
     """
     power_exceeded = False
@@ -286,7 +291,7 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
     last_high_power_alert = None
     last_power_log = None
     log_interval = 300  # Log power reading only every 5 minutes
-    
+
     # Initialize Awtrix client if enabled
     awtrix_client = get_awtrix_client() if enable_awtrix else None
     if enable_awtrix:
@@ -295,34 +300,29 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
             logger.info(f"Awtrix client configured for host: {os.getenv('AWTRIX_HOST', '192.168.178.108')}:{os.getenv('AWTRIX_PORT', '80')}")
     else:
         logger.info(f"Awtrix disabled for {device_name}")
-    
+
     while True:
         retry_count = 0
         current_power = None
         current_time = datetime.now()
-        
+
         while retry_count < max_retries:
             try:
+                # Fresh device handle each cycle - prevents stale KLAP sessions
+                device = await client.p110(device_ip)
                 current_power = (await device.get_current_power()).to_dict()
-                
+
                 # Log power reading only every 5 minutes or if significant change
-                should_log = (last_power_log is None or 
+                should_log = (last_power_log is None or
                              (current_time - last_power_log).total_seconds() >= log_interval)
-                
+
                 if should_log:
                     logger.info(f"{device_name} current power: {current_power[sensor_name]}W")
                     last_power_log = current_time
-                
+
                 break
             except Exception as e:
                 retry_count += 1
-
-                # Check for authentication/session errors - raise to trigger reconnection
-                if ("403" in str(e) or "Forbidden" in str(e) or
-                    "SessionTimeout" in str(e) or "Response error" in str(e)):
-                    logger.error(f"Authentication error for {device_name}: {e}")
-                    raise  # Re-raise to let calling function handle reconnection
-
                 if retry_count == max_retries:
                     logger.error(f"Failed to get power for {device_name} after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
