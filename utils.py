@@ -316,6 +316,13 @@ async def monitor_power_and_notify_enhanced(device, user, device_name="Device", 
                 break
             except Exception as e:
                 retry_count += 1
+
+                # Check for authentication/session errors - raise to trigger reconnection
+                if ("403" in str(e) or "Forbidden" in str(e) or
+                    "SessionTimeout" in str(e) or "Response error" in str(e)):
+                    logger.error(f"Authentication error for {device_name}: {e}")
+                    raise  # Re-raise to let calling function handle reconnection
+
                 if retry_count == max_retries:
                     logger.error(f"Failed to get power for {device_name} after {max_retries} attempts: {e}")
                     await asyncio.sleep(max_delay)
