@@ -85,6 +85,18 @@
       "enabled": true,
       "description": "Network NAS",
       "emoji_id": 54092
+    },
+    "living_room_pillar_outdoor": {
+      "ip": "192.168.178.128",
+      "enabled": true,
+      "description": "Living room pillar outdoor (multi-outlet: mini fridge, occasional laptop charger)",
+      "emoji_id": 9848
+    },
+    "outdoor_outlet": {
+      "ip": "192.168.178.129",
+      "enabled": true,
+      "description": "Outdoor outlet",
+      "emoji_id": 67248
     }
   }
 }
