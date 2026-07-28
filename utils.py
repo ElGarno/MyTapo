@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def send_pushover_notification_new(user, message):
+def send_pushover_notification_new(user, message, priority=0, title=None, sound=None):
     load_dotenv()
     pushover_api_token = os.getenv("PUSHOVER_TAPO_API_TOKEN")
 
@@ -34,12 +34,20 @@ def send_pushover_notification_new(user, message):
 
     try:
         conn = http.client.HTTPSConnection("api.pushover.net:443")
+        params = {
+            "token": pushover_api_token,
+            "user": user,
+            "message": message,
+        }
+        if priority:
+            params["priority"] = priority
+        if title:
+            params["title"] = title
+        if sound:
+            params["sound"] = sound
         conn.request("POST", "/1/messages.json",
-                     urllib.parse.urlencode({
-                         "token": pushover_api_token,
-                         "user": user,
-                         "message": message,
-                     }), {"Content-type": "application/x-www-form-urlencoded"})
+                     urllib.parse.urlencode(params),
+                     {"Content-type": "application/x-www-form-urlencoded"})
 
         response = conn.getresponse()
         response_data = response.read().decode()
