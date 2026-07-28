@@ -34,6 +34,7 @@ COPY --chown=mytapo:mytapo event_detector.py \
                             utils.py \
                             awtrix_client.py \
                             influx_batch_writer.py \
+                            reminder_engine.py \
                             ./
 COPY --chown=mytapo:mytapo config/ ./config/
 

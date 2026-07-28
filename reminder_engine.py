@@ -6,7 +6,7 @@ cycle, evaluates config-driven rules, and fires deduplicated Pushover messages v
 an injected send function. See docs/superpowers/specs/2026-07-28-energy-reminders-design.md.
 """
 import logging
-from datetime import date, datetime
+from datetime import datetime
 from typing import Callable, Optional
 
 logger = logging.getLogger(__name__)
