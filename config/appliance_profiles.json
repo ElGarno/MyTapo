@@ -138,5 +138,30 @@
       "include_comparison": true,
       "include_peak_hours": true
     }
+  },
+  "reminders": {
+    "enabled": true,
+    "tv_weekday_daytime": {
+      "enabled": true,
+      "device": "television",
+      "threshold_on": 30,
+      "threshold_off": 20,
+      "min_continuous_minutes": 60,
+      "weekdays_only": true,
+      "before_hour": 20,
+      "priority": 0,
+      "message": "Unter der Woche Fernsehzeit wollten wir reduzieren"
+    },
+    "office_evening": {
+      "enabled": true,
+      "device": "office",
+      "after_hour": 20,
+      "weekdays_only": false,
+      "sustained_readings": 3,
+      "bands": [
+        {"name": "printer", "min_watt": 15, "max_watt": 50, "priority": 0, "message": "Drucker läuft noch im Office"},
+        {"name": "pc", "min_watt": 50, "max_watt": null, "priority": 1, "sound": "siren", "message": "Rechner läuft noch im Office!"}
+      ]
+    }
   }
 }

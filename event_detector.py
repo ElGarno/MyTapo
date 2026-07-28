@@ -19,6 +19,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 from awtrix_client import AwtrixClient, AwtrixMessage
 from utils import send_pushover_notification_new
+from reminder_engine import ReminderEngine, reminder_device_names
 
 load_dotenv()
 
@@ -206,6 +207,11 @@ class EventDetectorService:
         self._load_profiles()
         self._initialize_detectors()
 
+        self.reminder_engine = ReminderEngine(
+            self.reminders, self.pushover_user, send_pushover_notification_new
+        )
+        logger.info(f"Reminder devices: {reminder_device_names(self.reminders)}")
+
     def _load_profiles(self):
         """Load appliance profiles from configuration file."""
         config_path = os.path.join(
@@ -219,6 +225,7 @@ class EventDetectorService:
                 config = json.load(f)
                 self.profiles = config.get("profiles", {})
                 self.settings = config.get("settings", {})
+                self.reminders = config.get("reminders", {})
                 logger.info(f"Loaded {len(self.profiles)} appliance profiles")
         except FileNotFoundError:
             logger.error(f"Profile configuration not found at {config_path}")
@@ -418,6 +425,9 @@ class EventDetectorService:
             Dict mapping device name to (power, timestamp) tuple
         """
         device_names = list(self.profiles.keys())
+        for name in reminder_device_names(self.reminders):
+            if name not in device_names:
+                device_names.append(name)
         device_filter = " or ".join([f'r["device"] == "{d}"' for d in device_names])
 
         query = f'''
@@ -669,6 +679,9 @@ class EventDetectorService:
 
                             # Send notification if enabled (immediate if safe, queued otherwise)
                             self._send_event_notification(event)
+
+                # Evaluate behavioral-nudge reminders (never raises)
+                self.reminder_engine.evaluate(power_data, datetime.now())
 
                 # Check for scheduled summaries (runs at xx:x5 times)
                 await self._send_summary()
