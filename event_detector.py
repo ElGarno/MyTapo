@@ -108,12 +108,19 @@ class ApplianceEventDetector:
                 state.cooling_start = None
                 logger.debug(f"{self.device_name}: Back to active (power={power:.1f}W)")
             else:
-                # Check if cooling period elapsed
-                cooling_confirmation = self.settings.get("cooling_confirmation_seconds", 30)
+                # Check if cooling period elapsed. Per-profile override lets appliances
+                # like the espresso machine (whose extraction + milk-frothing arrive as
+                # separate ~1600W pulses minutes apart) group those pulses into one event.
+                cooling_confirmation = self.profile.get(
+                    "off_confirmation_seconds",
+                    self.settings.get("cooling_confirmation_seconds", 30),
+                )
                 cooling_duration = (timestamp - state.cooling_start).total_seconds()
 
                 if cooling_duration >= cooling_confirmation:
-                    return self._finalize_event(timestamp)
+                    # Finalize at the moment power actually dropped, not after the
+                    # confirmation wait, so the duration reflects real activity.
+                    return self._finalize_event(state.cooling_start)
 
         return None
 
