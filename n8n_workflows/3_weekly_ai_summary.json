@@ -6,6 +6,7 @@
         "rule": {
           "interval": [
             {
+              "field": "weeks",
               "triggerAtHour": 20,
               "triggerAtMinute": 0,
               "triggerAtDay": 7
