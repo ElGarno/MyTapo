@@ -1,0 +1,2399 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 200,
+      "panels": [],
+      "title": "Linienuebersicht",
+      "type": "row"
+    },
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Flaschen/h (Auslauf)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 9000
+              },
+              {
+                "color": "green",
+                "value": 10000
+              }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n11350",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Gesamtfehlerrate",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percent",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n3.2",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 3,
+      "type": "gauge",
+      "title": "OEE",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percent",
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 65
+              },
+              {
+                "color": "green",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n87.4",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "orientation": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Aktive Stationen",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 6
+              },
+              {
+                "color": "green",
+                "value": 8
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n7",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Linienstatus",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "green",
+                "value": 2
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "GESTOPPT",
+                  "color": "red",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "WARNUNG",
+                  "color": "yellow",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "2": {
+                  "text": "LAEUFT",
+                  "color": "green",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n1",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Schichtproduktion",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70000
+              },
+              {
+                "color": "green",
+                "value": 85000
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n82450",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 201,
+      "panels": [],
+      "title": "Live-Prozessfortschritt (Variable: Aktive Station)",
+      "type": "row"
+    },
+    {
+      "id": 60,
+      "type": "stat",
+      "title": "1 - Einlauf",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 0.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 1.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "AKTIV  12000 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 0.5,
+                "result": {
+                  "text": "12000 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 1.5,
+                "to": 100,
+                "result": {
+                  "text": "12000 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 61,
+      "type": "stat",
+      "title": "2 - Spuelung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 1.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 2.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "2": {
+                  "text": "AKTIV  11950 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 1.5,
+                "result": {
+                  "text": "11950 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 2.5,
+                "to": 100,
+                "result": {
+                  "text": "11950 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 62,
+      "type": "stat",
+      "title": "3 - Befuellung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 2.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 3.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "3": {
+                  "text": "AKTIV  11800 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 2.5,
+                "result": {
+                  "text": "11800 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 3.5,
+                "to": 100,
+                "result": {
+                  "text": "11800 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 63,
+      "type": "stat",
+      "title": "4 - Verschliessung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 3.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 4.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "4": {
+                  "text": "AKTIV  11750 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 3.5,
+                "result": {
+                  "text": "11750 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 4.5,
+                "to": 100,
+                "result": {
+                  "text": "11750 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 64,
+      "type": "stat",
+      "title": "5 - Etikettierung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 4.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 5.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "5": {
+                  "text": "AKTIV  11600 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 4.5,
+                "result": {
+                  "text": "11600 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 5.5,
+                "to": 100,
+                "result": {
+                  "text": "11600 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 65,
+      "type": "stat",
+      "title": "6 - Inspektion",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 5.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 6.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "6": {
+                  "text": "AKTIV  11500 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 5.5,
+                "result": {
+                  "text": "11500 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 6.5,
+                "to": 100,
+                "result": {
+                  "text": "11500 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 66,
+      "type": "stat",
+      "title": "7 - Verpackung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 6.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 7.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "7": {
+                  "text": "AKTIV  11400 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 6.5,
+                "result": {
+                  "text": "11400 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 7.5,
+                "to": 100,
+                "result": {
+                  "text": "11400 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 67,
+      "type": "stat",
+      "title": "8 - Palettierung",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "noValue": "-",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1F1F20",
+                "value": null
+              },
+              {
+                "color": "#56A64B",
+                "value": 7.5
+              },
+              {
+                "color": "#1F1F20",
+                "value": 8.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "8": {
+                  "text": "AKTIV  11350 Fl/h",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 0,
+                "to": 7.5,
+                "result": {
+                  "text": "11350 Fl/h",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": 8.5,
+                "to": 100,
+                "result": {
+                  "text": "11350 Fl/h",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "value\n${current_station}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 202,
+      "panels": [],
+      "title": "Prozessfluss - Node Graph",
+      "type": "row"
+    },
+    {
+      "id": 10,
+      "type": "nodeGraph",
+      "title": "Abfuelllinie - Prozessfluss",
+      "description": "Farbige Arcs: gruen=Running, gelb=Warning, rot=Error. Hauptmetrik: Durchsatz, Nebenmetrik: Fehlerrate.",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "id,title,subtitle,mainstat,secondarystat,arc__running,arc__warning,arc__error\n1,Einlauf,Infeed,12000 Fl/h,0.2% Fehler,0.97,0.02,0.01\n2,Spuelung,Rinser,11950 Fl/h,0.5% Fehler,0.93,0.04,0.03\n3,Befuellung,Filler,11800 Fl/h,1.2% Fehler,0.85,0.08,0.07\n4,Verschliessung,Capper,11750 Fl/h,0.8% Fehler,0.90,0.05,0.05\n5,Etikettierung,Labeler,11600 Fl/h,1.5% Fehler,0.80,0.10,0.10\n6,Inspektion,Inspector,11500 Fl/h,0.3% Fehler,0.96,0.03,0.01\n7,Verpackung,Packer,11400 Fl/h,0.4% Fehler,0.68,0.22,0.10\n8,Palettierung,Palletizer,11350 Fl/h,0.2% Fehler,0.95,0.03,0.02",
+          "refId": "nodes"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "id,source,target,mainstat\ne1,1,2,12000 Fl/h\ne2,2,3,11950 Fl/h\ne3,3,4,11800 Fl/h\ne4,4,5,11750 Fl/h\ne5,5,6,11600 Fl/h\ne6,6,7,11500 Fl/h\ne7,7,8,11400 Fl/h",
+          "refId": "edges"
+        }
+      ],
+      "options": {
+        "nodes": {
+          "mainStatUnit": "",
+          "secondaryStatUnit": "",
+          "arcs": [
+            {
+              "field": "arc__running",
+              "color": "green"
+            },
+            {
+              "field": "arc__warning",
+              "color": "yellow"
+            },
+            {
+              "field": "arc__error",
+              "color": "red"
+            }
+          ]
+        },
+        "edges": {
+          "mainStatUnit": ""
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 203,
+      "panels": [],
+      "title": "Stationsdetails",
+      "type": "row"
+    },
+    {
+      "id": 20,
+      "type": "bargauge",
+      "title": "Durchsatz pro Station (Fl/h)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "none",
+          "decimals": 0,
+          "min": 0,
+          "max": 13000,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10000
+              },
+              {
+                "color": "green",
+                "value": 11000
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "station,throughput\nEinlauf,12000\nSpuelung,11950\nBefuellung,11800\nVerschliessung,11750\nEtikettierung,11600\nInspektion,11500\nVerpackung,11400\nPalettierung,11350",
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "station",
+                "destinationType": "string"
+              },
+              {
+                "targetField": "throughput",
+                "destinationType": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "station",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "throughput",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "showUnfilled": true,
+        "minVizWidth": 8,
+        "minVizHeight": 16,
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 21,
+      "type": "bargauge",
+      "title": "Fehlerrate pro Station (%)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percent",
+          "decimals": 2,
+          "min": 0,
+          "max": 5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "station,error_rate\nEinlauf,0.2\nSpuelung,0.5\nBefuellung,1.2\nVerschliessung,0.8\nEtikettierung,1.5\nInspektion,0.3\nVerpackung,0.4\nPalettierung,0.2",
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "station",
+                "destinationType": "string"
+              },
+              {
+                "targetField": "error_rate",
+                "destinationType": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "station",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "error_rate",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "showUnfilled": true,
+        "minVizWidth": 8,
+        "minVizHeight": 16,
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "id": 204,
+      "panels": [],
+      "title": "Zeitverlauf",
+      "type": "row"
+    },
+    {
+      "id": 30,
+      "type": "timeseries",
+      "title": "Durchsatz ueber Zeit (Fl/h)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "axisLabel": "Flaschen/h",
+            "axisPlacement": "auto",
+            "spanNulls": false
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Einlauf",
+          "startValue": 12000,
+          "spread": 200,
+          "noise": 150,
+          "min": 10500,
+          "max": 12500,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Befuellung",
+          "startValue": 11800,
+          "spread": 300,
+          "noise": 200,
+          "min": 10000,
+          "max": 12200,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Etikettierung",
+          "startValue": 11600,
+          "spread": 350,
+          "noise": 250,
+          "min": 9500,
+          "max": 12000,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Palettierung",
+          "startValue": 11350,
+          "spread": 250,
+          "noise": 180,
+          "min": 9800,
+          "max": 11800,
+          "refId": "D"
+        }
+      ],
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "calcs": [
+            "mean",
+            "min",
+            "max"
+          ]
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 31,
+      "type": "timeseries",
+      "title": "Fehlerrate ueber Zeit (%)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "showPoints": "never",
+            "axisLabel": "Fehlerrate %",
+            "axisPlacement": "auto",
+            "spanNulls": false,
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "percent",
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Befuellung",
+          "startValue": 1.2,
+          "spread": 0.5,
+          "noise": 0.3,
+          "min": 0,
+          "max": 5,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Etikettierung",
+          "startValue": 1.5,
+          "spread": 0.6,
+          "noise": 0.4,
+          "min": 0,
+          "max": 5,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Verschliessung",
+          "startValue": 0.8,
+          "spread": 0.3,
+          "noise": 0.2,
+          "min": 0,
+          "max": 4,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "random_walk",
+          "alias": "Verpackung",
+          "startValue": 0.4,
+          "spread": 0.2,
+          "noise": 0.15,
+          "min": 0,
+          "max": 3,
+          "refId": "D"
+        }
+      ],
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "id": 205,
+      "panels": [],
+      "title": "Fehleranalyse",
+      "type": "row"
+    },
+    {
+      "id": 40,
+      "type": "piechart",
+      "title": "Fehlerverteilung nach Station",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 40
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "station,errors\nBefuellung,45\nEtikettierung,38\nVerschliessung,22\nSpuelung,15\nVerpackung,12\nInspektion,8\nEinlauf,5\nPalettierung,4",
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "station",
+                "destinationType": "string"
+              },
+              {
+                "targetField": "errors",
+                "destinationType": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "station",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "errors",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 41,
+      "type": "piechart",
+      "title": "Fehlertypen",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 40
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "type,count\nFuellstand falsch,32\nEtikett schief,28\nVerschluss undicht,18\nGlasbruch,12\nSensor-Timeout,8\nFoerderband-Stau,7\nDruckfehler,6\nSonstige,4",
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "type",
+                "destinationType": "string"
+              },
+              {
+                "targetField": "count",
+                "destinationType": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "type",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "count",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "id": 42,
+      "type": "state-timeline",
+      "title": "Stationsstatus (Schichtverlauf)",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 40
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "green",
+                "value": 2
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Error",
+                  "color": "red",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "Warning",
+                  "color": "yellow",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "2": {
+                  "text": "Running",
+                  "color": "green",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "Time,Einlauf,Spuelung,Befuellung,Verschliessung,Etikettierung,Inspektion,Verpackung,Palettierung\n2026-03-12T06:00:00Z,2,2,2,2,2,2,2,2\n2026-03-12T07:00:00Z,2,2,2,2,2,2,2,2\n2026-03-12T08:00:00Z,2,2,1,2,2,2,2,2\n2026-03-12T08:15:00Z,2,2,0,1,1,2,2,2\n2026-03-12T08:30:00Z,2,2,2,2,2,2,2,2\n2026-03-12T09:00:00Z,2,2,2,2,2,2,2,2\n2026-03-12T10:00:00Z,2,2,2,2,1,2,2,2\n2026-03-12T10:15:00Z,2,2,2,2,2,2,2,2\n2026-03-12T11:00:00Z,2,2,2,2,2,2,2,2\n2026-03-12T12:00:00Z,2,2,2,2,2,2,1,2\n2026-03-12T12:10:00Z,2,2,2,2,2,2,1,1\n2026-03-12T12:30:00Z,2,2,2,2,2,2,2,2\n2026-03-12T13:00:00Z,2,2,2,2,2,2,2,2\n2026-03-12T14:00:00Z,2,2,2,2,2,2,2,2",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "showValue": "auto",
+        "rowHeight": 0.85,
+        "mergeValues": true,
+        "alignValue": "center",
+        "legend": {
+          "showLegend": false,
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "11.4.0"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 206,
+      "panels": [],
+      "title": "Stoerungsprotokoll",
+      "type": "row"
+    },
+    {
+      "id": 50,
+      "type": "table",
+      "title": "Letzte Stoerungen",
+      "datasource": {
+        "type": "grafana-testdata-datasource",
+        "uid": "grafana-testdata-datasource"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Schwere"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "Kritisch": {
+                        "text": "Kritisch",
+                        "color": "red",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "value",
+                    "options": {
+                      "Warnung": {
+                        "text": "Warnung",
+                        "color": "yellow",
+                        "index": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "value",
+                    "options": {
+                      "Info": {
+                        "text": "Info",
+                        "color": "blue",
+                        "index": 2
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Dauer_min"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Dauer (min)"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 10
+                    },
+                    {
+                      "color": "red",
+                      "value": 30
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ausschuss"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 200
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "grafana-testdata-datasource"
+          },
+          "scenarioId": "csv_content",
+          "csvContent": "Zeitpunkt,Station,Fehlertyp,Schwere,Dauer_min,Ausschuss,Ursache,Massnahme\n2026-03-12 08:12,Befuellung,Fuellstand-Sensor,Kritisch,18,145,Sensor-Drift nach Reinigung,Sensor rekalibriert\n2026-03-12 10:05,Etikettierung,Etikett schief,Warnung,12,38,Leimduese verstopft,Duese gereinigt\n2026-03-12 12:00,Verpackung,Foerderband-Stau,Warnung,22,0,Karton verklemmt,Manuell befreit\n2026-03-11 15:30,Verschliessung,Verschluss undicht,Kritisch,35,210,Verschliesskopf verschlissen,Kopf getauscht\n2026-03-11 11:45,Befuellung,Glasbruch,Kritisch,8,12,Flasche defekt ab Zulieferer,Charge geprueft\n2026-03-11 09:20,Etikettierung,Druckfehler,Info,5,15,Tintenpatrone niedrig,Patrone gewechselt\n2026-03-10 14:00,Spuelung,Wasserdruck,Warnung,10,0,Pumpe Kavitation,Pumpe entlueftet\n2026-03-10 08:30,Inspektion,Sensor-Timeout,Warnung,3,0,Netzwerk-Latenz,Switch neugestartet\n2026-03-09 16:15,Palettierung,Roboter-Stoerung,Kritisch,45,0,Achse 3 ueberlastet,Notaus und Reset\n2026-03-09 10:00,Befuellung,Fuellstand falsch,Warnung,8,42,Temperaturkompensation falsch,Parameter angepasst",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Zeitpunkt",
+            "desc": true
+          }
+        ]
+      },
+      "pluginVersion": "11.4.0"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "demo",
+    "bottling",
+    "manufacturing"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "3",
+          "value": "3"
+        },
+        "description": "Aktive Station in der Fortschrittsanzeige (1=Einlauf, 2=Spuelung, 3=Befuellung, 4=Verschliessung, 5=Etikettierung, 6=Inspektion, 7=Verpackung, 8=Palettierung)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Aktive Station",
+        "multi": false,
+        "name": "current_station",
+        "options": [
+          {
+            "selected": false,
+            "text": "1 - Einlauf",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "2 - Spuelung",
+            "value": "2"
+          },
+          {
+            "selected": true,
+            "text": "3 - Befuellung",
+            "value": "3"
+          },
+          {
+            "selected": false,
+            "text": "4 - Verschliessung",
+            "value": "4"
+          },
+          {
+            "selected": false,
+            "text": "5 - Etikettierung",
+            "value": "5"
+          },
+          {
+            "selected": false,
+            "text": "6 - Inspektion",
+            "value": "6"
+          },
+          {
+            "selected": false,
+            "text": "7 - Verpackung",
+            "value": "7"
+          },
+          {
+            "selected": false,
+            "text": "8 - Palettierung",
+            "value": "8"
+          }
+        ],
+        "query": "1,2,3,4,5,6,7,8",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-12h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "Europe/Berlin",
+  "title": "Abfuellanlage - Prozessueberwachung (Demo)",
+  "uid": "demo-bottling-plant",
+  "version": 2
+}
